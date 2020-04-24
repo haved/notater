@@ -1,0 +1,1058 @@
+\documentclass[12pt,a4paper,norsk]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{appendix}
+\usepackage{siunitx}
+\usepackage[skip=5mm]{parskip}
+
+\addto\captionsnorsk{%
+  \renewcommand\appendixname{Appendiks}
+  \renewcommand\appendixpagename{Appendikser}
+  \renewcommand\appendixtocname{Appendikser}
+}
+
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\imat}[1]{\left[\begin{smallmatrix}#1\end{smallmatrix}\right]} %inline col matrix
+\newcommand{\overskrift}[1]{{\noindent\textbf{#1}}\nopagebreak\\[1em]\nopagebreak}
+\newcommand{\mat}[2]{\left[\begin{array}{@{}#1@{}}#2\end{array}\right]}
+\newcommand{\breather}{\\[1em]}
+\newcommand{\nullvec}{0}
+\newcommand{\nullmat}{0}
+\newcommand{\inner}[1]{\langle#1\rangle}
+
+\DeclareMathOperator{\Sp}{Sp} %spenn
+
+\DeclareMathOperator{\Col}{Col} %matriser
+\DeclareMathOperator{\Row}{Row}
+\DeclareMathOperator{\Null}{Null}
+% \det finnes allerede
+
+\DeclareMathOperator{\image}{im} %lineærtransformasjoner
+\DeclareMathOperator{\rank}{rank}
+% \ker finnes allerede
+
+\DeclareMathOperator{\Ima}{Im} %Komplekse tall
+\DeclareMathOperator{\Rea}{Re}
+
+%vektorer
+\newcommand{\vv}{\textbf{v}}
+\newcommand{\vw}{\textbf{w}}
+\newcommand{\vu}{\textbf{u}}
+\newcommand{\vx}{\textbf{x}}
+\newcommand{\vy}{\textbf{y}}
+\newcommand{\vq}{\textbf{q}}
+
+\title{TMA4115 --- Matte 3}
+\author{Håvard Krogstie}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\noindent
+Denne teksten er et forsøk på å samle det meste av definisjoner og resultater
+som er kjekke å ha skrevet ned i Matte 3. Når vi etterhvert kommer til mer spesifikke
+metoder i lineær algebra går vi kjapt gjennom metoden, med mindre fokus på
+bevis. Det mest spennende i denne teksten står kanskje i resultatdelene, siden
+det er der teoremer ofte dukker opp (De er resultater av bruk av definisjonene).
+
+\tableofcontents
+
+\section{Lineær uavhengighet}
+En mengde vektorer $v_{1}, v_{2}, \ldots, v_{n}$ er lineært uavhengige hvis og bare
+hvis
+\[c_{1}v_{1} + c_{2}v_{2} + \cdots + c_{n}v_{n} = 0 \hspace{4em} \Longleftrightarrow \hspace{4em} c_{1}=c_{2}=\cdots=c_{n}=0\]
+Dette forutsetter at $+$ mellom vektorer og $\cdot$ med skalarer er definert. Vi
+kaller venstresiden av ligningen for en lineærkombinasjon.
+
+\subsection{Resultater}
+For enhver lineærkombinasjon $u$ av lineært uavhengige vektorer
+$v_{1}, v_{2}, \ldots, v_{n}$ finnes det kun ett sett med koefisienter
+$c_{1}, c_{2}, \ldots, c_{n}$ som gir $u$.
+
+\section{Vektorrom}
+Et vektorrom består av en mengde vektorer $V$, en kropp med skalarer, en
+addisjonsopperasjon $+$ mellom vektorer, og en multiplikasjonsopperasjon $\cdot$
+mellom vektor og skalar. $+$ og $\cdot$ må være definert for alle $v \in V$, og skal
+være lukket over $V$. 
+Operajsonene følger følgende regler:
+\begin{multicols}{2}
+\begin{itemize}
+  \setlength{\itemsep}{0em}
+  \item $+$ er assosiativ
+  \item $+$ er kommutativ
+  \item $+$ har identitetselement: $\vec{0}$
+  \item $+$ har invers
+  \item $(ab) \cdot u = a \cdot (b \cdot u)$
+  \item $\cdot$ har identitetselement: $1$
+  \item $\cdot$ distribuerer over skalar-$+$
+  \item $\cdot$ distribuerer over vektor-$+$
+\end{itemize}
+\end{multicols}
+
+\subsection{Resultater}
+Vi kan se at $0 \cdot u = 0$ og $(-1)u = -u$.
+Det finnes kun én $1$, én $0$ og én $0$-vektor.
+
+\subsection{Spenn}
+Gitt en mengde vektorer $v_{1}, v_{2}, \ldots, v_{n}$ definerer vi spennet som
+mengden av alle lineærkombinasjoner av vektorene. Vi bruker notasjonen
+\[\Sp\{v_{1}, v_{2}, \ldots, v_{n}\} = \{c_{1}v_{1} + c_{2}v_{2} + \cdots + c_{n}v_{n}\ |\ c_{i} \text{
+    er skalar}\ |\ i \in [1,n]\}\]
+Mengden er lukket under vektoradisjon og
+skalarmultiplikasjon, så det er et vektorrom (så lenge $+$ og $\cdot$ er definert
+forsvarlig). Vi sier at vektorene $v_{1},v_{2}$ etc.\ spenner ut vektorrommet
+$V$.
+
+Merk at vektorene ikke nødvendigvis er lineært uavhengige, og at flere
+mengder vektorer kan spenne ut det samme rommet.
+
+\subsubsection{Resultater}
+La $v_{1}, v_{2}, \ldots, v_{n} \in V$, da vil $\Sp\{v_{1}, v_{2}, \ldots, v_{n}\}$ være et
+underrom av $V$.
+
+\subsection{Eksempler}
+$\R^{3}$, $\C^{2}$, $P_{2}$
+
+\section{Basis}
+En Basis $\B$ er en liste med \textbf{lineært uavhengige} vektorer som spenner ut et
+vektorrom $V$. Alle basiser for rommet $V$ har samme antall vektorer, så vi
+definerer dimensjonen på vektorrommet $\dim{V} = |\B|$.
+
+\subsection{Standardbasis}
+For rommet $\R_{n}$ definerer vi standardbasisen til å være de $n$ vektorene
+\[\mat{c}{1\\0\\0\\ \vdots \\ 0}, \mat{c}{0\\1\\0\\ \vdots \\ 0}, \mat{c}{0\\0\\1\\ \vdots \\ 0}, \cdots, \mat{c}{0\\0\\0\\ \vdots \\ 1}\]
+
+\subsection{Resultater}
+\begin{itemize}
+  \item Det er ikke mulig å ha $5$ lineært uavhengige vektorer i $\R_{4}$.
+  \item Det er alltid mulig å lage en basis (Ta et spenn og fjærn lineært
+    avhengige vektorer til det ikke er noen).
+\end{itemize}
+
+\section{Underrom}
+Et underrom $U \subseteq V$ er et vektorrom med vektorer fra $V$.
+Vektoroperasjonene er de samme, og $U$ må være lukket over dem.
+
+\subsection{Teste om underrom}
+Sjekk at $U$ er lukket, altså at $u \in U \Longrightarrow a \cdot u \in U$ og
+$u, v \in U \Longrightarrow (u+v) \in U$. \\
+Underrommet må ha $0$-vektoren, $+$-inverser etc.
+
+\subsection{Resultater}
+$v_{1}, v_{2}, \ldots, v_{n} \in V \Longrightarrow \Sp\{v_{1}, v_{2}, \ldots, v_{n}\} \subseteq V$\\
+Hvis $U \subseteq V$ og $\dim U = \dim V$, er $U = V$ \\
+Gitt en lin.trans $T:V\rightarrow W$ vil $im T \subseteq W$ og $\ker T \subseteq V$
+
+\section{Lineære transformasjoner}
+En lineær transformasjon $T:V \rightarrow W$ (der $V$ og $W$ er vektorrom) er en funksjon
+med to krav:
+\[a \cdot T(v) = T(a\cdot v) \hspace{4em} T(v) + T(u) = T(v+u)\]
+Vi kaller $V$ for domenet til $T$, og $W$ kalles kodomenet. De vektorene i $W$
+det er mulig for lineærtransformasjonen å treffe kalles bildet til $T$, og
+benevnes $\image T \subseteq W$. Vektorene i $V$ som blir til nullvektoren kalles
+kjernen, og benevnes $\ker T \subseteq V$.
+\begin{align*}
+  \image T &= \{T(\vv) \in W\ |\ \vv \in V\} \\
+  \ker T &= \{\vv \in V\ |\ T(\vv) = 0\}
+\end{align*}
+
+\subsection{Injektiv og surjektiv}
+En lineærtransformasjon $T:V \rightarrow W$ er injektiv hvis
+\[T(\vv) = T(\vu) \Rightarrow \vv = \vu\]
+Dette er det samme som å si at enhver vektor $\vv \in V$ gir en ulik vektor
+$T(\vv)$.
+\[T \text{ er injektiv} \iff \dim \image T = \dim V \iff \ker T = \{0\}\]
+Kun injektive funksjoner er entydig inverterbare.
+
+En lineærtransformasjon $T:V \rightarrow W$ er surjektiv hvis
+\[\forall \vu \in W\ \exists\vv \in V\ (T(\vv) = \vu)\]
+Dette er det samme som å si at alle vektorer i kodomenet ($W$) er mulige å ``treffe''
+med $T$.
+\[T \text{ er surjektiv} \iff \image T = W\]
+
+En funksjon som både er injektiv og surjektiv kalles bijektiv, eller
+1-til-1-korrespondanse mellom domene og kodomene.
+
+\subsection{Definisjon ut ifra basis}
+Man kan definere en lineærtransformasjon $T:V\rightarrow W$ ut ifra hva som
+skjer med vektorene i en basis for $V$. Gitt basisen $\B = (v_{1}, v_{2}, \ldots, v_{n})$
+og avbildingene $T(v_{1}), T(v_{2}), \ldots, T(v_{n})$ kan vi transformere enhver
+vektor $u \in V$. Finn først koeffisientene $c_{1}, c_{2}, \ldots, c_{n}$ til $u$ i $\B$.
+\begin{align*}
+  T(c_{1}v_{1} + c_{2}v_{2} + \cdots + c_{n}v_{n}) &= c_{1}T(v_{1}) + c_{2}T(v_{2})+ \cdots + c_{n}T(v_{n}) \\
+  T(\mat{cccc}{v_{1} & v_{2} & \cdots & v_{n}}\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}) &= \mat{cccc}{T(v_{1}) & T(v_{2}) & \cdots & T(v_{n})}\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}
+\end{align*}
+Dersom basisen er standardbasisen for $\R_{n}$, altså at
+$v_{1} = \imat{1 \\ 0 \\ \vdots}, v_{2} = \imat{0 \\ 1 \\ \vdots}$ etc.\ får vi at
+\begin{align*}
+  T(\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}) &= \mat{cccc}{T(\mat{c}{1 \\ 0 \\ \vdots \\ 0}) & T(\mat{c}{0 \\ 1 \\ \vdots \\ 0}) & \cdots & T(\mat{c}{0 \\ 0 \\ \vdots \\ 1})}\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}
+\end{align*}
+Vi har her gjort T om til en matrise. Alle lineærtransformasjoner kan gjøres om
+til matriser, men vi må passe på hvilken basis matrisen transformerer fra og
+til.
+
+\subsection{Resultater}
+For alle lineærtransformasjoner $T:V \rightarrow W$
+\begin{itemize}
+  \item $T(c_{1}v_{1} + c_{2}v_{2} + \ldots + c_{n}v_{n}) = c_{1}T(v_{1}) + c_{2}T(v_{2}) + \ldots + c_{n}T(v_{n})$
+  \item $T(\vec{0}) = \vec{0}$
+  \item $\image T$ og $\ker T$ er vektorrom (0 er altså alltid med).
+  \item $\dim \image T + \dim \ker T = \dim V$ (Se Rank-Nullity --
+    Seksjon~\ref{sec:rank-nullity}).
+  \item $\dim V < \dim W \Rightarrow$ $T$ kan ikke være surjektiv. (Se også lenger oppe)
+  \item $\dim V > \dim W \Rightarrow$ $T$ kan ikke være injektiv. (Se også lenger oppe)
+\end{itemize}
+
+\subsection{Eksempel}
+Derivasjon er en lineærtransformasjon fra vektorrommet av uendelig deriverbare
+funksjoner til seg selv
+
+En $m \times n$-matrise $A$ kan ses som en lineærtransformasjon $T:\R^{n} \rightarrow \R^{m}$:
+\[T(v) = A v\]
+
+\section{Matriser}
+Matriser er tabeller med høyde og bredde og tall. En $m \times n$-matrise har høyde
+$m$ og bredde $n$. Hvis to matriser har samme dimensjoner kan de adderes ved å
+addere plassene enkeltvis. Man kan også gange en matrise med en skalar ved å
+gange inn tallet i alle ruter.
+\[4\imat{1 & 3 \\ 4 & 7 \\ 0 & 2} + \imat{2 & 5 \\ 3 & 8 \\ 2 & -8} = \imat{4 & 12 \\ 16 & 28 \\ 0 & 8} + \imat{2 & 5 \\ 3 & 8 \\ 2 & -8} = \imat{6 & 17 \\ 19 & 36 \\ 2 & 0}\]
+%
+Vi kan også gange en $m \times n$-matrise med en $n \times o$-matrise, og resultatet blir
+en $m \times o$-matrise. Vi gjør dot-produkt mellom rad og kolonne for å resultatet
+i hver rute.
+
+Vi kan se på vektorer som matriser der én av langdene er 1. Vi bruker ofte
+kolonnevektorer, altså $n \times 1$-matriser. Disse kan ganges (bakfra) med en
+$m \times n$-matrise, og resulatet blir en $m \times 1$-vektor. Eksempel:
+\[\imat{2 & -3 \\ 1 & 3 \\ -2 & 3}\imat{4 \\ 5} = \imat{2\cdot4 -3\cdot5 \\ 1\cdot4 + 3\cdot5 \\ -2\cdot4 + 3\cdot5} = \imat{-7 \\ 19 \\ 7}\]
+
+\subsection{Ligningssett: $Ac = v$}
+For å løse ligningssett kan vi putte ligningene inn i en matrise $A$, og variablene
+inn i en kolonnevektor $c$. Det ønskede resultatet fra hver ligning puttes in en
+kolonnevektor $v$. Ligningen blir da $Ac = v$. Eksempel:
+\begin{align*}
+  \begin{array}{cccc}
+    4x &- 3y &+ 2z &= 8 \\
+    2x &- 4y &- 3z &= -5 \\
+    3x &+ y &- z &= 10
+  \end{array}
+       &\Longrightarrow
+  \begin{bmatrix}
+    4 & -3 & 2\\
+    2 & -4 & -3\\
+    3 & 1 & -1\\
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\ y \\ z
+  \end{bmatrix}
+       =
+  \begin{bmatrix}
+    8 \\ -5 \\ 10
+  \end{bmatrix}
+\end{align*}
+%
+Dette kan løses ved hjelp av radoperasjoner og Gauss-eliminasjon
+
+\subsection{Radoperasjoner, Gauss-eliminasjon og pivot}
+Vi kan skrive opp ligningssettet fra forrige oppgave på følgende måte:
+\[\mat{ccc|c}{4 & -2 & 2 & 8 \\ 2 & -4 & -3 & -5 \\ 3 & 1 & -1 & 10}\]
+Vi har nå tre radoperasjoner vi kan gjøre:
+\begin{itemize}
+  \item Gange en rad med et tall $c \ne 0$
+  \item Legge til en multippel av én rad til en annen rad
+  \item Bytte plass på to rader
+\end{itemize}
+Disse operasjonene endrer ikke på løsningene på ligningssettet. Man kan også
+gjøre radoperasjoner på matriser uten ``løsning'', (altså tall bak streken), men disse
+operasjonere vil endre determinant og kolonnerom.
+
+\subsubsection{Trappeform}
+Gauss-eliminasjon betyr å gjøre radoperasjoner til du oppnår trappeform.
+Definisjonen på trappeform er at alle rader starter med $n$ 0ere etterfulgt av
+en 1, og at alle rader har $n$ strengt større enn raden før. Dette holder på
+helt til du har rader med bare 0, som du kan ha så mange du vil av, så lenge de
+er på bunnen. Hver rad som ikke er bare 0 har som sagt en 1er som første ikke-0,
+og den kalles \textbf{pivot-element}. Antall pivot-elementer = $\rank$ til
+matrisen.
+
+\textbf{Eksempler}
+\begin{align*}
+  \begin{bmatrix}
+    1 & 2 & 0 \\
+    0 & 1 & -4 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  &,
+  \begin{bmatrix}
+    1 & 0 & -3 \\
+    0 & 0 & 1 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  &,
+  \begin{bmatrix}
+    0 & 1 & -3 \\
+    0 & 0 & 1 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  &,
+  \mat{ccc|c}{
+    0 & 1 & 3 & 8 \\
+    0 & 0 & 1 & 2 
+  }
+\end{align*}
+%
+\textbf{Moteksempler}
+\begin{align*}
+  \begin{bmatrix}
+    1 & 2 & 0 \\
+    0 & 1 & -4 \\
+    0 & 1 & 1
+  \end{bmatrix}
+  &,
+  \begin{bmatrix}
+    1 & 0 & -3 \\
+    0 & 0 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  &,
+  \begin{bmatrix}
+    2 & 1 & -3 \\
+    0 & 1 & 1 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  &,
+  \mat{ccc|c}{
+    0 & 0 & 1 & 2 \\
+    0 & 1 & 3 & 8
+  }
+\end{align*}
+
+\subsubsection{Redusert trappeform}
+Ofte er det greit å gjøre radoperasjoner vidre til redusert trappeform. Det
+betyr i tillegg til trappeform at hver kolonne med pivot-element ellers bare har
+0.
+
+\textbf{Eksempler}
+\begin{align*}
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix}
+  &,
+  \begin{bmatrix}
+    1 & 0 & 2 \\
+    0 & 1 & -4 \\
+    0 & 0 & 0
+  \end{bmatrix}
+\end{align*}
+
+\subsubsection{Løse ligningssettet}
+Først reduser matrisen til redusert trappeform. Hvis du har noen 0-rader med
+ikke-0 løsning, er ligningssettet inkonsistent, og har ingen løsning. (Det
+finnes måter å finne ``nærmeste'' løsning, se seksjon~\ref{sec:minste_kvadraters_metode}).
+\begin{align*}
+  \mat{cc|c}{
+  1 & 0 & 4 \\
+  0 & 1 & 2 \\
+  0 & 0 & 3
+          }
+          &\Rightarrow \text{Ingen løsninger}
+\end{align*}
+%
+Hvis ligningssettet har et pivot-element i hver kolonne, er det
+nøyaktig én løsning
+\begin{align*}
+  \mat{ccc|c}{
+  1 & 0 & 0 & 4 \\
+  0 & 1 & 0 & 2 \\
+  0 & 0 & 1 & -2 \\
+  0 & 0 & 0 & 0
+            }
+          &\Rightarrow \mathbb{L} = \mat{c}{4 \\ 2 \\ -2}
+\end{align*}
+%
+Hvis ikke alle kolonner har pivot-element, er det uendelig mange løsninger, og
+vi parametriserer. Alle kolonner uten pivot-element blir frie variabler
+(parameter).
+\begin{align*}
+  \mat{ccc|c}{
+  1 & 0 & -4 & 4 \\
+  0 & 1 & 1 & 2 \\
+  0 & 0 & 0 & 0 \\
+            }
+    &\Rightarrow
+      \begin{array}{c}
+        \text{Introduserer parameter $s$} \\
+        x -4s = 4 \\
+        y + s = 2 \\
+        z = s
+      \end{array}
+  &\Rightarrow
+      \begin{array}{c}
+        \text{Løser ut} \\
+        x = 4+4s \\
+        y = 2-s \\
+        z = s
+      \end{array}
+  &\Rightarrow\mathbb{L} = \mat{c}{4\\2\\0} + s\mat{c}{4\\-1\\1}
+\end{align*}
+
+\subsection{Null-, rad- og kolonnerom}
+Nullrommet til en matrise er alle vektorer som ganget med matrisen blir
+0-vektoren. Dette er da kjernen ($\ker$) til lineærtransformasjon gitt av $A_{m \times n}$.
+\[\Null A_{m \times n} = \{v \in \R^{n} | A_{m \times n} v = \nullmat\}\]
+%
+Kolonnerommet er spennet av vektorene som utgjør kolonnene i matrisen. Dette vil
+også være bildet ($\image$) av lineærtransformasjonen.
+\[\Col A_{m \times n} = \Sp\{c_{1}, c_{2}, \ldots, c_{n}\}\]
+%
+Radrommet er spennet av vektorene som utgjør radene i matrisen.
+\[\Row A_{m \times n} = \Sp\{r_{1}, r_{2}, \ldots, r_{m}\}\]
+Et viktig resultat er at radrommet er ortogonalt komplement til nullrommet. Se
+seksjon~\ref{sec:ortogonalt_komplement}.
+
+\subsubsection{Basis for Col or Row}
+Gjør gauss-eliminasjon på $A$ til du får trappeform.\\
+Radene som ikke er 0 utgjør er en basis for $\Row A$.\\
+For en basis for $\Col A$ plukker du ut de kolonnene som inneholder
+pivot-elementer, men fra $A$, altså fra matrisen før du gjør radopperasjoner.
+
+\subsection{Determinant}
+TODO\@: Hvordan regne determinant, hva det betyr. Kun for kvadratiske mariser.
+
+\[\det(A) = 0 \iff A \text{ er ikke-inverterbar}\]
+Se seksjon~\ref{sec:ikke-inverterbare_matriser} for betydningen av dette.
+
+Siden determinanten sier hvordan volumet endrer seg etter en
+lineærtransformasjon, og matrisemultiplikasjon gir en matrise som gjør begge
+lineærtransformasjonene, gir følgende regel mening
+\[\det(AB) = \det(A)\det(B)\]
+Dette forteller oss f.eks.\ at et produkt med en ikke-inverterbar matrise alltid
+vil være ikke-inverterbart.
+
+\subsection{Rank}
+Rank til en $m \times n$-matrise $A$ kan defineres på flere, identiske måter.
+\[\rank A = \dim \Col A = \dim \Row A\]
+Rank er altså antallet lineært uavhenige kolonnevektorer, og sier oss hvor mange
+dimensjoner vi får som ``output'' fra matrisen. Vi kan f.eks.\ finne rank ved å
+gjøre gauss-eliminasjon og telle antall pivot-elementer. Det er også verdt å merke seg at
+siden $\rank A = \rank A^{\top}$, så er det mulig å regne ut rank den veien man
+selv vil.
+
+\subsubsection{Rank-Nullity}\label{sec:rank-nullity}
+Et viktig teorem sier at for enhver matrise $A_{m \times n}$ vil følgende holde:
+\[\rank A + \dim \Null A = n\]
+Rank sier hvor mange dimensjoner vi har ``beholdt'' i bildet, og dimensjonen til nullrommet sier
+hvor mange dimensjoner vi har ``mistet'' til 0. Disse to i sum skal være lik
+dimensjonen til input, $n$.
+
+\subsection{Transponert}
+Den transponerte av en $m \times n$-matrise $A$ er en $n \times m$-matrise $A^{\top}$ der
+rader og kolonner har byttet om. Rad 1 er blitt kolonne 1 osv.
+\[A = \mat{cc}{3 & 4 \\ 2 & 8 \\ -2 & 7} \hspace{15mm} A^{\top} = \mat{ccc}{3 & 2 & -2 \\ 4 & 8 & 7}\]
+Dette betyr at radrom har blitt kolonnerom og omvendt. Determinant og rank har
+ikke endret seg.
+
+\subsubsection{Adjunkt}
+Når vi har komplekse matriser brukes ofte den adjunkte
+$A^{*} = \overline{A^{\top}}$. For reelle matriser vil altså $A^{*} = A^{\top}$. Ofte
+vil teoremer om reelle matrisers transponerte være overførbare til komplekse
+matrisers adjunkte.
+Hvis en reell matrise $A = A^{\top}$ kalles den symmetrisk. Hvis en matrise
+$A = A^{*}$ kalles den hermitsk. Se seksjon~\ref{sec:symmetriske_matriser}.
+\subsubsection{Resultater}
+\begin{itemize}
+  \item La $A$ være en $m \times n$-matrise, og $\vx \in \C_{n}$, $\vy \in \C_{m}$ være vektorer.
+    Da gjelder følgende:
+    \[\inner{A\vx,\vy} = \inner{\vx,A^{*}\vy}\]
+  \item ${(A+B)}^{\top} = A^{\top} + B^{\top}$
+  \item ${(AB)}^{\top} = B^{\top}A^{\top}$
+  \item $\rank A = \rank A^{\top}$
+  \item $\det A = \det A^{\top}$
+  \item $A$ og $A^{\top}$ har de samme egenverdiene, men ikke
+    nødvendigvis de samme egenvektorene. Beviset bruker determinanten, og at
+    $I_{n} = I_{n}^{\top}$.
+    \[\det(A^{\top}-\lambda I_{n}) = \det({(A-\lambda I_{n})}^{\top}) = \det(A-\lambda I_{n})\]
+  \item $A^{*}A$ er alltid en hermitsk matrise
+  \item $A$ er inverterbar $\iff$ $A^{\top}A$ er inverterbar (hint: determinant av produkt).
+\end{itemize}
+
+\subsection{Inverser}
+Når det er snakk om inversen til en matrise er det nesten alltid snakk om
+kvadratiske matriser.
+
+\subsubsection{Ikke-inverterbare matriser}\label{sec:ikke-inverterbare_matriser}
+Følgende er ekvivalent for en kvadratisk $n \times n$-matrise:
+\begin{itemize}
+  \item $\det A = 0$
+  \item $\rank A < n$
+  \item $A$ er ikke inverterbar
+  \item $\Null A \neq \{0\}$
+  \item $A$ har $0$ som egenverdi
+  \item Lineærtransformasjonen $T(x) = Ax$ er ikke-injektiv
+\end{itemize}
+
+\subsubsection{Kvadratiske matriser}
+En $n \times n$-matrise $A$ sies å være inverterbar hvis $\rank A = n$, altså at alle
+kolonnene er lineært uavhengige. Dette betyr at dimensjonen til bildet er lik
+dimensjonen til input, som igjen betyr at nullrommet er 0-dimensjonalt. Dette
+betyr igjen at transformasjonen er bijektiv, som betyr inverterbar. Vi kaller
+inversen $A^{-1}$. Den er definert slik:
+
+\[A \cdot A^{-1} = A^{-1} \cdot A = I_{n}\]
+%
+Det finnes kun én mulig verdi for $A^{-1}$, og den vil funke på begge sider av
+$A$. Vi kan regne ut $A^{-1}$ ved å bruke radoperasjoner. Vi setter inn $A$ på
+venstre side av streken, og identitetsmatrisen på andre side av streken.
+Deretter gjør vi radoperasjoner til venstresiden er blitt identitetsmatrisen. Da
+vil høyresiden være inversen til $A$.
+
+\begin{align*}
+  \begin{bmatrix}
+    1 & 3 & \vline & 1 & 0 \\
+    2 & 7 & \vline & 0 & 1
+  \end{bmatrix}
+      \sim
+  \begin{bmatrix}
+    1 & 3 & \vline &  1 & 0 \\
+    0 & 1 & \vline & -2 & 1
+  \end{bmatrix}
+      \sim
+  \begin{bmatrix}
+    1 & 0 & \vline &  7 & -3 \\
+    0 & 1 & \vline & -2 & 1
+  \end{bmatrix}
+\end{align*}
+%
+Inversen til $\imat{1 & 3 \\ 2 & 7}$ er altså $\imat{7 & -3 \\ -2 & 1}$
+
+\subsubsection{Left-inverser}
+Gitt en $m \times n$-matrise $A$ der $\rank A = n$ (lineært uavhengige kolonner), er
+en left-invers $A_{left}^{-1}$ en $n \times m$-matrise slik at
+$A_{left}^{-1} \cdot A = I_{m}$. For å finne en left-invers kan vi bruke
+$A^{\top} \cdot A$, som er en inverterbar $n \times n$-matrise.
+\begin{align*}
+  {(A^{\top}A)}^{-1}(A^{\top}A) &= I_{m} \\
+  ({(A^{\top}A)}^{-1}A^{\top}) \cdot A &= I_{m} \\
+  {(A^{\top}A)}^{-1} A^{\top} &= A_{left}^{-1}
+\end{align*}
+
+\section{Indreprodukt og ortogonalitet}\label{sec:indreprodukt}
+Indreproduktet er en slags generalisering av dotproduktet som funker også i
+merkeligere vektorrom. Vi kan definere et indreprodukt $\inner{\vv,\vw} \in \C$
+mellom to vektorer i vektorrommet $V$. Operasjonen må tilfredsstille tre krav:
+\begin{itemize}
+  \item \textbf{Symmetri} $\inner{\vv,\vw} = \overline{\inner{\vw,\vv}}$
+  \item \textbf{Positivitet} $\inner{\vv,\vv} \geq 0$, og $\inner{\vv,\vv}=0 \iff \vv=0$
+  \item \textbf{Linearitet} $\inner{\vv, (a\vw + b\vu)} = a\inner{\vv,\vw} + b\inner{\vv,\vu}$
+\end{itemize}
+Et vektorrom med et definert indreprodukt kalles et indreproduktrom.
+
+\subsection{Resultater}
+\begin{itemize}
+  \item $\inner{\vv,c \vw} = c\inner{\vv,\vw} \Longrightarrow \inner{c \vv,\vw} = \overline{c}\inner{\vv,\vw}$
+  \item $\inner{\vu + \vv,\vw} = \inner{\vu,\vw} + \inner{\vv,\vw}$
+\end{itemize}
+
+\subsection{Lengde og vinkel}
+Vi definer lengden av $\vv$, $||\textbf{v}|| = \sqrt{\inner{\vv,\vv}}$. På
+grunn av positivitetskravet vet vi $||\vv|| \in \R$ og $||\vv||=0 \iff \vv=0$.
+Lengden mellom to vektorer $\vv$ og $\vu$ blir da lik $||\vv - \vu||$
+
+Vi definerer også vinkelen mellom to vektorer ved å bruke
+\[Re \inner{\vv,\vw} = ||\vv|| ||\vw|| \cos \theta\]
+og velge en vinkel $\theta \in [0,\pi]$. Vi vet at
+$-1 \leq \cos \theta \leq 1$, så vinkelen vil alltid være definert. Det er ikke
+alle som gidder å definere vinkler mellom vekoter i vektorrom med komplekse
+indreprodukt.
+
+\subsection{Ortogonalitet}
+Vi definerer ortogonalitet på følgende måte
+\[\inner{\vv,\vw} = 0\]
+
+Vi kan også si at en vektor $\vv \in V$ står ortogonalt på et underrom
+$U \subseteq V$. Dette vil si at $\inner{\vv,\vu} = 0$ for alle $\vu \in U$. Vi får f.eks.\@
+slike underrom hvis vi tar spennet over ortogonale vektorer til $\vv$. Utifra
+definisjonen på indreprodukt:
+\begin{align*}
+  \inner{\vv,\vu} = 0 &\land \inner{\vv,\vw} = 0 \\
+  a \inner{\vv,\vu} = 0 &\land b \inner{\vv,\vu} = 0 \\
+  \inner{\vv,a \vu} = 0 &\land \inner{\vv,b \vu} = 0 \\
+  \Longrightarrow \inner{\vv, a\vu + b\vw} &= 0+0 = 0
+\end{align*}
+
+\subsubsection{Resultater}
+\begin{itemize}
+  \item Hvis \vv{} og \vw{} er ortogonale, er
+    $||\vv + \vw||^{2} = ||\vv||^{2} + ||\vw||^{2}$. ``\textbf{Pytagoras}'' gjelder altså.
+\end{itemize}
+
+\subsection{Ortogonalt komplement}\label{sec:ortogonalt_komplement}
+Gitt et indreproduktrom $V$ og et underrom $U \subseteq V$, vil det ortogonale
+komplementet til $U$, $U^{\bot}$, være alle vektorer som står ortogonalt på
+alle vektorer i $U$. Denne mengden utgjør et underrom av $V$, siden den er
+lukket under addisjon og skalarmultiplikasjon. $U$ og $U^{\bot}$ er lineært
+uavhengige, og tilsammen vil de spenne ut hele $V$.
+
+\subsubsection{Eksempel / Teorem + Bevis}
+Gitt en $m \times n$-matrise $A$ vil $\Row A$ være ortogonalt komplement til
+$\Null A$. Vi setter først opp ligningen for nullromet.
+\begin{align*}
+  \mat{cccc}{a_{1,1} & a_{1,2} & \cdots & a_{1,n} \\ a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m,1} & a_{m,2} & \cdots & a_{m,n}}\mat{c}{x_{1} \\ x_{2} \\ \vdots \\ x_{n}} = \mat{c}{0 \\ 0 \\ \vdots \\ 0}
+\end{align*}
+Vi kaller løsningsvektoren $\vx$, og vet at den er i nullrommet til $A$.
+Husk at matrisemultiplikasjon kan deles opp som indreprodukt mellom rader og
+kolonner. Vi nummererer radene $r_{i}$ for $1 \le i \le m$. Ligningen forteller oss
+altså at
+\[\inner{r_{i}, \vx} = 0, \hspace{20mm} 1 \le i \le m\]
+Dette betyr at enhver rad i $A$ står ortogonalt på $\vx$, altså enhver vektor i
+nullrommet. Dette medfører også at envher lineærkombinasjon av radvektorer vil
+stå ortogonalt på nullrommet. Vi vet altså nullrommet og radrommet er
+ortogonale, men for at $\Null A$ og $\Row A$ skal være hverandres
+ortogonale komplement må de til sammen spenne ut hele $\R_{n}$. Dette viser vi
+med \textit{rank-nullity}. Se seksjon~\ref{sec:rank-nullity}.
+\begin{align*}
+  \dim \Sp\{\Row A, \Null A\} &= \dim Row A + \dim \Null A \\
+                              &= \rank A + \dim \Null A \\
+                              &= n
+\end{align*}
+Dette tilsammen gir oss at
+\[{(\Row A)}^{\bot} = \Null A \hspace{10mm} {(\Null A)}^{\bot} = \Row A\]
+
+\subsubsection{Resultater}
+\begin{itemize}
+  \item $\Sp\{U, U^{\perp}\} = V$
+  \item $\dim U + \dim U^{\bot} = \dim V$
+  \item $U^{\bot^\bot} = U$
+  \item ${(\Row A)}^{\bot} = \Null A$ (Se bevis over)
+\end{itemize}
+
+\subsection{Eksempler}
+I $R^{n}$ defineres ofte indreproduktet til å være dotproduktet. Med
+matrisemultiplikasjon skrives det slik:
+\[\inner{\vv,\vw} = \vv^{\top}\vw\]
+I $\C^{n}$ kan vi definere indreproduktet lignende, men med adjunkt istedet:
+\[\inner{\vv,\vw} = \vv^{*}\vw = \overline{\vv}^{\top}\vw\]
+I vektorrommet av kontinuerlige funksjoner på intervallet $[a,b]$ kan vi
+definere indreprodukt som
+\[\inner{\vv,\vw} = \int_{a}^{b} \vv(x)\vw(x) dx\]
+
+\section{Projeksjon}
+Gitt en vektor $\vw$ i indreproduktrommet $V$ og et underrom $U$, er $P_{U}(\vw)$ vektoren i $U$
+nærmest $\vw$. Vi vet da at vektoren fra $P_{U}(\vw)$ til $\vw$ står ortogonalt på
+underrommet $U$. Lengden på denne vektoren er avstanden. Ortogonalitet og lengde
+defineres med indreproduktet i $V$.
+
+\subsection{Projeksjon til linje}
+Vi definerer først $P_{\vv}(\vw)$ der $\vv$ og $\vw$ er vektorer i $V$.
+\[P_{\vv}(\vw) = \frac{\inner{\vv,\vw}}{\inner{\vv,\vv}}\vv\]
+Resultatet er en vektor i $\Sp\{\vv\}$, altså på linjen til $\vv$. Vektoren
+fra $P_{\vv}(\vw)$ til $\vw$ kan vil kalle $\vx = \vw - P_{\vv}(\vw)$. Lengden
+$||\vx||$ er da den korteste avstanden fra $\Sp{\vv}$ til $\vw$, og $\vx$ står
+ortogonalt på $\vv$, altså:
+\[\vw-P_{\vv}(\vw) \perp \vv  \iff \inner{\vw-P_{\vv}(\vw), \vv} = 0\]
+
+\subsection{Ortogonal basis}
+For å gjøre projeksjon til et underrom $U$, er det kjekt å ha en ortogonal
+basis for $U$. $\B=(\vu_{1}, \vu_{2}, \ldots, \vu_{n})$ slik at
+$\inner{\vu_{i}, \vu_{j}} = 0 for alle 1 \leq i,j \leq n, i \neq j$. Dette har vi en
+algoritme for å gjøre.
+
+\subsubsection{Gram-Schmidt}
+La $\B=(\vv_{1}, \vv_{2}, \ldots, \vv_{n})$ være en basis for underrommet $U$ i
+et indreproduktrom. Vi ønsker å finne en ortogonal basis
+$\B_{\perp}=(\vu_{1}, \vu_{2}, \ldots, \vu_{n})$.
+
+\begin{align*}
+  \vu_{1} &= \vv_{1} \\
+  \vu_{2} &= \vv_{2} - P_{\vu_{1}}(\vv_{2}) \\
+  \vu_{3} &= \vv_{3} - P_{\vu_{1}}(\vv_{3}) - P_{\vu_{2}}(\vv_{3}) \\
+          &\vdots \\
+  \vu_{n} &= \vv_{n} - P_{\vu_{1}}(\vv_{n}) - \cdots - P_{\vu_{n}}(\vv_{n})
+\end{align*}
+
+\subsection{Projeksjon til underrom}
+Når vi skal projisere $\vv$ til et underrom $U$, bruker vi en ortogonal basis
+for $U$.
+\[B_{\perp} = (\vu_{1}, \vu_{2}, \ldots, \vu_{n})\]
+Projeksjonen av $\vv$ blir da lik summen av projeksjonene ned på hver vektor i
+den ortogonale basisen.
+\[P_{U}(\vv) = P_{\vu_{1}}(\vv) + P_{\vu_{2}}(\vv) + \ldots + P_{\vu_{n}}(\vv)\]
+
+\subsection{Resultater}
+$P_{U}(\textbf{v})$ er en lineærtransformasjon:
+\[P_{U}(a\textbf{v} + b\textbf{w}) = aP_{U}(\textbf{v}) + bP_{U}(\textbf{w})\]
+
+\section{Egenverdier og egenvektorer}
+La $T:V\rightarrow V$ være en lineærtransformasjon. Da er skalaren $\lambda$ en
+egenverdi hvis det finnes en ikke-triviell vektor $v \in V$ slik at
+\[T(v) = \lambda v\]
+$v$ kalles egenvektor for $T$ med egenverdi $\lambda$.
+Merk at $\lambda$ kan være 0 $\Longrightarrow$ $v \in \ker T\setminus\{0\}$ er en egenvektor for
+$T$ med $\lambda = 0$.
+
+\subsection{Egenrom}
+Gitt to egenvektorer $\vv$ og $\vu$ med samme egenverdi $\lambda$, vet vi at en
+lineærkombinasjon av dem også vil være en egenvektor med egenverdi $\lambda$. Bevis:
+\[T(a \cdot \vv + b \cdot \vu) = a \cdot T(\vv) + b \cdot T(\vu) = a \cdot \lambda \vv + b \cdot \lambda \vu = \lambda(a \cdot \vv + b \cdot \vw)\]
+Dette betyr at alle $\vu \in \Sp\{\vv_{1}, \vv_{2}, \cdots, \vv_{n}\}$ er egenvektorer med
+egenverdi $\lambda$, gitt at alle $\vv_{n}$ er egenvektorer med egenverdi $\lambda$.
+Alle egenvektorer med en gitt egenverdi $\lambda$ utgjør derfor et underrom, som
+kalles egenrommet for $\lambda$. Husk at 0-vektoren ikke er en egenvektor, selv om den
+``er med'' i alle underrom, også egenrom.
+
+\subsection{Å finne egenverdier og -rom}
+Gitt en kvadratisk $n \times n$-matrise $A$ ønsker vi å finne en ikke-triviell vektor $\vv \in \R^{n}$
+slik at
+\begin{align}
+  A\vv = \lambda \vv \\
+  A\vv - \lambda I_{n} \vv = \nullvec \\
+  (A - \lambda I_{n})\vv = \nullmat \label{eq:ai}
+\end{align}
+Ligning~(\ref{eq:ai}) har kun ikke-trivielle løsninger hvis kolonnene ikke er
+lineært uavhengige, altså
+\[\det (A-\lambda I_{n}) = 0\]
+Dette gir et polynom i $\lambda$ av grad $n$. Røttene til polynomet blir da
+egenverdier. Når vi har bestemt oss for en egenverdi $\lambda$ kan vi finne egenrommet til
+den ved å løse ut for
+\begin{align*}
+  A\vx &= \lambda \vx \\
+  (A - \lambda I_{n})\vx &= 0
+\end{align*}
+Siden determinanten til venstresiden er 0, vil den ha uendelig mange løsninger.
+Vi må derfor parameterisere.
+
+\subsubsection{Eksempel}
+TODO
+
+\subsection{Antall egenverdier}
+Egenverdier vil være røtter i polynomet vi fant. Antallet ganger en egenverdi
+$\lambda$ forekommer som rot, kalles den \textbf{algebraiske multiplisiteten} til $\lambda$.
+For eksempel i polynomet
+\[{(\lambda - 4)}^{2}(\lambda + 2) = 0\]
+vil $\lambda=4$ ha en algebraisk multiplisitet på $2$, og $\lambda=-2$ ha en algebraisk
+multiplisitet på $1$.
+
+Algebraens fundamentalteorem forteller oss at summen av algebraiske
+multiplisiteter alltid er $n$, altså dimensjonen på matrisen, men ikke alle
+røttene til polynomet er nødvendigvis reelle tall.
+
+I tillegg til algebraisk multiplisitet har alle egenverdier også
+\textbf{geometrisk~multiplisitet}. Det er definert som dimensjonen på egenrommet
+til $\lambda$. Regel for enhver egenverdi $\lambda$:
+\[1 \leq \text{geometrisk multiplisitet} \le \text{algebraisk multiplisitet}\]
+Vi sier at egenverdien er defekt hvis den geometriske multiplisiteten er lavere
+enn den algebraiske multiplisiteten. Dette kan også skje med komplekse
+egenverier.
+
+Hvis ingen egenverdier er defekte vil summen av geometriske
+multiplisiteter være lik dimensjonen på rommet. Egenvektorer med ulik
+egenverdi er alltid lineært uavhengige. Det betyr at man har nok egenvektorer
+til å lage en basis for rommet av kun egenverdier. Dette er kravet for
+diagonalisering.
+
+\subsection{Komplekse egenverdier}
+I reelle matriser gjelder følgende: Hvis $\lambda$ er en kompleks egenverdi, er
+også $\overline{\lambda}$ en kompleks egenverdi (anslagsvis med samme
+algebraiske multiplisitet). Dette betyr at en reell matrise $A_{n \times n}$ der
+$n$ er et oddetall, må ha minst én reell egenverdi.
+
+\subsection{Resultater}
+\begin{itemize}
+  \item Hvis $\lambda_{1}, \lambda_{2}, \ldots \lambda_{n}$ er ulike
+    egenverdier for $T:V\rightarrow V$, med henholdsvise egenvektorer
+    $v_{1}, v_{2}, \ldots, v_{n}$, vil vektorene være lineært uavhengige.
+  \item Hvis $v_{1}, v_{2}, \ldots, v_{n}$ er egenvektorer i $V$ med samme egenverdi
+    $\lambda$, er $\forall u \in \Sp{v_{1}, v_{2}, \ldots, v_{n}}\setminus\{0\}$ egenvektorer med
+    egenverdi $\lambda$
+  \item Hvis matrisen $A$ har egenverdi $\lambda$, vil $A^{n}$ ha egenverdi $\lambda^{n}$
+  \item Å ha $0$ som egenverdi $\iff$ $\ker T$ ikke er triviell $\iff$ $\lbrack T \rbrack$ er
+    ikke-inverterbar.
+  \item For en $n \times n$-matrise vil $1 \le \dim \Sp\{alle egenvektorer\} \le n$
+\end{itemize}
+
+\section{Diagonalisering}
+For en $n \times n$-matrise $A$ med n lineært uavhengige egenvektorer (sum av geometrisk
+multiplisitet = $n$), kan vi lage $n \times n$-matriser $P$ og $D$ slik at
+\[ A = PDP^{-1} \]
+der $D$ er en diagonalmatrise, altså $D_{ij} = 0, i \ne j$. Dette gjør det lett å
+eksponensiere $A$ siden
+\begin{align*}
+  A^{x} &= {(PDP^{-1})}^{x} \\
+        &= PD P^{-1} \cdot P D P^{-1} \cdot \ldots \cdot P DP^{-1} \\
+        &= PD (P^{-1} \cdot P) D (P^{-1} \cdot \ldots \cdot P) DP^{-1} \\
+        &= PD \cdot I_{n} \cdot D \cdot I_{n} \cdot \ldots \cdot DP^{-1} \\
+        &= PD^{x}P^{-1}
+\end{align*}
+og vi lett kan regne ut $D^{x}$ siden $D$ er en diagonalmatrise, og hvert tall i
+matrisen dermed kan eksponensieres for seg.
+
+\textbf{Merk.} En matrise kan være diagonaliserbar selv om den ikke er
+inverterbar (å ha 0 som egenverdi går fint).
+
+\subsection{Hvordan komme fram til P og D}
+Begynn med n lineært uavhengige egenvektorer til $A$: $v_{1}, v_{2}, \cdots, v_{n}$.
+Når $A$ ganges med $v_{x}$ som kolonnevektor, blir svaret $\lambda_{x} v_{x}$. La så
+vektorene være kolonner i matrisen $P$:
+\begin{align*}
+  P &= \begin{bmatrix}
+    v_{1} & v_{2} & \cdots & v_{n}
+  \end{bmatrix} \\
+  AP &= \begin{bmatrix}
+    \lambda_{1}v_{1} & \lambda_{2}v_{2} & \cdots & \lambda_{n}v_{n}
+  \end{bmatrix}
+\end{align*}
+La så $D$ være en diagonalmatrise med $\lambda_{1}, \lambda_{2}, \cdots, \lambda_{n}$ som diagonaler.
+\begin{align*}
+  D &= \begin{bmatrix}
+    \lambda_{1} & 0 & \cdots & 0 \\
+    0 & \lambda_{2} & \cdots & 0 \\
+    \vdots & \vdots & \ddots & 0 \\
+    0 & 0 & 0 & \lambda_{n}
+  \end{bmatrix} \\
+  PD &= \begin{bmatrix}
+    \lambda_{1}v_{1} & \lambda_{2}v_{2} & \cdots & \lambda_{n}v_{n}
+  \end{bmatrix}
+\end{align*}
+Dette gir det totale uttrykket
+\[AP = PD\]
+Siden $P$ består av lineært uavhengige kolonnevektorer er den inverterbar. Vi
+ganger med $P^{-1}$ på begge sider og får
+\[A = PDP^{-1}\]
+
+\subsection{Komplekse matriser}
+En reell $n \times n$-matrise er realt diagonaliserbar hvis og bare hvis det finnes
+en basis for $\R_{n}$ utgjort av egenvektorer til matrisen. \\
+En kompleks $n \times n$-matrise er diagonaliserbar hvis og bare hvis det finnes en
+basis for $\C_{n}$ utgjort av egenvektorer til matrisen. Husk at den geometriske
+multiplisiteten til et egenrom ikke alltid er like stor som den algebraiske,
+uavhengig om du tillater komplekse tall.
+
+\subsection{Diagonaliserbare lineærtransformasjoner}
+La $T:V\rightarrow V$ være en lineærtransformasjon. Vi sier at $T$ er diagonaliserbar hvis
+man kan lage en basis for $V$ av egenvektorer $v_{1}, v_{2}, \ldots, v_{n}$ til $T$.
+Matrisen som beskriver $T$ med hensyn på egenvektorbasisen er en diagonalmatrise
+$D$ med diagonal $\lambda_{1}, \lambda_{2}, \ldots, \lambda_{n}$.
+
+\section{Symmetriske matriser}\label{sec:symmetriske_matriser}
+En reell matrise $A$ er symmetrisk dersom $A = A^{\top}$. Det kan vises at
+alle symmetriske $n \times n$ matriser har $n$ reelle egenverdier (i geometrisk
+multiplisitet), og er dermed diagonaliserbare med reell diagonalmatrise. Vi kan
+også vise at egenvektorer med ulik egenverdi alltid vil være ortogonale på
+hverandre:
+
+En $n \times n$-matrise som har $n$ ortogonale egenvektorer kalles \textbf{ortogonalt
+diagonaliserbar}
+
+\subsection{Hermitske matriser}
+For en kompleks $n \times n$-matrise $A$ definerer vi at den er hermisk hvis $A = A^{*}$
+der $A^{*} = \overline{A^{\top}}$. Hermitske matriser vil ha reell diagonal, og hvis
+hele matrisen er reell er den også symmetrisk. Funnene fra symmetriske matriser
+gjelder generelt for hermitske matriser:
+
+En hermitsk $n \times n$-matrise har $n$ reelle egenverdier, og er ortogonalt diagonaliserbar.
+
+\subsection{Resultater}
+\begin{itemize}
+  \item $A\text{ er symmetrisk} \iff A\text{ er reell } \wedge A\text{ er hermitsk}$
+  \item En $n \times n$-matrise er ortogonalt diagonaliserbar hvis og bare hvis
+    den er hermitsk/symmetrisk.
+  \item Alle hermitske og symmetriske $n \times n$-matriser har $n$ reelle
+    egenverdier (talt i geometrisk multiplisitet).
+\end{itemize}
+
+\section{Minste kvadraters metode}\label{sec:minste_kvadraters_metode}
+Minste kvadraters metode er en måte å finne den ``nærmeste'' løsningen til et
+inkonsistent lingsningssett / ligningssett med for mange ligninger.
+Ligningssettene skrives på formen $Ax = b$ der $A$ er en $m \times n$-matrise og $b$
+er en kolonnevektor av lengde $m$. Løsningen $x$ skal være en kolonnevektor av
+lengde $n$. Problemer oppstår når $b$ ikke ligger i kolonnerommet til $A$. Da
+finnes det ikke noen $x$ som transformert med $A$ havner i $b$. Dette kan skje når
+$A$ har færre enn $m$ uavhengige kolonnevektorer. Da vil kolonnerommet være et strengt
+underrom av $\R_{m}$, og $b$ kan dermed ligge utenfor.
+
+Når vi skal bruke minste kvadraters metode kan vi ikke begyne med
+radoperasjoner, siden radoperasjoner endrer kolonnerommet.
+TODO\@: Skriv.
+
+\subsection{Interpolasjon og regresjon}
+Gitt et sett med $n$ punkter
+$(x_{1}, y_{1}), (x_{2}, y_{2}), \ldots, (x_{n}, y_{n})$, der $x$ene er unike, kan
+vi prøve å lage et polynom $P(x)$ slik at $P(x_{i}) = y_{i}$ for alle $i \in [1,n]$.
+Et polynom av grad $m$ har $m+1$ frie variabler. Vi setter inn x-verdier og
+ønsket y-verdi som ligningssett på formen.
+\[ax^{m} + bx^{m-1} + \cdots + cx + d = y\]
+Dersom vi har flere ligninger enn ukjente må vi bruke minste kvadrats metode.
+
+\subsubsection{Eksempel}
+
+
+\subsubsection{Resultater}
+Det finnes uendelig mange 2.-gradspolynomer som skjærer 2 punkter, men
+nøyaktig ett som skjærer 3.
+
+Minste kvadraters metode minimerer ``avstand'' mellom polynomet og punktenes y-verdi.
+Avstand defineres etter indreproduktet
+\[||\mat{c}{P(x_{1})\\P(x_{2})\\\vdots} - \mat{c}{y_{1}\\y_{2}\\\vdots}|| = \sqrt{\Sigma_{i=1}^{n} {(P(x_{i})-y_{i})}^{2}}\]
+
+\section{Stokastiske matriser og Markovkjeder}
+En sannsynlighetsvektor er er vektor der alle koordinatene er større eller lik
+0, og koordinatsummen er 1. En stokastisk matrise er en $n \times n$-kvadratisk
+matrise der kolonnene er sannsynlighetsvektorer. Stokastiske matriser kan ses
+som sannsynlighetene for tilstandsforandringer mellom alle ordnede par av
+tilstander. Kolonnen er nåværende tilstand, og raden er neste tilstand.
+\[
+  \mat{ccc}{
+    P(A_{1} | A_{0}) & P(A_{1} | B_{0}) & P(A_{1} | C_{0}) \\
+    P(B_{1} | A_{0}) & P(B_{1} | B_{0}) & P(B_{1} | C_{0}) \\
+    P(C_{1} | A_{0}) & P(C_{1} | B_{0}) & P(C_{1} | C_{0}) \\
+  }
+\]
+Produktet av en stokastisk matrise og en sannsynlighetsvektor vil
+være sannsynlighetene for hver tilstand i neste ``runde'', igjen en
+sannsynlighetsvektor.
+
+Gitt en sannsynlighetsvektor $\textbf{x}_{0}$ og en stokastisk matrise $M$ kan
+vi definere \textbf{Markovkjeden}.
+\[\{\vx_{0}, \vx_{1}, \vx_{2}, \vx_{3}, \ldots\}, \hspace{10mm} \vx_{n} = M^{n}\vx_{0}\]
+
+\subsection{Likevektsvektor}
+En likevektsvektor $\vq$ til en stokastisk matrise $M$ er en
+sannsynlighetsvektor som tilfredsstiller
+\[M\vq = \vq\]
+Altså er likevektsvektoren en egenvektor med egenverdi 1. En stokastisk matrise $M$
+vil alltid ha egenverdien 1 (Hint: $\lambda=1$ i $M^{\top}$). Vi finner likeveksvektoren ved å finne en
+parameterisering til egenrommet til $\lambda=1$, og sette parametere slik at
+koordinatsummen blir $1$.
+
+\subsection{Regulære stokastiske matriser}
+En stokastisk matrise $M$ er regulær hvis det finnes en $k \ge 1$ slik at alle
+elementer i $M^{k}$ er større enn $0$.
+\[\begin{array}{ccc}
+  \text{Eksempel} & \hspace{20mm} & \text{Moteksempel} \\
+  \mat{cc}{0.8 & 1 \\ 0.2 & 0} & & \mat{cc}{0.8 & 0 \\ 0.2 & 1}
+  \end{array}\]
+I moteksempelet ser du at kolonne nummer 2 ``fanger'' alt som kommer inn i den.
+Det er aldri mulig for noe i tilstand 2 å komme til tilstand 1, så kolonne 2 vil
+alltid ha $0$en.
+Likevekstvektoren er unik for regulære stokastiske matriser. Det betyr at
+markovkjeden konvergerer mot det samme, uansett hvilken sannsynlighetsvektor
+$\vx_{0}$ er.
+
+\subsection{Resultater}
+Gitt en regulær stokastisk matrise $M$ konvergerer $\lim_{x\to\infty}M^{k}$ mot en
+regulær stokastisk matrise $M'$ slik at alle sannsynlighetsvektorer ganget med
+$M'$ blir samme vektor. Den ser slik ut, der $q$ er likevektsvektoren (kolonne):
+\[
+  \mat{cccc}{q & q & \cdots & q}
+\]
+
+\section{Differensialligningssett}
+TODO
+
+\clearpage
+\appendixpage{}
+\addappheadtotoc{}
+\begin{appendices}
+\section{Komplekse tall}
+Vi definerer $i^{2} = -1$. Dette gir oss $\sqrt{-1} = i$, men vi må være veldig
+obs på å bruke kvadratrøtter slik. Husk at $x^{2} = -1$ har to løsninger, $i$ og
+$-i$. Hvis vi mikser og trikser for mye med kvadratrøtter får vi fort $1 = -1$.
+
+Gitt komplekse tall $q = a + bi$, og $w = c + di$ har vi følgende regler.
+\begin{align*}
+  \Rea q &= \Re(q) = a \\
+  \Ima q &= \Im(q) = b \\
+  q + w &= a+c + (b+d)i \\
+  q \cdot w &= (a+bi)(c+di) = ac - bd + (ad+bc)i \\
+  \bar{q} &= a - bi\\
+  q \cdot \bar{q} &= a^{2} + b^{2} \\
+  \frac{q}{w} &= \frac{q\bar{w}}{w\bar{w}} = \frac{q\bar{w}}{c^{2}+d^{2}}
+\end{align*}
+Vi kan også se på komplekse tall som koordinater, både kartesiske og polare. Å
+summere er vanlig vektoraddisjon. Å gange sammen to komplekse tall blir å
+summere vinkelene, og multiplisere lengdene. Å gange med $i$ er f.eks. å rotere
+$\ang{90}$ mot klokka. $\bar{q}$ er $q$ speilet om den reelle aksen.
+
+\subsection{Polare koordinater}
+Man kan definere et komplekst tall ut ifra vinkel til den positive reelle aksen,
+og avstand fra origo.
+\[re^{i\theta} = r\cos(\theta) + ri\sin(\theta)\]
+Gitt to komplekse tall $q = re^{i\theta}$ og $w = se^{i\phi}$ har vi følgende regler:
+\begin{align*}
+  q \cdot w &= rse^{i(\theta + \phi)} \\
+  \frac{q}{w} &= \frac{r}{s}e^{i(\theta-\phi)} \\
+  \bar{q} &= re^{-i\theta} \\
+  \Rea q &= \Re(q) = r\cos(\theta) \\
+  \Ima q &= \Im(q) = r\sin(\theta)
+\end{align*}
+
+\subsection{Resultater}
+\begin{itemize}
+  \item Ligningen $x^{4} = 1$ har 4 løsninger, alle på den komplekse
+    enhetssirkelen.
+  \item Ethvert polynom av grad $n$ har $n$ røtter (i algrebraisk multiplisitet).
+\end{itemize}
+
+\section{Sannsynlighet}
+Vi gjør en liten oppfriskning på sannsynlighetsregning og definisjonene som
+gjelder der. Vi bruker en 6-sidet terning som eksempel. Terningen har 6 utfall
+${1,2,3,4,5,6}$ med lik sansynlighet. Vi definerer hendelsene
+\begin{align*}
+  A &= \{1,3,5\} \\
+  B &= \{4,5,6\} \\
+  C &= \{3\} \\
+  S &= \{1,2,3,4,5,6\}
+\end{align*}
+Vi kaller her $S$ for utfallsrommet, som er en spesiell hendelse som alltid
+inntreffer (inneholder alle utfall). Vi definerer vidre operatorer på hendelser.
+\begin{align*}
+  A \cup B &= \{1,3,4,5,6\} &\text{Union (utfall med i minst én)}\\
+  A \cap B &= \{5\} &\text{Snitt (utfall med i begge)} \\
+  \bar{A} &= \{2,4,6\} &\text{Komplement ($S \setminus A$)}
+\end{align*}
+Vi lager i tillegg en ekstra definisjon:
+\begin{center}
+  \textit{To hendelser $A$ og $B$ er disjunkte dersom $A \cap B = \emptyset$}
+\end{center}
+Vi ser da at $B$ og $C$ er disjunkte, i tillegg til at $A$ og $\bar{A}$ alltid
+vil være disjunkte.
+
+Vidre har vi aksiomer for sansynlighetsfunksjonen $P$.
+\begin{align}
+  &P(S) &= 1 \\
+  0 \le &P(A) &\le 1 \\
+  &P(A \cup B) &= P(A) + P(B) \label{eq:PSUM}
+\end{align}
+Ligning (\ref{eq:PSUM}) gjelder \textbf{kun} når $A$ og $B$ er uavhengige hendelser!
+Utifra disse kan vi utlede alt annet vi trenger å vite, slik som:
+\begin{align*}
+  P(\bar{A}) &= 1-P(A) \\
+  P(A \cup B) &= P(A) + P(B) - P(A \cap B)
+\end{align*}
+
+\subsection{Betinget sannsynlighet}
+Vi introduserer syntaksen $P(A|B)$, som betyr sannsynligheten for $A$ gitt at
+$B$ er inntruffet. Vi ser da på en andel av utfallsrommet til $B$.
+\[P(A|B) = \frac{P(A \cap B)}{P(B)}\]
+Dette gir oss trivielle ting slik som $P(A|S) = P(A)$ og $P(A|B)+P(\bar{A}|B)=1$.
+Et viktig prinsipp for det vi skal holde på med kalles \textbf{Total sannsynlighet}.
+\begin{align*}
+  P(A) &= P(A \cap B) + P(A \cap \bar{B}) \\
+       &= P(B)P(A|B) + P(\bar{B})P(A|\bar{B})
+\end{align*}
+\end{appendices}
+
+\end{document}
