@@ -17,8 +17,13 @@
 
 \usepackage[skip=5mm]{parskip} % mellom mellom paragrafer, ikke indent
 \usepackage{caption} % For å putte caption på figurer i minipage
+\usepackage{xcolor} % Farger :)
+\usepackage{tikz-timing} % For rising og falling edge
 
 \newcommand{\resi}[1]{\frac{1}{#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\rising}{\texttiming{[-,timing/slope=0]LH}}
+\newcommand{\falling}{\texttiming{[-,timing/slope=0]HL}}
 
 \title{Krets og digitalteknikk}
 \author{Håvard Krogstie}
@@ -40,6 +45,7 @@ dioder og transistorer, CMOS, logiske kretser, boolsk algebra,
 binærtallsregning, timing av digitale kretser og sekvensielle kretser.
 
 \tableofcontents
+\clearpage
 
 \section{Kretser}
 Kretser er samlinger med komponenter koblet sammen. Kretsen kan modeleres som en
@@ -832,9 +838,9 @@ og 1.
     \textbf{Låser vs. vipper}\\
     Det later til å være variasjon i navnsetting av komponentene som følger. I
     dette dokumentet har jeg valgt å bruke \textit{lås} om alt som er
-    nivåstyrt, og \textit{vippe} om det som er flankestyrt. Dette er basert på
-    diverse engelske definisjoner av henholdsvis \textit{latch} og
-    \textit{flip-flop}.
+    nivåstyrt (eller ikke har noe styring), og \textit{vippe} om det som
+    er flankestyrt. Dette er basert på diverse engelske definisjoner av
+    henholdsvis \textit{latch} og \textit{flip-flop}.
   \end{minipage}}
 \end{center}
 
@@ -842,7 +848,7 @@ og 1.
 En SR-lås er en sekvensiell krets bestående av to NOR-porter koblet i ``kryss''.
 I tillegg kommer input $S$ og $R$ som står for \textit{Set} og \textit{Reset}.
 Hver NOR-port har output ut av kretsen i tillegg til inn igjen i motsatt NOR\@.
-Disse blir SR-låsens outputs, $Q$ og $Q'$. Se Figur~\ref{fig:SR-latch}.
+Disse blir SR-låsens outputs, $Q$ og $\bar{Q}$. Se Figur~\ref{fig:SR-latch}.
 
 \begin{figure}[hbt!]
   \centering
@@ -862,21 +868,21 @@ Disse blir SR-låsens outputs, $Q$ og $Q'$. Se Figur~\ref{fig:SR-latch}.
       (S_NOR.out) to[short,-*] ++(.5,0) node[inner sep=0](S_OUT){} -- ++(0,.5)  -- (R_IN)
 
       (R_OUT) -- ++(1,0) node[right]{$Q$}
-      (S_OUT) -- ++(1,0) node[right]{$Q'$}
+      (S_OUT) -- ++(1,0) node[right]{$\bar{Q}$}
       ;
     \end{circuitikz}
     \caption{Portdiagram for SR-lås \label{fig:SR-latch}}
   \end{minipage}\hfill
   \begin{minipage}{.45\textwidth}
     \centering
-    \begin{tabular}{ccc|c}
+    \begin{tabular}{cc|cc}
       \toprule
-      S & R & Q & Q$_{next}$\\
+      S & R & Q & $\bar{\text{Q}}$ \\
       \midrule
-      0 & 0 & 0 & 0 \\
-      0 & 0 & 1 & 1 \\
-      1 & 0 & X & 1 \\
-      0 & 1 & X & 0 \\
+      0 & 0 & \multicolumn{2}{c}{Uendret} \\
+      0 & 1 & 0 & 1 \\
+      1 & 0 & 1 & 0 \\
+      1 & 1 & \red{0} & \red{0} \\
       \bottomrule
     \end{tabular}
     \captionof{table}{Sannhetstabell for SR-lås\label{tab:SR-latch}}
@@ -884,16 +890,16 @@ Disse blir SR-låsens outputs, $Q$ og $Q'$. Se Figur~\ref{fig:SR-latch}.
 \end{figure}
 
 SR-låsen fungerer ved at én av NOR-portene gir høy output, som får den andre til å
-ha lav output. $Q$ og $Q'$ er altså motsatte under vanlig drift. Med $S$ og $R$
+ha lav output. $Q$ og $\bar{Q}$ er altså motsatte under vanlig drift. Med $S$ og $R$
 kan man styre hvilke NOR-porter som gjør hva. Når $S$ blir satt høy vil
-NOR-porten til $Q'$ bli lav, som setter NOR-porten til $Q$ høy, som igjen går
-inn i $Q'$ sin NOR-port og holder den lav. Motsatte skjer for $R$. Resultatet er
+NOR-porten til $\bar{Q}$ bli lav, som setter NOR-porten til $Q$ høy, som igjen går
+inn i $\bar{Q}$ sin NOR-port og holder den lav. Motsatte skjer for $R$. Resultatet er
 at en høy input på \textit{Set} setter $Q$ høy helt til \textit{Reset} blir satt
 høy, som resetter $Q$ til lav. Se Tabell~\ref{tab:SR-latch}.
 
 Før $S$ eller $R$ har vært høye er det umulig å vite tilstanden til bryteren.
-Dersom både $S$ og $R$ er høye samtidig blir både $Q$ og $Q'$ $0$, og hvis begge
-inputs går lave samtidig blir tilstanden ubestemt.
+Dersom både $S$ og $R$ er høye samtidig blir både $Q$ og $\bar{Q}$ $0$, og hvis begge
+inputs går lave samtidig blir tilstanden igjen ubestemt.
 
 \subsection{Eksitasjonstabell}
 En eksitasjonstabell viser hvilke inputs som forursaker en ønsket
@@ -915,9 +921,13 @@ et eksempel med SR-lås, se Tabell~\ref{tab:SR_latch_eksit}.
   \caption{Eksitasjonstabell for SR-lås\label{tab:SR_latch_eksit}}
 \end{table}
 
+\subsection{Styrt SR-lås}
+En styrt SR-lås er en SR-lås der $S$ og $R$ kun har en virkning når en tredje
+input $EN$ er høy. Dette ser man i blant annet en D-lås.
+
 \subsection{D-lås}
-En D-lås er en SR-lås men med en enkel data-inngang $D$ og en enable-inngang
-$EN$. Kretsen virker som en styrt SR-lås, men $S$ kommer fra $D$, og $R$ kommer
+En D-lås er en styrt SR-lås med kun én data-inngang $D$ og enable-inngangen
+$EN$. SR-låsens input $S$ kommer fra $D$, og $R$ kommer
 fra $\bar{D}$. Se Figur~\ref{fig:D-latch}.
 
 \begin{figure}[hbt!]
@@ -936,23 +946,25 @@ fra $\bar{D}$. Se Figur~\ref{fig:D-latch}.
     (S_NOR.out) to[short,-*] ++(.5,0) node[inner sep=0](S_OUT){} -- ++(0,.5)  -- (R_IN)
 
     (R_OUT) -- ++(1,0) node[right]{$Q$}
-    (S_OUT) -- ++(1,0) node[right]{$Q'$}
+    (S_OUT) -- ++(1,0) node[right]{$\bar{Q}$}
 
     (S_AND.in 1) -- ++(-.3,0) node[inner sep=0](S_EN){}
     (R_AND.in 2) -- ++(-.3,0) -- (S_EN) node[midway,inner sep=0](EN){}
     (EN) -- ++(-.8,0) node[left]{EN}
 
-    (R_AND.in 1) ++(-1,0) node[american not port](NOT){}
+    (R_AND.in 1) node[above]{R} ++(-1,0) node[american not port](NOT){}
     (R_AND.in 1) ++(-2,0) coordinate(R_NOT_IN)
     (R_AND.in 1) -- (NOT.out)
 
-    (S_AND.in 2) -- ++(-2,0) node[circ](D){} -- (R_NOT_IN) -- (NOT.in)
+    (S_AND.in 2) node[below]{S} -- ++(-2,0) node[circ](D){} -- (R_NOT_IN) -- (NOT.in)
     (D) -- ++(-1,0) node[left]{$D$}
     ;
   \end{circuitikz}
   \caption{Portdiagram for D-lås \label{fig:D-latch}}
 \end{figure}
 
+Når $EN$ er høy vil enten $S$ eller $R$ være høy, og SET/RESET-tilstanden blir
+lagret. Når $EN$ blir lav vil tilstanden holdes, uavhengig av $D$.
 En D-lås kan ses på som én bit med hukommelse, som husker hva $D$ var sist gang
 $EN$ var høy. Se Tabell~\ref{tab:D-latch}.
 
@@ -984,34 +996,29 @@ $EN$ var høy. Se Tabell~\ref{tab:D-latch}.
       \midrule
       0 & 1 & 1 & 1 \\
       \midrule
-      1 & 1 & \ubercol{X\\1} & \ubercol{1\\X} \\
+      1 & 0 & 0 & 1 \\
       \midrule
-      0 & 1 & X & 0 \\
+      1 & 1 & \ubercol{X\\1} & \ubercol{0\\X} \\
       \bottomrule
     \end{tabular}
     \captionof{table}{Eksitasjonstabell for D-lås\label{tab:D-latch-eksit}}
   \end{minipage}
 \end{table}
 
-\subsection{T-lås}
-TODO
-
-\subsection{JK-lås}
-TODO
-
 \section{Tidsdiagrammer}
 TODO
 
 \section{Klokkestyring}
-Vi instroduserer et klokkesignal
+Vi instroduserer et klokkesignal i kretsen for å kunne synkronisere dataflyt
+mellom flere komponenter. Som oftest ser klokkesignalet ut som en firkantpuls
+med 50\% høyt og 50\% lavt signal. Øyeblikket lav går til høy kalles stigende
+flanke, og motsatt kalles synkedne flanke. Frekvensen blir antall stigende
+flanker per sekund.
 
-\subsection{Styrt SR-lås}
-TODO\@: Er dette en greie? klokke
-
-\subsection{Styrt D-lås}
-En SR men S og R kommer begge fra samme input D, der S(?) = D'.
-Begge inputene er ANDet med en input C. Den tar altså kun inn ny verdi når C er
-høy. Viktig at C ikke går til lav mens D-invers enda ikke er propagert til S.
+\subsection{Klokkestyrt D-lås}
+En D-lås er allerede styrt med $EN$-inputen. For å gjøre den klokkestyrt kobler
+man klokken til $EN$. Dette blir da en nivåstyrt lås, som henter inn data når
+klokken er høy, og holder på dataen når klokken er lav.
 
 \subsection{Oppsett- og holdetid}
 $t_{setup}$ er tiden datasignalet må være stabilt før en endring i
@@ -1020,14 +1027,15 @@ en endring i klokkesignal. Dette er fordi forsinkelser i porter gjør at
 signalforandringer bruker en viss tid på å propagere ferdig. Hvis et annet
 signal endres undeveis vil propageringen kunne skje kun delvis, og sluttilstanden
 blir udefinert. For nivåstyrte kretser gjelder $t_{hold}$ fra nivået slutter.
-For flankestyrte kretser er $t_{hold}$ holdetiden etter trigger-flanken.
+For flankestyrte kretser er $t_{hold}$ tiden man må holde etter trigger-flanken.
 
 \section{Flankestyring}
 Forrige seksjon brukte klokkesignalet for å bestemme når data kunne endres, og
 når data var låst fast. Dette kalles nivåstyring, siden nivåene på
 klokkesignalet har betydning. I denne seksjonen er det ikke nivået som er
 viktig, men øyeblikket nivået endres. Når klokke går fra lav til høy kaller vi
-det stigende klokkeflanke, og motsatt høy til lav kalles synkende klokkeflanke.
+det stigende klokkeflanke (\rising), og motsatt høy til lav kalles synkende
+klokkeflanke (\falling).
 Vi opererer gjerne med at endringen skjer momentant, og at klokken er en perfekt
 firkantbølge. Et flankestyrt komponent bryr seg ofte kun om én av flankene.
 
@@ -1039,12 +1047,47 @@ til input. Så lenge input er stabil i $t_{setup}$ før trigging, og $t_{hold}$
 etter, kan input være hva enn den bare vil resten av tiden og ikke ha
 noe å si.
 
-I blokkdiagrammer har man et symbol for å vise at
-triggring skjer på stigende klokkeflanke, se Figur~\ref{fig:trigger_shift}. Hvis
-triggring skjer på synkende flanke vil klokkeinputen ha en sirkel foran seg,
-likt en pMOS\@.
+I blokkdiagrammer har man et symbol for å vise at triggring skjer på stigende
+klokkeflanke, se Figur~\ref{fig:SR-flip-flop-block}. Hvis triggring skjer på synkende
+flanke vil klokkeinputen ha en sirkel foran seg, likt en pMOS\@.
 
-\subsection{Flankestyrt D-vippe (Master-slave-vippe)}
+\subsection{SR-vippe}
+Aller først gjør vi en SR-lås til en SR-vippe, bare for å vise blokkdiagramformen,
+sannhetstabellen, og timingdiagrammet. Se Figur~\ref{fig:SR-flip-flop-block} og Tabell~\ref{tab:}.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \draw (0,0) rectangle (1.5,2);
+      \draw (0,.8) -- (.3,1) -- (0,1.2);
+      \draw (0,1) -- ++(-.5,0) node[left]{CLK};
+      \draw (0,0.5) -- ++(-.5,0) node[left]{S};
+      \draw (0,1.5) -- ++(-.5,0) node[left]{R};
+      \draw (1.5,1.5) -- ++(.5,0) node[right]{Q};
+      \draw (1.5,0.5) circle ++(.1,0) -- ++(.4,0) node[right]{$\bar{\text{Q}}$};
+    \end{tikzpicture}
+    \caption{Blokkdiagramform av SR-vippe\label{fig:SR-flip-flop-block}}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \begin{tabular}{ccc|cc}
+      \toprule
+      S & R & CLK & Q & $\bar{\text{Q}}$ \\
+      \midrule
+      0 & 0 & \rising{} & \multicolumn{2}{c}{Uendret} \\
+      1 & 0 & \rising{} & 1 & 0 \\
+      0 & 1 & \rising{} & 0 & 1 \\
+      1 & 1 & \rising{} & \red{0} & \red{0} \\
+      X & X & X & \multicolumn{2}{c}{Uendret} \\
+      \bottomrule
+    \end{tabular}
+    \captionof{table}{\label{tab:}}
+  \end{minipage}
+\end{figure}
+
+\subsection{D-vippe (Master-slave-vippe)}
 To D-vipper i serie, der den éne mater den andre, men med omvendt klokkesignal. Se
 figur~\ref{fig:master_slave}. Dette gjøres slik at å lese input $D$ og sende
 output $Q$ er uavhengige. I vårt eksempel vil $D$ leses inn så lenge
@@ -1055,8 +1098,22 @@ neste triggring.
 \begin{figure}[hbt!]
   \centering
   \includegraphics[width=0.7\textwidth,height=\textheight,keepaspectratio]{Krets_MasterSlave}
-  \caption{To D-låser i master-slave-oppsett\label{fig:master_slave}}
+  \caption{D-vippe - to D-låser i master-slave-oppsett\label{fig:master_slave}}
 \end{figure}
+
+\begin{table}[hbt!]
+  \centering
+  \begin{tabular}{cc|cc}
+    \toprule
+    D & CLK & Q & $\bar{\text{Q}}$ \\
+    \midrule
+    0 & \rising{} & 0 & 1\\
+    1 & \rising{} & 1 & 0\\
+    X & X & \multicolumn{2}{c}{Uendret}\\
+    \bottomrule
+  \end{tabular}
+  \caption{Sannhetstabell for D-vippe}
+\end{table}
 
 \subsection{Shift-register}
 Ved å legge flere flankestyrte D-vipper i serie kan vi lage et shift-register der
@@ -1076,6 +1133,15 @@ $X$ stiller seg bakerst i køa.
 \[
   Q_{3} \leftarrow Q_{2} \hspace{10mm} Q_{2} \leftarrow Q_{1} \hspace{10mm}  Q_{1} \leftarrow X
 \]
+
+\subsection{JK-vippe}
+TODO
+En JK-lås er en toggle
+
+\subsection{T-vippe}
+TODO
+En T-lås er en toggle
+
 
 \subsection{Registere}
 TODO
