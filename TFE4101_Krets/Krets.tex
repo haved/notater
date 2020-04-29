@@ -835,20 +835,20 @@ og 1.
 \subsection{Sekvensielle sannhetstabeller}
 Sannhetstabellen til en sekvensiell krets kan ofte forenkles slik at man ikke
 trenger å ha forrige output som input. Dette kan gjøres i tilfeller der neste
-tilstand er uavhengig av forige tilstand, eller i tilfeller der man med ord kan
+tilstand er uavhengig av forrige tilstand, eller i tilfeller der man med ord kan
 beskrive hva som skjer med tilstanden. Se
 Tabell~\ref{tab:sekvens-sannhet-vanskelig} og~\ref{tab:sekvens-sannhet-enkel}.
 
 \begin{table}[hbt!]
   \centering
-  \begin{minipage}{0.4\textwidth}
+  \begin{minipage}{0.55\textwidth}
     \centering
     \begin{tabular}{cccc|cc}
       \toprule
       S & R & Q & $\bar{\text{Q}}$ & $\text{Q}_{next}$ & $\bar{\text{Q}}_{next}$ \\
       \midrule
       0 & 0 & 0 & 1 & 0 & 1 \\
-      0 & 0 & 0 & 1 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 1 & 0 \\
       \midrule
       1 & 0 & 0 & 1 & 1 & 0 \\
       1 & 0 & 1 & 0 & 1 & 0 \\
@@ -858,13 +858,13 @@ Tabell~\ref{tab:sekvens-sannhet-vanskelig} og~\ref{tab:sekvens-sannhet-enkel}.
   \end{minipage}
   \begin{minipage}{.4\textwidth}
     \centering
-    \begin{tabular}{cc|ccc}
+    \begin{tabular}{cc|cc}
       \toprule
-      S & R & Q & $\bar{\text{Q}}$ & \\
+      S & R & Q & $\bar{\text{Q}}$  \\
       \midrule
-      0 & 0 & \multicolumn{2}{c}{Uendret} & \vspace{2\baselineskip} \\
+      0 & 0 & \multicolumn{2}{c}{Uendret} \\
       \midrule
-      1 & 0 & 1 & 0 & \vspace{2\baselineskip} \\
+      1 & 0 & 1 & 0 \\
       \bottomrule
     \end{tabular}
     \captionof{table}{Forenklet versjon\label{tab:sekvens-sannhet-enkel}}
@@ -936,7 +936,7 @@ inn i $\bar{Q}$ sin NOR-port og holder den lav. Motsatte skjer for $R$. Resultat
 at en høy input på \textit{Set} setter $Q$ høy helt til \textit{Reset} blir satt
 høy, som resetter $Q$ til lav. Se Tabell~\ref{tab:SR-latch}.
 
-Før $S$ eller $R$ har vært høye er det umulig å vite tilstanden til bryteren.
+\textbf{Merk:} Før $S$ eller $R$ har vært høye er det umulig å vite tilstanden til bryteren.
 Dersom både $S$ og $R$ er høye samtidig blir både $Q$ og $\bar{Q}$ $0$, og hvis begge
 inputs går lave samtidig blir tilstanden igjen ubestemt.
 
