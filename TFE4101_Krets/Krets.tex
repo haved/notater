@@ -832,6 +832,45 @@ som input, og neste tilstand som output. Hvis man ikke er forsiktig kan dette gi
 ustabile løkker, f.eks.\ en inverter som mater inn i seg selv og flyter mellom 0
 og 1.
 
+\subsection{Sekvensielle sannhetstabeller}
+Sannhetstabellen til en sekvensiell krets kan ofte forenkles slik at man ikke
+trenger å ha forrige output som input. Dette kan gjøres i tilfeller der neste
+tilstand er uavhengig av forige tilstand, eller i tilfeller der man med ord kan
+beskrive hva som skjer med tilstanden. Se
+Tabell~\ref{tab:sekvens-sannhet-vanskelig} og~\ref{tab:sekvens-sannhet-enkel}.
+
+\begin{table}[hbt!]
+  \centering
+  \begin{minipage}{0.4\textwidth}
+    \centering
+    \begin{tabular}{cccc|cc}
+      \toprule
+      S & R & Q & $\bar{\text{Q}}$ & $\text{Q}_{next}$ & $\bar{\text{Q}}_{next}$ \\
+      \midrule
+      0 & 0 & 0 & 1 & 0 & 1 \\
+      0 & 0 & 0 & 1 & 0 & 1 \\
+      \midrule
+      1 & 0 & 0 & 1 & 1 & 0 \\
+      1 & 0 & 1 & 0 & 1 & 0 \\
+      \bottomrule
+    \end{tabular}
+    \caption{Utdrag av sannehetstabell for SR-lås\label{tab:sekvens-sannhet-vanskelig}}
+  \end{minipage}
+  \begin{minipage}{.4\textwidth}
+    \centering
+    \begin{tabular}{cc|ccc}
+      \toprule
+      S & R & Q & $\bar{\text{Q}}$ & \\
+      \midrule
+      0 & 0 & \multicolumn{2}{c}{Uendret} & \vspace{2\baselineskip} \\
+      \midrule
+      1 & 0 & 1 & 0 & \vspace{2\baselineskip} \\
+      \bottomrule
+    \end{tabular}
+    \captionof{table}{Forenklet versjon\label{tab:sekvens-sannhet-enkel}}
+  \end{minipage}
+\end{table}
+
 \begin{center}
   \fbox{\begin{minipage}{.8\textwidth}
       \addtocontents{toc}{Låser vs. vipper}
@@ -973,8 +1012,6 @@ Når $EN$ er høy vil enten $S$ eller $R$ være høy, og SET/RESET-tilstanden bl
 lagret. Når $EN$ blir lav vil tilstanden holdes, uavhengig av $D$.
 En D-lås kan ses på som én bit med hukommelse, som husker hva $D$ var sist gang
 $EN$ var høy. Se Tabell~\ref{tab:D-latch}.
-
-\newcommand{\ubercol}[1]{\begin{tabular}{@{}c@{}}#1\end{tabular}}
 
 \begin{table}[hbt!]
   \centering

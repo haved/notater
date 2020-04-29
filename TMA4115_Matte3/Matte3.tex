@@ -22,7 +22,6 @@
 \newcommand{\imat}[1]{\left[\begin{smallmatrix}#1\end{smallmatrix}\right]} %inline col matrix
 \newcommand{\overskrift}[1]{{\noindent\textbf{#1}}\nopagebreak\\[1em]\nopagebreak}
 \newcommand{\mat}[2]{\left[\begin{array}{@{}#1@{}}#2\end{array}\right]}
-\newcommand{\breather}{\\[1em]}
 \newcommand{\nullvec}{0}
 \newcommand{\nullmat}{0}
 \newcommand{\inner}[1]{\langle#1\rangle}
@@ -235,6 +234,25 @@ kolonnevektorer, altså $n \times 1$-matriser. Disse kan ganges (bakfra) med en
 $m \times n$-matrise, og resulatet blir en $m \times 1$-vektor. Eksempel:
 \[\imat{2 & -3 \\ 1 & 3 \\ -2 & 3}\imat{4 \\ 5} = \imat{2\cdot4 -3\cdot5 \\ 1\cdot4 + 3\cdot5 \\ -2\cdot4 + 3\cdot5} = \imat{-7 \\ 19 \\ 7}\]
 
+\subsection{Regneregler}
+La $A$, $B$ og $C$ være matriser. La $I$ være identitetsmatrisen, og $O$ være
+nullmatrisen. La $a$ og $b$ være skalarer. La størrelsene på matrisene være slik
+at operasjonene er definerte. Da holder følgende formler.
+\begin{align*}
+  A + B &= B + A & \text{+ er komuttativ} \\
+  A + (B + C) &= (A + B) + C & \text{+ er assosiativ} \\
+  A + O &= O + A = A & \text{$O$ er + sitt identitetselement} \\
+  A + -A &= 0 & \text{+ har inverser} \\
+  A(BC) &= (AB)C & \text{* er assosiativ} \\
+  AI &= IA = A & \text{$I$ er * sitt identitetselement} \\
+  A(B + C) &= AB + AC & \text{* distribuerer over +} \\
+  (B + C)A &= BA + CA \\
+  a(B + C) &= aB + aC \\
+  (a + b)C &= aC + aC \\
+  a(bC) &= (ab)C \\
+  a(BC) &= (aB)C = B(aC)
+\end{align*}
+
 \subsection{Ligningssett: $Ac = v$}
 For å løse ligningssett kan vi putte ligningene inn i en matrise $A$, og variablene
 inn i en kolonnevektor $c$. Det ønskede resultatet fra hver ligning puttes in en
@@ -408,6 +426,12 @@ vi parametriserer. Alle kolonner uten pivot-element blir frie variabler
       \end{array}
   &\Rightarrow\mathbb{L} = \mat{c}{4\\2\\0} + s\mat{c}{4\\-1\\1}
 \end{align*}
+
+\subsection{Triangulære matriser}
+Vi definerer øvre triangulære og nedre triangulære matriser som kvadratiske
+matriser der henholdsvis alt under eller alt over diagonalen er 0. Merk at
+trappeform i kvadratisk matrise impliserer øvre triangulær. Denne implikasjonen
+går ikke begge veier, siden trappeform krever at pivotelementer er 1.
 
 \subsection{Null-, rad- og kolonnerom}
 Nullrommet til en matrise er alle vektorer som ganget med matrisen blir
@@ -883,9 +907,11 @@ finnes det ikke noen $x$ som transformert med $A$ havner i $b$. Dette kan skje n
 $A$ har færre enn $m$ uavhengige kolonnevektorer. Da vil kolonnerommet være et strengt
 underrom av $\R_{m}$, og $b$ kan dermed ligge utenfor.
 
-Når vi skal bruke minste kvadraters metode kan vi ikke begyne med
+\textbf{Merk:} Når vi skal bruke minste kvadraters metode kan vi ikke begyne med
 radoperasjoner, siden radoperasjoner endrer kolonnerommet.
-TODO\@: Skriv.
+
+Vi definerer avstanden fra $b$ til kolonnerommet som $||b-P_{\Col A}(b)||$. Vi
+ønsker altså å finne en TODO
 
 \subsection{Interpolasjon og regresjon}
 Gitt et sett med $n$ punkter
