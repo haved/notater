@@ -1,3 +1,8 @@
 *.aux
 *.log
+*.toc
+*.out
+/**/_region_.*
 /**/.auctex-auto/
+/**/auto/
+/**/*.prv/

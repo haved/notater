@@ -26,7 +26,7 @@
 \newcommand{\falling}{\texttiming{[-,timing/slope=0]HL}}
 
 \title{Krets og digitalteknikk}
-\author{Håvard Krogstie}
+\author{Håvard Krogstie\\haavakro@stud.ntnu.no}
 \date{\today}
 
 \begin{document}
@@ -487,12 +487,6 @@ komponent må vi se på komponentets datablad. Se seksjon~\ref{sec:datablader}.
 \subsection{Eksempel med CMOS-inverter}
 TODO\@: Sett inn eksempelet med CMOS-inverter og kondensatorer.
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.8\textwidth,height=0.8\textheight,keepaspectratio]{Krets_Delay}
-  \caption{Tider målt på en enkel port med input og output\label{fig:delay}}
-\end{figure}
-
 \subsection{Forplantningstid}
 Forplantningstid (Propagation delay) er tiden det tar fra input har
 endret seg, til output endrer seg. Oftest ser man på tiden det tar fra input har
@@ -501,6 +495,12 @@ forplantningstiden inn i $t_{PLH}$ (Output går lav til høy) og $t_{PHL}$ (Outp
 går høy til lav). Se figur~\ref{fig:delay}. Vi skiller mellom $t_{PHL}$ og
 $t_{PLH}$ siden de kan være forskjellige, men vi har også
 $t_{P} = \frac{t_{PHL}+t_{PLH}}{2}$ som vi bare kaller ``forsinkelse gjennom porten''.
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width=0.8\textwidth,height=0.8\textheight,keepaspectratio]{Krets_Delay}
+  \caption{Tider målt på en enkel port med input og output\label{fig:delay}}
+\end{figure}
 
 Forplantningstid måles gjerne i nanosekunder. En kobberledning har en typisk
 forplantningstid rundt $\frac{1}{15}$\si[per-mode =
@@ -518,12 +518,6 @@ $90\%$ er terskelen for høy. Se figur~\ref{fig:delay}.
 \subsection{Falltid}
 Falltid (Fall time) er hvor land tid det motsatte tar, altså høy til lav.
 Benevnes $t_{THL}$. Se figur~\ref{fig:delay}.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{Krets_DuringTeknomap}
-  \caption{Regning på kritisk sti i enkel logisk krets\label{fig:kritisk_sti}}
-\end{figure}
 
 \subsection{Kritisk sti}\label{sec:kritisk_sti}
 Når vi skal finne forplantningstid i en krets sammensatt av flere komponenter,
@@ -543,6 +537,12 @@ forsinkelsene på den tregeste veien fra en input til en output. Se
 figur~\ref{fig:kritisk_sti}. Gjennom boolsk algebra er det kanskje
 mulig å forbedre tiden til kritisk sti. Se seksjon~\ref{sec:tekonologimapping}
 om Teknologimapping.
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{Krets_DuringTeknomap}
+  \caption{Regning på kritisk sti i enkel logisk krets\label{fig:kritisk_sti}}
+\end{figure}
 
 Husk at vi når vi bruker faktiske chipper gjerne opererer
 både med $Typ$, $Min$ og $Max$-verdier for propageringstid. Total
@@ -904,7 +904,7 @@ inputs går lave samtidig blir tilstanden igjen ubestemt.
 \subsection{Eksitasjonstabell}
 En eksitasjonstabell viser hvilke inputs som forursaker en ønsket
 tilstandforandring. Venstresiden har nåværende og ønsket tilstand, og høyresiden
-har hva input må være. Dersom en av inputenes tilstand ikke er vesentlig brukes $X$. For
+har hva input må være for å . Dersom en av inputenes tilstand ikke er vesentlig brukes $X$. For
 et eksempel med SR-lås, se Tabell~\ref{tab:SR_latch_eksit}.
 
 \begin{table}[hbt!]
@@ -920,6 +920,12 @@ et eksempel med SR-lås, se Tabell~\ref{tab:SR_latch_eksit}.
   \end{tabular}
   \caption{Eksitasjonstabell for SR-lås\label{tab:SR_latch_eksit}}
 \end{table}
+
+Det er verdt å merke at styring ofte ignoreres i eksitasjonstabeller, siden et
+eventuelt \textit{enable}-signal uansett må være høyt for at en
+tilstandsforanring skal kunne skje. Dette betyr at eksitasjonstabellen for en
+SR-lås, en styrt SR-lås og en SR-vippe er identiske, selv om de har ulike
+tilleggskrav til forandringer. 
 
 \subsection{Styrt SR-lås}
 En styrt SR-lås er en SR-lås der $S$ og $R$ kun har en virkning når en tredje
@@ -988,17 +994,17 @@ $EN$ var høy. Se Tabell~\ref{tab:D-latch}.
   \end{minipage}\hfill
   \begin{minipage}{.45\textwidth}
     \centering
-    \begin{tabular}{cc|cc}
+    \begin{tabular}{cc|c}
       \toprule
-      Q & Q$_{next}$ & D & EN\\
+      Q & Q$_{next}$ & D \\
       \midrule
-      0 & 0 & \ubercol{X\\0} & \ubercol{0\\X} \\
+      0 & 0 & 0 \\
       \midrule
-      0 & 1 & 1 & 1 \\
+      0 & 1 & 1 \\
       \midrule
-      1 & 0 & 0 & 1 \\
+      1 & 0 & 0 \\
       \midrule
-      1 & 1 & \ubercol{X\\1} & \ubercol{0\\X} \\
+      1 & 1 & 1 \\
       \bottomrule
     \end{tabular}
     \captionof{table}{Eksitasjonstabell for D-lås\label{tab:D-latch-eksit}}
@@ -1053,7 +1059,7 @@ flanke vil klokkeinputen ha en sirkel foran seg, likt en pMOS\@.
 
 \subsection{SR-vippe}
 Aller først gjør vi en SR-lås til en SR-vippe, bare for å vise blokkdiagramformen,
-sannhetstabellen, og timingdiagrammet. Se Figur~\ref{fig:SR-flip-flop-block} og Tabell~\ref{tab:}.
+sannhetstabellen, og timingdiagrammet. Se Figur~\ref{fig:SR-flip-flop-block} og Tabell~\ref{tab:SR-flip-flop-truth}.
 
 \begin{figure}[hbt!]
   \centering
@@ -1083,7 +1089,7 @@ sannhetstabellen, og timingdiagrammet. Se Figur~\ref{fig:SR-flip-flop-block} og 
       X & X & X & \multicolumn{2}{c}{Uendret} \\
       \bottomrule
     \end{tabular}
-    \captionof{table}{\label{tab:}}
+    \captionof{table}{Sannhetstabell for SR-vippe\label{tab:SR-flip-flop-truth}}
   \end{minipage}
 \end{figure}
 
