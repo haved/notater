@@ -491,9 +491,10 @@ ikke endret seg.
 
 \subsubsection{Adjunkt}
 Når vi har komplekse matriser brukes ofte den adjunkte
-$A^{*} = \overline{A^{\top}}$. For reelle matriser vil altså $A^{*} = A^{\top}$. Ofte
-vil teoremer om reelle matrisers transponerte være overførbare til komplekse
-matrisers adjunkte.
+$A^{*} = \overline{A^{\top}}$. Dette betyr at matrisen er transponert og
+komplekskonjugert. Alle komplekse tall blir ersattet med konjugatene sine ($a+bi
+\Rightarrow a-bi$). For reelle matriser vil altså $A^{*} = A^{\top}$. Ofte vil teoremer om
+reelle matrisers transponerte være overførbare til komplekse matrisers adjunkte.
 Hvis en reell matrise $A = A^{\top}$ kalles den symmetrisk. Hvis en matrise
 $A = A^{*}$ kalles den hermitsk. Se seksjon~\ref{sec:symmetriske_matriser}.
 \subsubsection{Resultater}
@@ -578,16 +579,22 @@ Indreproduktet er en slags generalisering av dotproduktet som funker også i
 merkeligere vektorrom. Vi kan definere et indreprodukt $\inner{\vv,\vw} \in \C$
 mellom to vektorer i vektorrommet $V$. Operasjonen må tilfredsstille tre krav:
 \begin{itemize}
-  \item \textbf{Symmetri} $\inner{\vv,\vw} = \overline{\inner{\vw,\vv}}$
-  \item \textbf{Positivitet} $\inner{\vv,\vv} \geq 0$, og $\inner{\vv,\vv}=0 \iff \vv=0$
-  \item \textbf{Linearitet} $\inner{\vv, (a\vw + b\vu)} = a\inner{\vv,\vw} + b\inner{\vv,\vu}$
+\item \textbf{Symmetri} $\inner{\vv,\vw} = \overline{\inner{\vw,\vv}}$
+\item \textbf{Positivitet} $\inner{\vv,\vv} \geq 0$, og $\inner{\vv,\vv} = 0$ kun
+  hvis $\vv = 0$
+\item \textbf{Linearitet} $\inner{\vv, (a\vw + b\vu)} = a\inner{\vv,\vw} + b\inner{\vv,\vu}$
 \end{itemize}
-Et vektorrom med et definert indreprodukt kalles et indreproduktrom.
+Et vektorrom med et definert indreprodukt kalles et indreproduktrom. Merk at
+Wikipedia har definert indreproduktet som lineært i første ledd, mens Matte
+3-forelesningsnotatene definerer i andre ledd.
 
 \subsection{Resultater}
 \begin{itemize}
   \item $\inner{\vv,c \vw} = c\inner{\vv,\vw} \Longrightarrow \inner{c \vv,\vw} = \overline{c}\inner{\vv,\vw}$
   \item $\inner{\vu + \vv,\vw} = \inner{\vu,\vw} + \inner{\vv,\vw}$
+  \item $\inner{\vu , \vv+\vw} = \inner{\vu,\vv} + \inner{\vu,\vw}$
+  \item $\inner{0, \vv} = 0$
+
 \end{itemize}
 
 \subsection{Lengde og vinkel}
@@ -673,7 +680,7 @@ I vektorrommet av kontinuerlige funksjoner på intervallet $[a,b]$ kan vi
 definere indreprodukt som
 \[\inner{\vv,\vw} = \int_{a}^{b} \vv(x)\vw(x) dx\]
 
-\section{Projeksjon}
+\section{Projeksjon}\label{sec:projeksjoner}
 Gitt en vektor $\vw$ i indreproduktrommet $V$ og et underrom $U$, er $P_{U}(\vw)$ vektoren i $U$
 nærmest $\vw$. Vi vet da at vektoren fra $P_{U}(\vw)$ til $\vw$ står ortogonalt på
 underrommet $U$. Lengden på denne vektoren er avstanden. Ortogonalitet og lengde
@@ -716,8 +723,11 @@ den ortogonale basisen.
 \[P_{U}(\vv) = P_{\vu_{1}}(\vv) + P_{\vu_{2}}(\vv) + \ldots + P_{\vu_{n}}(\vv)\]
 
 \subsection{Resultater}
-$P_{U}(\textbf{v})$ er en lineærtransformasjon:
-\[P_{U}(a\textbf{v} + b\textbf{w}) = aP_{U}(\textbf{v}) + bP_{U}(\textbf{w})\]
+\begin{itemize}
+\item $P_{U}(\vv)$ er en lineærtransformasjon:
+\[P_{U}(a\vv + b\vw) = aP_{U}(\vv) + bP_{U}(\vw)\]
+\item $\vv-P_{U}(\vv)$ står ortogonalt på $U$
+\end{itemize}
 
 \section{Egenverdier og egenvektorer}
 La $T:V\rightarrow V$ være en lineærtransformasjon. Da er skalaren $\lambda$ en
@@ -870,6 +880,14 @@ man kan lage en basis for $V$ av egenvektorer $v_{1}, v_{2}, \ldots, v_{n}$ til 
 Matrisen som beskriver $T$ med hensyn på egenvektorbasisen er en diagonalmatrise
 $D$ med diagonal $\lambda_{1}, \lambda_{2}, \ldots, \lambda_{n}$.
 
+\subsection{Resultater}
+For enhver $n\times n$-matrise $A$ med $n$ lineært uavhengige egenvektorer finnes
+matriser $P$ og $D$ der $D$ er en diagonalmatrise, slik at
+\begin{align*}
+  A &= PDP^{-1} \\
+  P^{-1}AP &= D
+\end{align*}
+
 \section{Symmetriske matriser}\label{sec:symmetriske_matriser}
 En reell matrise $A$ er symmetrisk dersom $A = A^{\top}$. Det kan vises at
 alle symmetriske $n \times n$ matriser har $n$ reelle egenverdier (i geometrisk
@@ -890,11 +908,11 @@ En hermitsk $n \times n$-matrise har $n$ reelle egenverdier, og er ortogonalt di
 
 \subsection{Resultater}
 \begin{itemize}
-  \item $A\text{ er symmetrisk} \iff A\text{ er reell } \wedge A\text{ er hermitsk}$
-  \item En $n \times n$-matrise er ortogonalt diagonaliserbar hvis og bare hvis
-    den er hermitsk/symmetrisk.
-  \item Alle hermitske og symmetriske $n \times n$-matriser har $n$ reelle
-    egenverdier (talt i geometrisk multiplisitet).
+\item $A\text{ er symmetrisk} \iff A\text{ er reell } \wedge A\text{ er hermitsk}$
+\item En $n \times n$-matrise er ortogonalt diagonaliserbar hvis og bare hvis
+  den er hermitsk/symmetrisk.
+\item Alle hermitske og symmetriske $n \times n$-matriser har $n$ reelle
+  egenverdier (talt i geometrisk multiplisitet).
 \end{itemize}
 
 \section{Minste kvadraters metode}\label{sec:minste_kvadraters_metode}
@@ -910,8 +928,28 @@ underrom av $\R_{m}$, og $b$ kan dermed ligge utenfor.
 \textbf{Merk:} Når vi skal bruke minste kvadraters metode kan vi ikke begyne med
 radoperasjoner, siden radoperasjoner endrer kolonnerommet.
 
-Vi definerer avstanden fra $b$ til kolonnerommet som $||b-P_{\Col A}(b)||$. Vi
-ønsker altså å finne en TODO
+Vi definerer avstanden fra $b$ til kolonnerommet som $||b-P_{\Col A}(b)||$,
+siden vi vet at projeksjonen er den nærmeste vektoren. Vi ønsker altså å finne
+en vektor $\hat{x}$ slik at
+\[A\hat{x} = P_{\Col A}(b)\]
+Fra Seksjon~\ref{sec:projeksjoner} om projeksjoner vet vi at $b-P_{\Col A}(b)$ står
+ortogonalt på $\Col A$. Vi vet også at $\Col A = \Row A^{\top}$. Fra seksjonen om
+ortogonale komplementer vet vi at $\Row A$ er ortogonalt komplement til $\Null
+A$. Alt dette gir oss at
+\begin{align*}
+  b-A\hat{x} &\in \Null A^{\top} \\
+  A^{\top}(b-A\hat{x}) &= 0 \\
+  A^{\top}b &= A^{\top}A\hat{x}
+\end{align*}
+
+Dette systemet kan vi løse, og de kalles normalligningene. $A^{T}A$ er en $n\times
+n$-matrise, og dersom den er inverterbar finnes det nøyaktig én løsning
+$\hat{x}$.
+
+\textbf{Merk.} Det kan finnes flere løsninger for $\hat{x}$, men det er kun étt
+punkt i $\Col A$ som er nærmest $b$.
+
+\textbf{Merk.} For komplekse matriser er det den adjunkte $A^{*}$ i stedet for $A^{\top}$.
 
 \subsection{Interpolasjon og regresjon}
 Gitt et sett med $n$ punkter
@@ -923,7 +961,7 @@ Et polynom av grad $m$ har $m+1$ frie variabler. Vi setter inn x-verdier og
 Dersom vi har flere ligninger enn ukjente må vi bruke minste kvadrats metode.
 
 \subsubsection{Eksempel}
-
+TODO
 
 \subsubsection{Resultater}
 Det finnes uendelig mange 2.-gradspolynomer som skjærer 2 punkter, men
@@ -931,7 +969,9 @@ nøyaktig ett som skjærer 3.
 
 Minste kvadraters metode minimerer ``avstand'' mellom polynomet og punktenes y-verdi.
 Avstand defineres etter indreproduktet
-\[||\mat{c}{P(x_{1})\\P(x_{2})\\\vdots} - \mat{c}{y_{1}\\y_{2}\\\vdots}|| = \sqrt{\Sigma_{i=1}^{n} {(P(x_{i})-y_{i})}^{2}}\]
+\[||\mat{c}{P(x_{1})\\P(x_{2})\\\vdots} - \mat{c}{y_{1}\\y_{2}\\\vdots}|| =
+  \sqrt{\Sigma_{i=1}^{n} {(P(x_{i})-y_{i})}^{2}}\]
+Dette betyr i praksis at regresjonen minimerer summen av kvadratavvik på y-aksen.
 
 \section{Stokastiske matriser og Markovkjeder}
 En sannsynlighetsvektor er er vektor der alle koordinatene er større eller lik

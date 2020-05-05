@@ -555,6 +555,15 @@ kapasitansen i output-komponentet. Lavere $C_{L}$ gir lineært raskere $t_{XXX}$
 \section{Binærtall}
 TODO\@: Bruke 2-tallssystemet.
 
+\subsection{Konvertere fra binærtall}
+TODO
+
+\subsection{Konvertere til binærtall}
+TODO
+
+\subsection{Desimaltall og andre tallsystemer}
+TODO
+
 \subsection{Graykoding}
 Graykoding, også kjent som ``reflected binary'', er en koding av tall der alle
 nabotall har nøyaktig én bit forskjell. Man kan omdanne binærtall til og fra
@@ -584,11 +593,46 @@ Graykoding. Huskeregel: $G = B \xor (B >> 1)$.
   \caption{Omgjøring av 8-bit til og fra graykoding}
 \end{figure}
 
-\section{Toerkompliment}
-TODO\@: Toerkompliment
+\section{Toerkomplement}
+Toerkomplement er en måte å representere tall på som ligner veldig på binærtall,
+bortsett fra at mest signifikante bit (MSB) ikke representerer $2^{n-1}$, men
+$-2^{n-1}$, der $n$ er antall bits i representasjonen. Antall bits i tallet er
+derfor . I et 8-bit tall vil
+derfor $0b1000000$ være $-128$. Dette betyr vidre at alle tall der MSB er $1$
+vil være negative.
+\begin{align*}
+  0b10010110 &= 1 \cdot -2^7 + 0 \cdot 2^6 + 0 \cdot 2^5 + 1 \cdot 2^4 + 0 \cdot 2^3 + 1 \cdot 2^2 + 1 \cdot 2^¹ + 0 \cdot 2^0 \\
+             &= -128 + 16 + 4 + 2 \\
+             &= -106
+\end{align*}
+
+Dersom MSB er $0$ vil tallet være det samme som det ville vært i vanlig
+binærtall. Se Tabell~\ref{tab:toerkomplement}
+
+\subsection{Toerkomplement-operasjonen}
+Vi bruker av og til toerkomplement som navnet på en operasjon. Denne operasjonen
+vil være å omgjøre et tall på toerkomplementsform til motsatt fortegn. $4$ blir
+$-4$ og omvendt. 
+
+\subsection{Signed magnitude}
+TODO
 
 \section{Regning med binærtall}
-TODO\@: Sum, multiplikasjon og divisjon (med toerkompliment)
+Binærtall er kun en representasjonsform av tall, så $6+13$ er $19$ uansett
+hvilket tallsystem man bruker. Likevel er det kjekt å kunne regne med tallene
+direkte i binærtall på toerkomplementsform, siden det er slik de gjerne
+representeres i kretser.
+
+\subsection{Addisjon}
+Addisjon fungerer veldig likt som man ville gjort på papir i 10-tallssystemet.
+Vi skriver tallene under hverandre, og adderer bortover
+
+\subsection{Subtraksjon}
+
+\subsection{Multiplikasjon}
+
+\subsection{Divisjon}
+
 
 \section{Boolske funksjoner}\label{sec:bool_func}
 Denne seksjonen inneholder måter å representere boolske funksjoner på, og
@@ -761,10 +805,94 @@ TODO:\ Skriv.
 carry propagert fra LSB oppover til MSB\@. Svaret blir et $n$-bits tall med
 carry. Dette ligner måten addisjon gjøres for hånd. Problemet med denne adderen
 er at carry må propageres helt fra LSB til MSB, og kritisk sti blir veldig lang.
-(Hint: $0b01111111 + 1$)
+(Hint: $0b11111111 + 1$)
 
 \subsection{Carry-lookahead adder}
 TODO:\ Skriv
+
+\subsection{Adder-subtractor}
+For å regne $x-y$ gjør vi istedet $x+(-y)$. Vi tar altså toskomplementet til $y$
+og gjør en vanlig addisjon. Vi kan lett lage en krets som støtter både addisjon
+og subtraksjon, ved å utvide en adder med en ekstra kontrollinput $SUB$. Dette
+kalles en \textit{Adder-subtractor}
+
+Å ta toskomplementet er i praksis åinvertere alle bits i $y$ og legge til $1$.
+For å selektivt invertere XORer vi $SUB$ med alle bits i $y$. For å legge til $1$
+trenger vi ikke en ekstra adder, men kan bruke carry-in i addisjonskretsen vi
+allerede har. Se Figur~\ref{fig:adder-subtractor}.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{circuitikz} \draw
+    
+    ;
+  \end{circuitikz}
+  \caption{16-bits Adder-subtractor\label{fig:adder-subtractor}}
+\end{figure}
+
+\subsection{Multiplekser}
+En multiplekser er et kombinatorisk komponent som kan velge mellom flere inputsignaler å sende
+vidre som outputsignal. En kontrollinput brukes for å velge mellom inputene. 
+Dataen kan være enkeltsignaler eller fler-bits data. For blokkdiagramform og sannhetstabell, se
+Figur~\ref{fig:multiplekser-blokk} og Tabell~\ref{tab:multiplekser-sannhet}.
+\begin{figure}[hbt!]
+  \centering
+  \begin{minipage}{0.6\textwidth}
+    \centering
+    \begin{tikzpicture} \draw
+      (0,0) rectangle (3,5)
+      (0,1) -- ++(-1,0) node[left]{$I_0$} ++(.3,-.2) -- ++(.3,.4) node[midway, above]{8}
+      (0,2) -- ++(-1,0) node[left]{$I_1$} ++(.3,-.2) -- ++(.3,.4) node[midway, above]{8}
+      (0,3) -- ++(-1,0) node[left]{$I_2$} ++(.3,-.2) -- ++(.3,.4) node[midway, above]{8}
+      (0,4) -- ++(-1,0) node[left]{$I_3$} ++(.3,-.2) -- ++(.3,.4) node[midway, above]{8}
+      (1,0) - ++(0,-.6) node[below]{$s_1$}
+      (2,0) - ++(0,-.6) node[below]{$s_0$}
+      (3,2.5) -- ++(1,0) node[right]{$O$} ++(-.3,.2) -- ++(-.3,-.4) node[midway, above]{8}
+      ;
+    \end{tikzpicture}
+    \caption{8-bits 4-kanal multiplekser\label{fig:multiplekser-blokk}}
+  \end{minipage}
+  \begin{minipage}{0.3\textwidth}
+    \centering
+    \begin{tabular}{cc|c}
+      \toprule
+      $s_1$ & $s_0$ & $O$ \\
+      \midrule
+      0 & 0 & $I_0$ \\
+      0 & 1 & $I_1$ \\
+      1 & 0 & $I_2$ \\
+      1 & 1 & $I_3$ \\
+      \bottomrule
+    \end{tabular}
+    \captionof{table}{Output fra 4-kanals multiplekser\label{tab:multiplekser-sannhet}}
+  \end{minipage}
+\end{figure}
+
+Vi kaller en 4-kanals multiplekser for en \textit{4x1}. Dersom vi vil lage en
+\textit{8x1} kan vi koble output fra to \textit{4x1}-multipleksere sammen som hver sin
+input til en \textit{2x1}-multiplekser, og fordele $s_0$, $s_1$ og $s_2$. Slik
+kan vi velge mellom alle 8 inputs.
+
+\subsubsection{Logisk krets for 1-bits 2x1}
+For å gjøre det enkelt viser vi kun portdiagrammet for en enkel
+\textit{2x1}-multiplekser med enkle 1-bits inputs. Se Figur~\ref{fig:2x1}.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{circuitikz} \draw
+    (0,0) node[left]{$s_0$} -- ++(1,0) node[circle,inner sep=0](s){}
+    (4,1.5) node[american and port](and0){}
+    (4,-1.5) node[american and port](and1){}
+    (and0.in 2) ++(-.8,0) node[american not port](inv){}
+    (and0.in 2)--(inv.out)
+    (inv.in)--(inv.in -| s) -- (s)
+    (and1.in 1) -- (and1.in 1 -| s) --(s)
+    (and0.in 1) -- (and 0.in -| 0,0) node[left]{$I_0$}
+    (and1.in 2) -- (and 0.in -| 0,0) node[left]{$I_1$}
+    ;
+  \end{circuitikz}
+  \caption{Portdiagram for 2x1-multiplekser\label{fig:2x1}}
+\end{figure}
 
 \section{Teknologimapping}\label{sec:tekonologimapping}
 Målet er å konvertere en logisk krets slik at den benytter kun tilgjengelige
@@ -788,18 +916,18 @@ Dette er litt tricky, så jeg tar med to eksempler.
 \subsection{Eksempel med NAND og NOT}
 Vi skal konvertere følgende krets til å bare bruke NAND og INV (Inverter = Not).
 \begin{center}
-  \includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{Krets_BeforeTeknomap}
+  \includegraphics[height=4cm,keepaspectratio]{Krets_BeforeTeknomap}
 \end{center}
 Det første vi gjør er å bytte AND-3 til 2 stykk AND-2 i serie.
 \begin{center}
-  \includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{Krets_DuringTeknomap}
+  \includegraphics[height=4cm,keepaspectratio]{Krets_DuringTeknomap}
 \end{center}
 Dette gir en krets som vi lett kan lage med komponenter, men den kritiske stien blir
 \SI{7.2}{\nano\second}. Vi kan gjøre om AND om til NOT NAND, og ved å bruke De
 Morgan får vi gjort OR om til NAND av NOTs. Vi fjerner dobbel invertering, og
 ender opp med kretsen under.
 \begin{center}
-  \includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{Krets_AfterTeknomap}
+  \includegraphics[height=4cm,keepaspectratio]{Krets_AfterTeknomap}
 \end{center}
 Vi har nå den samme kretsen, men med kun NAND og NOT, slik oppgaven ba om. Her
 blir altså den kritiske stien kortere, selv om det er flere komponenter. Dette
@@ -810,7 +938,7 @@ Dersom vi vet at en av inputene kommer fra en annen krets med en ekstra forsinke
 kan vi legge opp kretsen vår på en annen måte, for å minimere total kritisk sti. La oss si
 at input C er forsinket med $X$\si{\nano\second}.
 \begin{center}
-  \includegraphics[width=0.6\textwidth,height=\textheight,keepaspectratio]{Krets_CTeknomap}
+  \includegraphics[height=4cm,keepaspectratio]{Krets_CTeknomap}
 \end{center}
 Her er det teknisk sett \@A/B\@--\@F som er kritisk sti, men siden vi tar hensyn til
 $X$, minimerer vi heller det som legges til $X$, altså \@C\@--\@F\@.
@@ -1069,8 +1197,9 @@ klokkesignalet kan skje. $t_{hold}$ er tiden datasignalet må være stabilt ette
 en endring i klokkesignal. Dette er fordi forsinkelser i porter gjør at
 signalforandringer bruker en viss tid på å propagere ferdig. Hvis et annet
 signal endres undeveis vil propageringen kunne skje kun delvis, og sluttilstanden
-blir udefinert. For nivåstyrte kretser gjelder $t_{hold}$ fra nivået slutter.
-For flankestyrte kretser er $t_{hold}$ tiden man må holde etter trigger-flanken.
+blir udefinert. For nivåstyrte kretser gjelder $t_{hold}$ fra nivået går ned.
+For flankestyrte kretser er $t_{hold}$ tiden man må holde input etter
+trigger-flanken.
 
 \section{Flankestyring}
 Forrige seksjon brukte klokkesignalet for å bestemme når data kunne endres, og
@@ -1109,7 +1238,7 @@ sannhetstabellen, og timingdiagrammet. Se Figur~\ref{fig:SR-flip-flop-block} og 
       \draw (0,0.5) -- ++(-.5,0) node[left]{S};
       \draw (0,1.5) -- ++(-.5,0) node[left]{R};
       \draw (1.5,1.5) -- ++(.5,0) node[right]{Q};
-      \draw (1.5,0.5) circle ++(.1,0) -- ++(.4,0) node[right]{$\bar{\text{Q}}$};
+      \draw (1.5,0.5) ++(.1,0) circle (.1) ++(.1,0) -- ++(.3,0) node[right]{$\bar{\text{Q}}$};
     \end{tikzpicture}
     \caption{Blokkdiagramform av SR-vippe\label{fig:SR-flip-flop-block}}
   \end{minipage}\hfill
