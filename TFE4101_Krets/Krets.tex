@@ -593,43 +593,135 @@ Graykoding. Huskeregel: $G = B \xor (B >> 1)$.
   \caption{Omgjøring av 8-bit til og fra graykoding}
 \end{figure}
 
-\section{Toerkomplement}
-Toerkomplement er en måte å representere tall på som ligner veldig på binærtall,
-bortsett fra at mest signifikante bit (MSB) ikke representerer $2^{n-1}$, men
-$-2^{n-1}$, der $n$ er antall bits i representasjonen. Antall bits i tallet er
-derfor . I et 8-bit tall vil
-derfor $0b1000000$ være $-128$. Dette betyr vidre at alle tall der MSB er $1$
-vil være negative.
+\section{Negative binærtall}
+Med binærtall kan vi representere tall som strenger av $0$ og $1$, som er veldig
+praktisk i digitale kretser. I denne seksjonen skal vi vise hvordan også
+negative tall kan representeres.
+
+\subsection{Signed magnitude}
+Dersom vi i det daglige vil representere negative tall, pleier vi å legge på et
+\textbf{--}~-tegn foran tallet. For at dette skal passe i en digital krets, kan vi
+si at MSB bestemmer fortegnet til tallet, og resten av bit-ene fungerer som
+normalt. Dette kalles signed magnitude. Konvensjonen er at $1$ er \textbf{-} og
+$0$ er \textbf{+}.
+\begin{center}
+  Eksempler på 8-bits signed magnitude\\[5mm]
+  \begin{tabular}{c|c}
+    \toprule
+    Signed magnitude & Tallverdi \\
+    \midrule
+    00000101 & 5 \\
+    10000101 & -5 \\
+    01111111 & 127 \\
+    11111111 & -127 \\
+    00000000 & 0 \\
+    10000000 & -0 \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+8-bits signed magnitude kan altså representere tall i intervallet $\lbrack-127, 127\rbrack$.
+Merk at $+0$ og $-0$ har ulike representasjoner, selv om de egentlig er samme tall.
+
+\subsection{Toerkomplement}
+Toerkomplement er veldig likt som vanlig binærtall, bortsett fra at mest
+signifikante bit (MSB) ikke representerer $2^{n-1}$, men $-2^{n-1}$, der $n$ er
+antall bits i representasjonen. Dersom MSB er $0$ vil det representerte tallet være
+akkurat det samme som i vanlig binærtall. Hvis MSB er $1$ er tallet negativt.
+Eksempel: 
+
 \begin{align*}
-  0b10010110 &= 1 \cdot -2^7 + 0 \cdot 2^6 + 0 \cdot 2^5 + 1 \cdot 2^4 + 0 \cdot 2^3 + 1 \cdot 2^2 + 1 \cdot 2^¹ + 0 \cdot 2^0 \\
+  10010110 &= 1 \cdot -2^7 + 0 \cdot 2^6 + 0 \cdot 2^5 + 1 \cdot 2^4 + 0 \cdot 2^3 + 1 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 \\
              &= -128 + 16 + 4 + 2 \\
              &= -106
 \end{align*}
 
-Dersom MSB er $0$ vil tallet være det samme som det ville vært i vanlig
-binærtall. Se Tabell~\ref{tab:toerkomplement}
+Fordelen med toerkomplementsrepresentasjon er at mange operasjoner støtter
+representasjonen uten vidre. Vi vet fra før at en 16-bits-representasjon er en
+ekvivalensklasse modulo $2^{16}$, siden all eventuell overflow forsvinner fra
+representasjonen. Observer at
+\[2^{15} \equiv -2^{15} \mod 2^{16}\]
+Endringen vi har gjort til betydningen av MSB har altså ingenting å si modulo
+$2^{16}$. Det betyr at addisjon mellom $5$ og $-2$ gir oss $3$, uten at
+addisjonskretsen trenger å vite om toerkomplement. Toerkomplementet er det man
+automatisk får hvis man subtraherer et tall fra $0$.
 
-\subsection{Toerkomplement-operasjonen}
+\begin{center}
+  Eksempler på 8-bits toerkomplementsrepresentasjon\\[5mm]
+  \begin{tabular}{c|c}
+    \toprule
+    Toerkomplement & Tallverdi \\
+    \midrule
+    00000010 & 2 \\
+    11111110 & -2 \\
+    11111111 & -1 \\
+    00010100 & 20 \\
+    11101100 & -20 \\
+    00010101 & 21 \\
+    11101011 & -21 \\
+    01111111 & 127 \\
+    10000001 & -127 \\
+    10000000 & -128 \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+8-bits toerkomplement kan altså representere tall i invervallet $\lbrack-128,127\rbrack$,
+som er én mer enn signed magnitude. Dette er fordi vi ikke lenger har ulike
+representasjoner for $-0$ og $+0$.
+
+\subsubsection{Toerkomplement-operasjonen}
 Vi bruker av og til toerkomplement som navnet på en operasjon. Denne operasjonen
 vil være å omgjøre et tall på toerkomplementsform til motsatt fortegn. $4$ blir
-$-4$ og omvendt. 
+$-4$ og omvendt. Denne operasjonen er ikke bare å flippe MSB, slik som i signed
+magnitude. Alle bits må flippes, og deretter må $1$ legges til. Overflow
+ignoreres.
 
-\subsection{Signed magnitude}
-TODO
+En mer mennesketilpasset måte: Begynn med minst signifikante bit (LSB) og beveg
+deg oppover til du møter en bit som er $1$. Alle påfølgende bits (opp til og med
+MSB) flippes.
+
+\subsubsection{Endring av antall bits}
+Gitt et tall på $n$-bits toerkomplementsform, vil vi ofte kunne ønske samme tall
+representert med en annen mengde bits. For å øke antall bits med $k$ kopierer vi
+MSB $k$ ganger og legger dem på venstresiden.
+\begin{align*}
+  1101 &\Rightarrow 11111101 \\
+  0110 &\Rightarrow 00000110
+\end{align*}
+
+For å senke antall bits fjerner vi \textit{MSB}. Vi kan kun fjerne \textit{MSB}
+så lenge den nye \textit{MSB} er det samme som den vi fjernet. Hvis vi fjerner
+flere bits enn det har vi ikke nok bits til å representere tallet.
+\begin{align*}
+  11110101 &\Rightarrow 10101 \\
+  00001101 &\Rightarrow 01101
+\end{align*}
 
 \section{Regning med binærtall}
-Binærtall er kun en representasjonsform av tall, så $6+13$ er $19$ uansett
+Binærtall er kun en representasjonsform av tall, så $6+7$ er $13$ uansett
 hvilket tallsystem man bruker. Likevel er det kjekt å kunne regne med tallene
 direkte i binærtall på toerkomplementsform, siden det er slik de gjerne
-representeres i kretser.
+representeres i kretser. I tillegg har vi en endelig mengde bits, så det er ikke
+alle tall som kan representeres. Hvis vi har for få bits blir kanskje $6+7 = -3$.
 
 \subsection{Addisjon}
 Addisjon fungerer veldig likt som man ville gjort på papir i 10-tallssystemet.
-Vi skriver tallene under hverandre, og adderer bortover
+Vi skriver tallene under hverandre, og adderer bortover fra LSB til MSB. Hvis
+begge tallene er $1$ får vi $1$ i mente, og må ta den med vidre. Se
+Seksjon~\ref{sec:ripple_carry_fulladder} om ripple-carry-adder for å 
+
+Addisjonen har overflowet hvis to positive tall ble negative i sum, eller
+omvendt. Summen av et positivt og negativt tall kan aldri overflowe.
 
 \subsection{Subtraksjon}
+Subtraksjon gjøres gjerne ved å ta toerkomplementet til tallet som skal
+subtraheres, og gjøre addisjon. Se Seksjon~\ref{sec:adder-subtractor} om den
+logiske kretsen til en adder-subtractor.
 
 \subsection{Multiplikasjon}
+Med multiplikasjon kan man gjøre begge tallene positive, regne ut produktet og
+fikse fortegn etterpå. I dette faget blir vi vist en måte som fungerer på 
 
 \subsection{Divisjon}
 
@@ -741,19 +833,19 @@ funskoner og krets for fulladderer.
 Standardform er ikke like streng som kanonisk form, og vi trenger ikke nevne alle
 variabler i hvert ledd. Vi må likevel forholde oss til sum av produkt (SOP)
 eller produkt av sum (POS).
-%
-\[F_{1} = \var{x}\var{y} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z}\]
-%
+
+\[F = \var{x}\var{y} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z}\]
+
 Hvert produkt her kalles en implikant.
 
 \subsubsection{Literalreduksjon}
 Vi kan redusere antall literaler ved å gjøre algebra.
 \begin{align*}
-  F_{1} &= \var{x}\var{y} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z} \\
-        &= \var{x}\var{y}\var{z} + \var{x}\var{y}\kom{z} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z} \\
-        &= \var{x}\var{y}\var{z} + \var{x}\var{y}\kom{z} + \var{x}\var{y}\var{z} + \var{x}\kom{y}\var{z} + \var{x}\var{y}\var{z} + \kom{x}\var{y}\var{z} \\
-        &= \var{x}\var{y}(\var{z} + \kom{z}) + \var{x}(\var{y} + \kom{y})\var{z} + (\var{x} + \kom{x})\var{y}\var{z} \\
-        &= \var{x}\var{y} + \var{x}\var{z} + \var{y}\var{z}
+  F &= \var{x}\var{y} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z} \\
+    &= \var{x}\var{y}\var{z} + \var{x}\var{y}\kom{z} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z} \\
+    &= \var{x}\var{y}\var{z} + \var{x}\var{y}\kom{z} + \var{x}\var{y}\var{z} + \var{x}\kom{y}\var{z} + \var{x}\var{y}\var{z} + \kom{x}\var{y}\var{z} \\
+    &= \var{x}\var{y}(\var{z} + \kom{z}) + \var{x}(\var{y} + \kom{y})\var{z} + (\var{x} + \kom{x})\var{y}\var{z} \\
+    &= \var{x}\var{y} + \var{x}\var{z} + \var{y}\var{z}
 \end{align*}
 Vi har nå redusert antall literaler ned til en enklere SOP, men den kan
 reduseres ytterligere.
@@ -761,6 +853,19 @@ reduseres ytterligere.
 Dette er derimot ikke lenger en SOP, men en Sum av Produkt av Sum. Det er derfor
 ingen grunn til å tro at kretsen blir noe raskere (snarere tvert imot), selv om
 man har redusert antall literaler.
+
+\subsubsection{Bytte mellom POS og SOP}
+Akkurat som med mintermer og maxtermer kan vi bytte mellom SOP og POS ved å ta
+inversen til uttrykket og bruke DeMorgans.
+
+\begin{align*}
+  F &= \var{x}\var{y} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z} \\
+  \bar{F} &= \overline{\var{x}\var{y} + \var{x}\kom{y}\var{z} + \kom{x}\var{y}\var{z}} \\
+    &= (\overline{\var{x}\var{y}})(\overline{\var{x}\kom{y}\var{z}})(\overline{\kom{x}\var{y}\var{z}}) \\
+    &= (\kom{x} + \kom{y})(\kom{x}+\var{y}+\kom{z})(\var{x}+\kom{y}+\kom{z})
+\end{align*}
+
+Dette bruker vi i PAL. Se Seksjon~\ref{sec:PAL}.
 
 \subsection{Karnaughdiagram}
 TODO\@:Skriv
@@ -810,7 +915,7 @@ er at carry må propageres helt fra LSB til MSB, og kritisk sti blir veldig lang
 \subsection{Carry-lookahead adder}
 TODO:\ Skriv
 
-\subsection{Adder-subtractor}
+\subsection{Adder-subtractor}\label{sec:adder-subtractor}
 For å regne $x-y$ gjør vi istedet $x+(-y)$. Vi tar altså toskomplementet til $y$
 og gjør en vanlig addisjon. Vi kan lett lage en krets som støtter både addisjon
 og subtraksjon, ved å utvide en adder med en ekstra kontrollinput $SUB$. Dette
@@ -868,14 +973,14 @@ Figur~\ref{fig:multiplekser-blokk} og Tabell~\ref{tab:multiplekser-sannhet}.
   \end{minipage}
 \end{figure}
 
-Vi kaller en 4-kanals multiplekser for en \textit{4x1}. Dersom vi vil lage en
-\textit{8x1} kan vi koble output fra to \textit{4x1}-multipleksere sammen som hver sin
-input til en \textit{2x1}-multiplekser, og fordele $s_0$, $s_1$ og $s_2$. Slik
+Vi kaller en 4-kanals multiplekser for en 4x1. Dersom vi vil lage en
+8x1 kan vi koble output fra to 4x1-multipleksere sammen som hver sin
+input til en 2x1-multiplekser, og fordele $s_0$, $s_1$ og $s_2$. Slik
 kan vi velge mellom alle 8 inputs.
 
 \subsubsection{Logisk krets for 1-bits 2x1}
 For å gjøre det enkelt viser vi kun portdiagrammet for en enkel
-\textit{2x1}-multiplekser med enkle 1-bits inputs. Se Figur~\ref{fig:2x1}.
+2x1-multiplekser med enkle 1-bits inputs. Se Figur~\ref{fig:2x1}.
 
 \begin{figure}[hbt!]
   \centering
@@ -887,8 +992,12 @@ For å gjøre det enkelt viser vi kun portdiagrammet for en enkel
     (and0.in 2)--(inv.out)
     (inv.in)--(inv.in -| s) -- (s)
     (and1.in 1) -- (and1.in 1 -| s) --(s)
-    (and0.in 1) -- (and 0.in -| 0,0) node[left]{$I_0$}
-    (and1.in 2) -- (and 0.in -| 0,0) node[left]{$I_1$}
+    (and0.in 1) -- (and0.in 1 -| 0,0) node[left]{$I_0$}
+    (and1.in 2) -- (and1.in 2 -| 0,0) node[left]{$I_1$}
+    (6,0) node[american or port](or){}
+    (and0.out) -- (and0.out -| or.in 1) -- (or.in 1)
+    (and1.out) -- (and1.out -| or.in 2) -- (or.in 2)
+    (or.out) -- ++(1,0) node[right]{$O$}
     ;
   \end{circuitikz}
   \caption{Portdiagram for 2x1-multiplekser\label{fig:2x1}}
@@ -948,7 +1057,7 @@ Vi ønsker å lage en logisk krets for den boolske funksjonen
 \[T = BD + \bar{A}B\bar{C} + \bar{A}CD\]
 TODO
 
-\section{PAL}
+\section{PAL}\label{sec:PAL}
 TODO
 
 \section{Sekvensielle kretser}
