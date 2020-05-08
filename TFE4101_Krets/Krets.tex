@@ -290,10 +290,10 @@ TODO\@: Skriv
 TODO\@: Skriv
 
 \section{RC-krets}
-$\tau = RC$
+$\tau = RC$ TODO
 
 \section{RL-krets}
-$\tau = \frac{L}{R}$
+$\tau = \frac{L}{R}$ TODO
 
 \clearpage
 \addcontentsline{toc}{section}{Digitalteknikk}
@@ -462,19 +462,21 @@ Hvis vi starter med komplementet gir dette oss følgende
 Vi kan også gjøre flere i slengen:
 \[\overline{\var{x} + \var{y} + \var{z}} = \kom{x}\kom{y}\kom{z}\]
 
-
 \subsection{Forenkling av uttrykk}
 Vi ser på representasjonformer og måter å forenkle boolske uttrykk i
 seksjon~\ref{sec:bool_func} om boolske funksjoner.
 
 \section{Logiske porter}\label{sec:logiske_porter}
 Med CMOS (Seksjon~\ref{sec:cmos}) kan man lage porter som utfører logiske
-operasjoner. Se figur~\ref{fig:porter}.
+operasjoner. Se tabell~\ref{tab:porter}. Portene bruker et visst antall
+transistorer og har en forplantningsforsinkelse. Se
+Seksjon~\ref{sec:tekonologimapping} om teknologimapping for effektiv bruk av
+porter i logiske kretser.
 
-\begin{figure}[H]
+\begin{figure}[hbt!]
   \centering
   \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Krets_Gates}
-  \caption{Logiske porter, Figur 3.14 i Gajski\label{fig:porter}}
+  \captionof{table}{Logiske porter, Figur 3.14 i Gajski\label{tab:porter}}
 \end{figure}
 
 \section{Forsinkelser}\label{sec:forsinkelser}
@@ -521,20 +523,20 @@ Benevnes $t_{THL}$. Se figur~\ref{fig:delay}.
 
 \subsection{Kritisk sti}\label{sec:kritisk_sti}
 Når vi skal finne forplantningstid i en krets sammensatt av flere komponenter,
-må vi først finne en kritisk sti, og to input-states som, når de vekles mellom,
+må vi først finne en kritisk sti, og to input-states som, når de veksles mellom,
 forursaker at et signal må propageres gjennom hele den kritiske stien før output
 endrer seg. Stien er valgt slik at tiden det tar før signalet når output er størst
-mulig. For å finne propageringstiden til den kritiske stien kan vi måle input og
+mulig. For å finne forplantningstiden til den kritiske stien kan vi måle input og
 output, og ta tiden fra input endres til output endres. Husk at
-propageringstid måles fra signalet passerer $50\%$ på input til det passerer
+forplantningsstid måles fra signalet passerer $50\%$ på input til det passerer
 $50\%$ av sluttoutput. Ofte vil å endre kun én input-bit gi kritisk sti, så
 fremt de andre er satt riktig.
 
 For logiske kretser med porter har vi fått oppgitt en tabell med \textit{gate
-  delay} for hver port. Se seksjon~\ref{sec:logiske_porter}. Da slipper vi å
+ delay} for hver port. Se seksjon~\ref{sec:logiske_porter}. Da slipper vi å
 forholde oss til $t_{PLH}$ og $t_{PHL}$, og kan bare addere sammen
-forsinkelsene på den tregeste veien fra en input til en output. Se
-figur~\ref{fig:kritisk_sti}. Gjennom boolsk algebra er det kanskje
+forsinkelsene til hvert komponent på den tregeste veien fra en input til en
+output. Se figur~\ref{fig:kritisk_sti}. Gjennom boolsk algebra er det kanskje
 mulig å forbedre tiden til kritisk sti. Se seksjon~\ref{sec:tekonologimapping}
 om Teknologimapping.
 
@@ -544,13 +546,11 @@ om Teknologimapping.
   \caption{Regning på kritisk sti i enkel logisk krets\label{fig:kritisk_sti}}
 \end{figure}
 
-Husk at vi når vi bruker faktiske chipper gjerne opererer
-både med $Typ$, $Min$ og $Max$-verdier for propageringstid. Total
-propageringstid er altså ikke nødvendigvis worst-case, men kan være typisk
-propageringstid for akkurat den input-endringen som gir propagering gjennom
-den kritiske stien. En slags ``typisk for worst-case'', om du vil. Merk også at
-forplantingstid, stigetid og falltid ofte er avhengige av $C_{L}$, altså
-kapasitansen i output-komponentet. Lavere $C_{L}$ gir lineært raskere $t_{XXX}$.
+Husk at datablader for chipper gjerne opererer både med $Typ$, $Min$ og
+$Max$-verdier for forplantningstid. Variasjon i tid kan skyldes flere ting, slik
+som temperatur og kapasitans i komponenter koblet til output. Når vi ser på
+portkretser i dette faget har vi forenklet regningen, og forholder oss kun til
+ett tall for forplantningstid.
 
 \section{Binærtall}
 TODO\@: Bruke 2-tallssystemet.
@@ -565,7 +565,7 @@ TODO
 TODO
 
 \subsection{Graykoding}
-Graykoding, også kjent som ``reflected binary'', er en koding av tall der alle
+Graykoding, også kjent som ``reflected binary'', er en binær koding av tall der alle
 nabotall har nøyaktig én bit forskjell. Man kan omdanne binærtall til og fra
 Graykoding. Huskeregel: $G = B \xor (B >> 1)$.
 \begin{figure}[H]
@@ -628,23 +628,23 @@ Toerkomplement er veldig likt som vanlig binærtall, bortsett fra at mest
 signifikante bit (MSB) ikke representerer $2^{n-1}$, men $-2^{n-1}$, der $n$ er
 antall bits i representasjonen. Dersom MSB er $0$ vil det representerte tallet være
 akkurat det samme som i vanlig binærtall. Hvis MSB er $1$ er tallet negativt.
-Eksempel: 
-
+Eksempel:
+%
 \begin{align*}
   10010110 &= 1 \cdot -2^7 + 0 \cdot 2^6 + 0 \cdot 2^5 + 1 \cdot 2^4 + 0 \cdot 2^3 + 1 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 \\
              &= -128 + 16 + 4 + 2 \\
              &= -106
 \end{align*}
-
+%
 Fordelen med toerkomplementsrepresentasjon er at mange operasjoner støtter
-representasjonen uten vidre. Vi vet fra før at en 16-bits-representasjon er en
-ekvivalensklasse modulo $2^{16}$, siden all eventuell overflow forsvinner fra
-representasjonen. Observer at
+representasjonen uten vidre. Vi vet fra før at en f.eks. 16-bits-representasjon
+er en ekvivalensklasse modulo $2^{16}$, siden all eventuell overflow forsvinner
+fra representasjonen. Observer at
 \[2^{15} \equiv -2^{15} \mod 2^{16}\]
 Endringen vi har gjort til betydningen av MSB har altså ingenting å si modulo
 $2^{16}$. Det betyr at addisjon mellom $5$ og $-2$ gir oss $3$, uten at
 addisjonskretsen trenger å vite om toerkomplement. Toerkomplementet er det man
-automatisk får hvis man subtraherer et tall fra $0$.
+automatisk får hvis man subtraherer et tall fra $0$ og ignorerer overflow.
 
 \begin{center}
   Eksempler på 8-bits toerkomplementsrepresentasjon\\[5mm]
@@ -670,16 +670,31 @@ automatisk får hvis man subtraherer et tall fra $0$.
 som er én mer enn signed magnitude. Dette er fordi vi ikke lenger har ulike
 representasjoner for $-0$ og $+0$.
 
-\subsubsection{Toerkomplement-operasjonen}
-Vi bruker av og til toerkomplement som navnet på en operasjon. Denne operasjonen
-vil være å omgjøre et tall på toerkomplementsform til motsatt fortegn. $4$ blir
-$-4$ og omvendt. Denne operasjonen er ikke bare å flippe MSB, slik som i signed
-magnitude. Alle bits må flippes, og deretter må $1$ legges til. Overflow
-ignoreres.
+\subsubsection{Toerkomplement-operasjonen}\ref{sec:toerkomplement-op}
+Egentlig er toerkomplement navnet på en operasjon. Operasjonen er definert slik
+at et binærtall på $n$ bits og dets toerkomplement blir $2^n$ i sum. Merk at
+$2^n \equiv 0 \mod 2^n$, så vi kan også si at et tall og dets toerkomplement blir $0$
+i sum når overflow forkastes.
+
+Denne operasjonen vil derfor i praksis være å omgjøre et tall på
+toerkomplementsform til motsatt fortegn. $4$ blir $-4$ og omvendt. Denne
+operasjonen er ikke bare å flippe MSB, slik som i signed magnitude. Alle bits må
+flippes, og deretter må $1$ legges til. Overflow ignoreres.
+
+\textbf{Merk.} $10000000$ ($-128$) blir til seg selv når man
+tar 8-bits toerkomplement. Dette er fordi $+128$ ikke kan representeres i 8-bits
+toerkomplementform.
 
 En mer mennesketilpasset måte: Begynn med minst signifikante bit (LSB) og beveg
 deg oppover til du møter en bit som er $1$. Alle påfølgende bits (opp til og med
-MSB) flippes.
+MSB) flippes. Eksempel: Hva er $11010100$ i 10-tallsystemet?
+%
+\begin{align*}
+  &11010100 \\
+  \Rightarrow - &00101100_2 & \text{Toerkomplementet} \\
+  \Rightarrow - &(32 + 8 + 4)_{10} \\
+  \Rightarrow - &44_{10}
+\end{align*}
 
 \subsubsection{Endring av antall bits}
 Gitt et tall på $n$-bits toerkomplementsform, vil vi ofte kunne ønske samme tall
@@ -705,6 +720,9 @@ direkte i binærtall på toerkomplementsform, siden det er slik de gjerne
 representeres i kretser. I tillegg har vi en endelig mengde bits, så det er ikke
 alle tall som kan representeres. Hvis vi har for få bits blir kanskje $6+7 = -3$.
 
+\subsection{Absoluttverdi}
+Dersom \textit{MSB} er 1, gjør toerkomplementoperasjonen. Se seksjon~\ref{sec:toerkomplement-op}.
+
 \subsection{Addisjon}
 Addisjon fungerer veldig likt som man ville gjort på papir i 10-tallssystemet.
 Vi skriver tallene under hverandre, og adderer bortover fra LSB til MSB. Hvis
@@ -720,8 +738,9 @@ subtraheres, og gjøre addisjon. Se Seksjon~\ref{sec:adder-subtractor} om den
 logiske kretsen til en adder-subtractor.
 
 \subsection{Multiplikasjon}
-Med multiplikasjon kan man gjøre begge tallene positive, regne ut produktet og
-fikse fortegn etterpå. I dette faget blir vi vist en måte som fungerer på 
+Multiplikasjon kan regnes ut ved å først ta absoluttverdien av faktorene, og 
+man gjøre begge tallene positive, regne ut produktet og
+fikse fortegn etterpå. I dette faget blir vi vist en måte som fungerer på  TODO
 
 \subsection{Divisjon}
 
@@ -978,18 +997,18 @@ Vi kaller en 4-kanals multiplekser for en 4x1. Dersom vi vil lage en
 input til en 2x1-multiplekser, og fordele $s_0$, $s_1$ og $s_2$. Slik
 kan vi velge mellom alle 8 inputs.
 
-\subsubsection{Logisk krets for 1-bits 2x1}
+\subsubsection{Logisk krets for 1-bits 2x1}\label{sec:logisk-krets-2x1}
 For å gjøre det enkelt viser vi kun portdiagrammet for en enkel
 2x1-multiplekser med enkle 1-bits inputs. Se Figur~\ref{fig:2x1}.
 
 \begin{figure}[hbt!]
   \centering
   \begin{circuitikz} \draw
-    (0,0) node[left]{$s_0$} -- ++(1,0) node[circle,inner sep=0](s){}
-    (4,1.5) node[american and port](and0){}
-    (4,-1.5) node[american and port](and1){}
-    (and0.in 2) ++(-.8,0) node[american not port](inv){}
-    (and0.in 2)--(inv.out)
+    (0,0) node[left]{$s_0$} to[short,-*] ++(1,0) coordinate(s)
+    (4,1) node[american and port](and0){}
+    (4,-1) node[american and port](and1){}
+    (and0.in 2) ++(-.8,-.3) node[american not port](inv){}
+    (and0.in 2)--(and0.in 2 -| inv.out) -- (inv.out)
     (inv.in)--(inv.in -| s) -- (s)
     (and1.in 1) -- (and1.in 1 -| s) --(s)
     (and0.in 1) -- (and0.in 1 -| 0,0) node[left]{$I_0$}
@@ -1003,13 +1022,19 @@ For å gjøre det enkelt viser vi kun portdiagrammet for en enkel
   \caption{Portdiagram for 2x1-multiplekser\label{fig:2x1}}
 \end{figure}
 
+Vi bruker denne kretsen som eksempel på teknologimapping i Seksjon~\ref{sec:tekonologimapping}.
+
 \section{Teknologimapping}\label{sec:tekonologimapping}
-Målet er å konvertere en logisk krets slik at den benytter kun tilgjengelige
-porter, f.eks.\ kun NAND eller kun NOR\@. Vi
-ønsker også å redusere lengden på kritisk sti (Se seksjon~\ref{sec:kritisk_sti}), og
-redusere totale antall transistorer (Se seksjon~\ref{sec:logiske_porter}). Måten vi
-gjør det på er ved å dekomponere innganger (3-inputs AND $\Rightarrow$ 2 stykk 2-inputs
-AND), og konvertere porter med boolalgebraiske identiteter. Eksempler:
+NAND er en universell port, som betyr at alle boolske funksjoner kan
+implementeres som kun NAND. Det samme gjelder NOR. I tillegg har NAND og NOR en
+forplantningstid på \SI{1,4}{\nano\second}, og bruker kun $4$ transistorer hver.
+Teknologimapping handler om å modifisere en logisk krets slik at den kun bruker
+et sett tilgjengelige porter, og samtidig prøve å minimere kritisk sti og antall
+transistorer. Dette gjøres gjennom å dekomponere porter med flere innganger, og
+konvertering mellom porter med boolsk algebra. Siden AND er assosiativ kan en
+3-inputs AND $xyz$ omdannes til to 2-inputs AND $(xy)z$. Vidre kan vi bruke
+boolsk algebra for å omdanne porter.
+
 \begin{align*}
   \var{x}\var{y} &= \overline{\overline{\var{x}\var{y}}} & \text{AND = NOT
                                                            NAND} \\
@@ -1020,37 +1045,85 @@ AND), og konvertere porter med boolalgebraiske identiteter. Eksempler:
   \overline{\kom{x}} &= \var{x} & \text{NOT NOT kanselleres}
 \end{align*}
 
-Dette er litt tricky, så jeg tar med to eksempler.
+\subsection{2x1 med kun NAND og NOT}
 
-\subsection{Eksempel med NAND og NOT}
-Vi skal konvertere følgende krets til å bare bruke NAND og INV (Inverter = Not).
+Vi henter frem den logiske kretsen for en 2x1-multiplekser fra
+Seksjon~\ref{sec:logisk-krets-2x1}. Ingen porter har mer enn 2 inputs, så vi
+trenger ikke dekomponere.
+
 \begin{center}
-  \includegraphics[height=4cm,keepaspectratio]{Krets_BeforeTeknomap}
+  \begin{circuitikz} \draw
+    (0,0) node[left]{$s_0$} to[short,-*] ++(1,0) coordinate(s)
+    (4,1) node[american and port](and0){}
+    (4,-1) node[american and port](and1){}
+    (and0.in 2) ++(-.8,-.3) node[american not port](inv){}
+    (and0.in 2)--(and0.in 2 -| inv.out) -- (inv.out)
+    (inv.in)--(inv.in -| s) -- (s)
+    (and1.in 1) -- (and1.in 1 -| s) --(s)
+    (and0.in 1) -- (and0.in 1 -| 0,0) node[left]{$I_0$}
+    (and1.in 2) -- (and1.in 2 -| 0,0) node[left]{$I_1$}
+    (6,0) node[american or port](or){}
+    (and0.out) -- (and0.out -| or.in 1) -- (or.in 1)
+    (and1.out) -- (and1.out -| or.in 2) -- (or.in 2)
+    (or.out) -- ++(1,0) node[right]{$O$}
+    ;
+  \end{circuitikz}
 \end{center}
-Det første vi gjør er å bytte AND-3 til 2 stykk AND-2 i serie.
+
+Vi bruker tabell~\ref{tab:porter} for å regne ut antall transistorer og
+propageringsforsinkelse gjennom kritisk sti. Før teknologimapping bruker vi $2+6+6+6=20$
+transistorer og har en kritisk sti på $1+2,4+2,4 = \SI{5,8}{\nano\second}$.
+
+Vi starter med å omdanne AND til NOT NAND, og bruker DeMorgan på OR-porten.
+\[x + y = \overline{\kom{x}\kom{y}}\]
+Dette gir oss følgende krets:
+
 \begin{center}
-  \includegraphics[height=4cm,keepaspectratio]{Krets_DuringTeknomap}
+  \begin{circuitikz} \draw
+    (0,0) node[left]{$s_0$} to[short,-*] ++(1,0) coordinate(s)
+    (4,1) node[american nand port](and0){}
+    (4,-1) node[american nand port](and1){}
+    (and0.in 2) ++(-.8,-.3) node[american not port](inv){}
+    (and0.in 2)--(and0.in 2 -| inv.out) -- (inv.out)
+    (inv.in)--(inv.in -| s) -- (s)
+    (and1.in 1) -- (and1.in 1 -| s) --(s)
+    (and0.in 1) -- (and0.in 1 -| 0,0) node[left]{$I_0$}
+    (and1.in 2) -- (and1.in 2 -| 0,0) node[left]{$I_1$}
+    (6,0) node[american nand port](or){}
+    (and0.out) -- (and0.out -| or.in 1) -- (or.in 1)
+    (and1.out) -- (and1.out -| or.in 2) -- (or.in 2)
+    (or.out) -- ++(1,0) node[right]{$O$}
+    ;
+  \end{circuitikz}
 \end{center}
-Dette gir en krets som vi lett kan lage med komponenter, men den kritiske stien blir
-\SI{7.2}{\nano\second}. Vi kan gjøre om AND om til NOT NAND, og ved å bruke De
-Morgan får vi gjort OR om til NAND av NOTs. Vi fjerner dobbel invertering, og
-ender opp med kretsen under.
+
+Deretter fjerner vi doble invertere, siden $\overline{\kom{x}} = x$.
+
 \begin{center}
-  \includegraphics[height=4cm,keepaspectratio]{Krets_AfterTeknomap}
+  \begin{circuitikz} \draw
+    (0,0) node[left]{$s_0$} to[short,-*] ++(1,0) coordinate(s)
+    (4,1) node[american nand port](and0){}
+    (4,-1) node[american nand port](and1){}
+    (and0.in 2) ++(-.8,-.3) node[american not port](inv){}
+    (and0.in 2)--(and0.in 2 -| inv.out) -- (inv.out)
+    (inv.in)--(inv.in -| s) -- (s)
+    (and1.in 1) -- (and1.in 1 -| s) --(s)
+    (and0.in 1) -- (and0.in 1 -| 0,0) node[left]{$I_0$}
+    (and1.in 2) -- (and1.in 2 -| 0,0) node[left]{$I_1$}
+    (6,0) node[american nand port](or){}
+    (and0.out) -- (and0.out -| or.in 1) -- (or.in 1)
+    (and1.out) -- (and1.out -| or.in 2) -- (or.in 2)
+    (or.out) -- ++(1,0) node[right]{$O$}
+    ;
+  \end{circuitikz}
 \end{center}
-Vi har nå den samme kretsen, men med kun NAND og NOT, slik oppgaven ba om. Her
-blir altså den kritiske stien kortere, selv om det er flere komponenter. Dette
-skyldes i stor grad at NAND er rask. Dessuten bruker NAND kun 4 transistorer.
+
+Den endelige kretsen har $2+4+4+4=14$ transistorer, og
+$1+1,4+1,4=\SI{3,8}{\nano\second}$ propageringstid.
 
 \subsubsection{Input-delay}
 Dersom vi vet at en av inputene kommer fra en annen krets med en ekstra forsinkelse,
-kan vi legge opp kretsen vår på en annen måte, for å minimere total kritisk sti. La oss si
-at input C er forsinket med $X$\si{\nano\second}.
-\begin{center}
-  \includegraphics[height=4cm,keepaspectratio]{Krets_CTeknomap}
-\end{center}
-Her er det teknisk sett \@A/B\@--\@F som er kritisk sti, men siden vi tar hensyn til
-$X$, minimerer vi heller det som legges til $X$, altså \@C\@--\@F\@.
+kan vi legge opp kretsen vår på en annen måte, for å minimere total kritisk sti.
 
 \subsection{Eksempel med kun NOR}
 Vi ønsker å lage en logisk krets for den boolske funksjonen
