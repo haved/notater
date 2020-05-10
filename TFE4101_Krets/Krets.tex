@@ -7,6 +7,7 @@
 \usepackage{amstext} % for \text macro
 \usepackage{array}   % for \newcolumntype macro
 \newcolumntype{C}{>{$}c<{$}} % math-mode version of "l" column type
+\usepackage[dvipsnames]{xcolor} % Farger :)
 \usepackage{siunitx}
 \usepackage{subcaption} %for subfigure
 \usepackage{float}
@@ -17,16 +18,22 @@
 
 \usepackage[skip=5mm]{parskip} % mellom mellom paragrafer, ikke indent
 \usepackage{caption} % For å putte caption på figurer i minipage
-\usepackage{xcolor} % Farger :)
 \usepackage{tikz-timing} % For rising og falling edge
 
 \newcommand{\resi}[1]{\frac{1}{#1}}
-\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\red}[1]{{\color{Red}#1}}
+\newcommand{\green}[1]{{\color{ForestGreen}#1}}
+\newcommand{\blue}[1]{{\color{Blue}#1}}
+\newcommand{\orange}[1]{{\color{Orange}#1}}
+\newcommand{\purple}[1]{{\color{Plum}#1}}
+\newcommand{\brown}[1]{{\color{Sepia}#1}}
 \newcommand{\rising}{\texttiming{[-,timing/slope=0]LH}}
 \newcommand{\falling}{\texttiming{[-,timing/slope=0]HL}}
 
-\title{Krets og digitalteknikk}
-\author{Håvard Krogstie\\haavakro@stud.ntnu.no}
+\newcommand{\emmail}[2]{\href{mailto:#1@#2}{#1@#2}}
+
+\title{TFE4101 Krets- og Digitalteknikk}
+\author{Håvard Krogstie\\\email{krogstie.havard}{gmail.com}}
 \date{\today}
 
 \begin{document}
@@ -34,15 +41,16 @@
 \maketitle
 
 \noindent
-Dette dokumentet inneholder definisjoner og formler brukt i krets- og
-digitalteknikk. I tillegg forklares en del metoder. Dette er på ingen måte en
-lærebok, men kan brukes til oppslag og oppfriskning. Ting kommer i en grei
-rekkefølge, men noen formler og regler brukes før de defineres. Dokumentet har
-ikke figurer for alt, så det er greit å ha et indre bilde av kretser. I
-kretsdelen står blant annet grunnleggende kretsteori, metoder for regning på
-kretser og formler for kondensatorer og spoler. I digitalteknikkdelen kommer
-dioder og transistorer, CMOS, logiske kretser, boolsk algebra,
-binærtallsregning, timing av digitale kretser og sekvensielle kretser.
+Dette dokumentet inneholder forklaringer, definisjoner og formler brukt i Krets-
+og Digitalteknikk våren 2020 (Den med Corona). I tillegg forklares en del
+metoder. Dette er ikke et komplett kompendie, men kan brukes til oppslag og
+oppfriskning. Ting kommer i en grei  rekkefølge, men noen formler og regler
+brukes før de defineres. Dokumentet har ikke figurer for alt, så det er greit å
+ha et indre bilde av kretser. I kretsdelen står blant annet grunnleggende
+kretsteori, metoder for regning på kretser og formler for kondensatorer og
+spoler. I digitalteknikkdelen kommer dioder og transistorer, CMOS, logiske
+kretser, boolsk algebra, binærtallsregning, timing av digitale kretser og
+sekvensielle kretser.
 
 \tableofcontents
 \clearpage
@@ -727,7 +735,8 @@ Dersom \textit{MSB} er 1, gjør toerkomplementoperasjonen. Se seksjon~\ref{sec:t
 Addisjon fungerer veldig likt som man ville gjort på papir i 10-tallssystemet.
 Vi skriver tallene under hverandre, og adderer bortover fra LSB til MSB. Hvis
 begge tallene er $1$ får vi $1$ i mente, og må ta den med vidre. Se
-Seksjon~\ref{sec:ripple_carry_fulladder} om ripple-carry-adder for å 
+Seksjon~\ref{sec:ripple_carry_fulladder} om ripple-carry-adder for eksempel på
+propagering av mente.
 
 Addisjonen har overflowet hvis to positive tall ble negative i sum, eller
 omvendt. Summen av et positivt og negativt tall kan aldri overflowe.
@@ -738,12 +747,63 @@ subtraheres, og gjøre addisjon. Se Seksjon~\ref{sec:adder-subtractor} om den
 logiske kretsen til en adder-subtractor.
 
 \subsection{Multiplikasjon}
-Multiplikasjon kan regnes ut ved å først ta absoluttverdien av faktorene, og 
-man gjøre begge tallene positive, regne ut produktet og
-fikse fortegn etterpå. I dette faget blir vi vist en måte som fungerer på  TODO
+Multiplikasjon kan gjøres ved å først ta absoluttverdien av faktorene,
+multiplisere, og til slutt sette riktig fortegn på resultatet. I dette faget
+lærer vi en metode som fungerer generelt både på positive og negative tall på
+toerkomplementsform. Vi bruker $-14 \times (-5)$ som eksempel, og bruker $5$-bits
+input.
+\newcommand{\mult}{\red{1}\green{1}\blue{0}\orange{1}\purple{1}}
+%
+\[10010 \times \mult\]
+%
+Vi kaller den første faktoren multiplikand, og den andre multiplikator. Når vi
+multipliserer et $m$-bits tall med et $n$-bits tall blir produktet et $m+n$-bits
+tall. Det første vi gjør er å utvide multiplikanden til like mange bits som
+resultatet, ved å kopiere MSB $n$ ganger.
+%
+\[1111110010 \times \mult\]
+%
+Multiplikasjon er gjentatt addisjon. For å holde orden på resultatet underveis
+bruker vi en variabel vi kaller \textit{partielt produkt}. Til å begynne med er
+den $m+n$ bits med $0$.
+\[0000000000\]
+Deretter går vi gjennom hver bit i multiplikatoren, og for hver $1$-bit adderer
+vi multiplikanden til partielt produkt. Vi skifter multiplikanden til venstre
+for hver bit vi går opp i multiplikatoren. Dette er fordi bit $k$ i
+multiplikatoren representerer $2^k$. MSB i multiplikatoren er spesiell i
+toerkomplementsrepresentasjon, så den representerer $-2^4$. Dette gjør vi i
+praksis ved å ta toerkomplementet til multiplikanden i siste rad.
+
+\begin{center}
+  \begin{tabular}{ll}
+    $1111110010 \times \mult$ & $(-14)\times(-5)$ \\
+    \midrule
+    0000000000 & partielt produkt \\
+    1111110010 & multiplikand $\times\ 2^0 \times \purple{1}$ \\
+    \midrule
+    1111110010 & partielt produkt \\
+    1111100100 & multiplikand $\times\ 2^1 \times \orange{1}$ \\
+    \midrule
+    1111010110 & partielt produkt \\
+    0000000000 & multiplikand $\times\ 2^2 \times \blue{0}$ \\
+    \midrule
+    1111010110 & partielt produkt \\
+    1110010000 & multiplikand $\times\ 2^3 \times \green{1}$ \\
+    \midrule
+    1101100110 & partielt produkt \\
+    0011100000 & multiplikand $\times\ {-2^4} \times \red{1}$ \\
+    \midrule
+    0001000110 & $70_{10}$ \\
+    \bottomrule
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+Vi ignorerer all overflow på partielt produkt underveis, siden vi vet at svaret
+blir et $10$-bits tall.
 
 \subsection{Divisjon}
-
+Gjøres som vanlig, bruk fantasien TODO.
 
 \section{Boolske funksjoner}\label{sec:bool_func}
 Denne seksjonen inneholder måter å representere boolske funksjoner på, og
@@ -751,12 +811,17 @@ algebra for å forenkle boolske uttrykk med flere variabler. Husk De Morgans
 teoremer og slikt fra seksjon~\ref{sec:bool_alg}.
 
 \subsection{Kanoniske former}
-Et boolsk uttrykk på kanonisk form består av OR av ANDer, eller som AND av ORer.
+Et boolsk uttrykk på kanonisk form består enten av OR av ANDer, eller som AND av ORer.
 Alle variabler må forekomme i hvert ``ledd'', enten som ikke-komplementær eller
-komplementær. Eksempel:
-\[\kom{x}\kom{y} + \var{x}\var{y}\var{z} \Rightarrow \kom{x}\kom{y}\var{z} + \kom{x}\kom{y}\kom{z} + \var{x}\var{y}\var{z}\]
+komplementær. Vi kan bruke boolsk algebra for å omdanne et vilkårlig uttrykk til
+kanonisk form:
+\[\kom{x}\kom{y} + \var{x}\var{y}\var{z} = \kom{x}\kom{y}(\var{z}\kom{z}) +
+  \var{x}\var{y}\var{z} =  \kom{x}\kom{y}\var{z} + \kom{x}\kom{y}\kom{z} + \var{x}\var{y}\var{z}\]
 Vi har da gjort uttrykket om til OR av ledd der hvert ledd er ANDet og
-inneholder alle variabler. Vi kaller dette oppsettet SOP, \textit{Sum of Products}.
+inneholder alle variabler. Vi kaller dette oppsettet SOP, \textit{Sum of
+  Products}. For en gitt boolsk funksjon finnes det nøyaktig én kanonisk SOP og
+én kanonisk POS, \textit{Product of sum}. Disse leddene kalles henholdsvis
+mintermer og makstermer.
 
 \subsubsection{Minterm}
 AND av alle variabler på enten komplementær eller ikke-komplementær form.
