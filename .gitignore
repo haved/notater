@@ -6,3 +6,5 @@
 /**/.auctex-auto/
 /**/auto/
 /**/*.prv/
+publish/
+__pycache__/

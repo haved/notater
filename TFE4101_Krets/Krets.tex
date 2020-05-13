@@ -19,21 +19,23 @@
 \usepackage[skip=5mm]{parskip} % mellom mellom paragrafer, ikke indent
 \usepackage{caption} % For å putte caption på figurer i minipage
 \usepackage{tikz-timing} % For rising og falling edge
+\usepackage{randtext} % Enkel e-post-obfuskering
 
 \newcommand{\resi}[1]{\frac{1}{#1}}
 \newcommand{\red}[1]{{\color{Red}#1}}
 \newcommand{\green}[1]{{\color{ForestGreen}#1}}
-\newcommand{\blue}[1]{{\color{Blue}#1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
 \newcommand{\orange}[1]{{\color{Orange}#1}}
 \newcommand{\purple}[1]{{\color{Plum}#1}}
 \newcommand{\brown}[1]{{\color{Sepia}#1}}
+\newcommand{\maroon}[1]{{\color{Maroon}#1}}
 \newcommand{\rising}{\texttiming{[-,timing/slope=0]LH}}
 \newcommand{\falling}{\texttiming{[-,timing/slope=0]HL}}
 
-\newcommand{\emmail}[2]{\href{mailto:#1@#2}{#1@#2}}
-
 \title{TFE4101 Krets- og Digitalteknikk}
-\author{Håvard Krogstie\\\email{krogstie.havard}{gmail.com}}
+\newcommand{\lst}{krogstie}
+\newcommand{\fst}{havard}
+\author{Håvard Krogstie\\\randomize{\lst{}.\fst{}@gmail.com}}
 \date{\today}
 
 \begin{document}
@@ -41,27 +43,31 @@
 \maketitle
 
 \noindent
-Dette dokumentet inneholder forklaringer, definisjoner og formler brukt i Krets-
-og Digitalteknikk våren 2020 (Den med Corona). I tillegg forklares en del
-metoder. Dette er ikke et komplett kompendie, men kan brukes til oppslag og
-oppfriskning. Ting kommer i en grei  rekkefølge, men noen formler og regler
-brukes før de defineres. Dokumentet har ikke figurer for alt, så det er greit å
-ha et indre bilde av kretser. I kretsdelen står blant annet grunnleggende
-kretsteori, metoder for regning på kretser og formler for kondensatorer og
-spoler. I digitalteknikkdelen kommer dioder og transistorer, CMOS, logiske
-kretser, boolsk algebra, binærtallsregning, timing av digitale kretser og
-sekvensielle kretser.
+Dette dokumentet inneholder forklaringer, definisjoner, metoder og formler brukt
+i TFE4101 Krets- og Digitalteknikk ved NTNU våren 2020 (Den med Corona). Det er
+en personlig gjennomgang av det som virket relevant, og utfyllende nok til at jeg
+ikke skal trenge noe annet på hjemmeeksamen. Dokumentet inneholder kretsteori,
+metoder for regning på kretser, teorien bak kondensatorer og spoler, dioder,
+transistorer, CMOS, logiske kretser, boolsk algebra, binærtallsregning, timing
+av digitale kretser og sekvensielle kretser. Seksjonene blir mer utfyllende
+underveis.
+
+Dokumentet har gjevnt over ikke kildehenvisninger, og er ikke vurdert av noen
+med kunnskap i faget. Du finner heller ikke øvingskok her. Les på eget ansvar.
+Kildekode og nyeste utgave på
+\href{https://github.com/haved/notater/}{github.com/haved/notater}. Skrivefeil,
+faktafeil mangler eller uklaheter? Opprett en issue eller skriv en e-post!
 
 \tableofcontents
 \clearpage
 
 \section{Kretser}
 Kretser er samlinger med komponenter koblet sammen. Kretsen kan modeleres som en
-graf der koblinger er noder. Komponentene blir kanter mellom
+graf der koblinger er noder, og komponentene blir kanter mellom
 nodene. Ofte ser vi ikke på ledninger som komponenter, men bare som
-ideelle koblinger. Noder med kun ledninger i mellom blir dermed samme node. Det
-går strøm mellom nodene gjennom komponentene som binder dem sammen. Nodene har
-også en egenskap kalt potensiale. Vi har lover for å regne på disse.
+ideelle koblinger / noder. Noder med kun ledninger i mellom blir dermed samme
+node. Det går strøm mellom nodene gjennom komponentene som binder dem sammen.
+Nodene har også en egenskap kalt potensiale. Vi har lover for å regne på disse.
 
 \subsection{Strøm og ladning}
 Ladning er en elektromagnetisk egenskap ved blant annet elektroner. Den måles i
@@ -241,8 +247,8 @@ strøm vil også indusere et magnetfelt rundt seg, se seksjon~\ref{sec:spoler} o
 spoler.
 
 \subsection{Eksempelbruk av kondensator}
-Kapasitans kan tenkes på som en treghet i spenning. Et eksempel på bruk er
-mellom VDD og jord på en chip. Se figur~\ref{fig:capacitor_VDD}. Chippen kan gjøre
+Kapasitans kan tenkes på som en treghet i spenningsfall. Et eksempel på bruk er
+mellom VDD og jord på en chip. Se Figur~\ref{fig:capacitor_VDD}. Chippen kan gjøre
 mye forskjellig, og mengden strøm som brukes kan variere. Når strømforbruket $i$
 øker vil spenningsfallet over $R$ øke, men chippen har lyst på så jevn spenning
 som mulig. Derfor har vi en kondensator som motvirker forandring i $V$.
@@ -282,18 +288,21 @@ Mengden energi i en kondensator regnes med formelen
 \[E_{C} = \resi{2} C v^{2}\]
 
 \subsection{Seriekobling}
-Seriekoblede kondensatorer får avstanden mellom platene summert, så kapasitansen
-blir lavere. Spenningsfallet over hver kondensator blir også lavere.
-\[C_{eq} = \resi{\resi{C_{1}}+\resi{C_{2}}}\]
+Seriekoblede kondensatorer oppfører seg som én kondensator der avstanden mellom
+platene summeres, så kapasitansen blir lavere.
+\[C_{eq} = \resi{\resi{C_{1}}+\resi{C_{2}}} = \frac{C_1C_2}{C_1 + C_2}\]
 
 \subsection{Parallellkobling}
-Parallellkobling av kondensatorer gir mer plate å lade. Kapasitansen blir større.
+Parallellkobling av kondensatorer gir mer plate å lade. Kapasitansen blir
+større.
 \[C_{eq} = C_{1} + C_{2}\]
 
 \section{Spoler}\label{sec:spoler}
 TODO\@: Skriv
+
 \subsection{Seriekobling}
 TODO\@: Skriv
+
 \subsection{Parallellkobling}
 TODO\@: Skriv
 
@@ -408,11 +417,14 @@ kan være lukket. Se figur~\ref{fig:CMOS_NAND}.
 \newcommand{\xnor}{\odot}
 
 \section{Boolsk algebra}\label{sec:bool_alg}
-I boolsk algebra er alle verdier enten 0 eller 1. Boolske funksjoner tar én
-eller flere boolske parametere, og evaluerer til enten 0 eller 1. Vi kan lage
-sannhetstabeller for funksjoner, ved å lage en rad for hver mulige input.
+I boolsk algebra er alle verdier enten 0 eller 1. Et boolsk uttrykk består av
+slike boolske verdier og boolske operatorer. En boolsk funksjon tar parametere
+og evaluerer til enten $0$ eller $1$. Funksjoner kan representeres både som et
+boolsk uttrykk der parameterne forekommer som literaler ($x+yz$), og
+som en sannhetstabell. Operatorer er i seg selv boolske funksjoner.
 
 \subsection{Unary operatorer}
+Unary betyr at operatoren er en funksjon med ett parameter.
 Det finnes kun 4 unary operatorer $F(x)$ i boolsk algebra:
 \begin{table}[H]
 \centering
@@ -454,7 +466,9 @@ funksjoner $F(x,y)$, men vi bryr oss ikke om alle.
 \end{table}
 
 \subsection{Regneregler}
-TODO\@: Distributiv og greier
+Vi har en rekke regneregler på operatorene i boolsk algebra. Med disse kan vi
+omskrive boolske uttrykk til enklere eller tydeligere uttrykk. Alle boolske
+uttrykk kan skrives som 
 
 \subsubsection{De Morgans teoremer}
 De Morgans teoremer gir oss en sammenheng mellom AND og OR, ved å invertere både
@@ -678,7 +692,7 @@ automatisk får hvis man subtraherer et tall fra $0$ og ignorerer overflow.
 som er én mer enn signed magnitude. Dette er fordi vi ikke lenger har ulike
 representasjoner for $-0$ og $+0$.
 
-\subsubsection{Toerkomplement-operasjonen}\ref{sec:toerkomplement-op}
+\subsubsection{Toerkomplement-operasjonen}\label{sec:toerkomplement-op}
 Egentlig er toerkomplement navnet på en operasjon. Operasjonen er definert slik
 at et binærtall på $n$ bits og dets toerkomplement blir $2^n$ i sum. Merk at
 $2^n \equiv 0 \mod 2^n$, så vi kan også si at et tall og dets toerkomplement blir $0$
@@ -700,7 +714,7 @@ MSB) flippes. Eksempel: Hva er $11010100$ i 10-tallsystemet?
 \begin{align*}
   &11010100 \\
   \Rightarrow - &00101100_2 & \text{Toerkomplementet} \\
-  \Rightarrow - &(32 + 8 + 4)_{10} \\
+  \Rightarrow - &(32_{10} + 8_{10} + 4_{10}) \\
   \Rightarrow - &44_{10}
 \end{align*}
 
@@ -729,22 +743,31 @@ representeres i kretser. I tillegg har vi en endelig mengde bits, så det er ikk
 alle tall som kan representeres. Hvis vi har for få bits blir kanskje $6+7 = -3$.
 
 \subsection{Absoluttverdi}
-Dersom \textit{MSB} er 1, gjør toerkomplementoperasjonen. Se seksjon~\ref{sec:toerkomplement-op}.
+Dersom \textit{MSB} er 1, gjør toerkomplementoperasjonen. Se Seksjon~\ref{sec:toerkomplement-op}.
 
 \subsection{Addisjon}
 Addisjon fungerer veldig likt som man ville gjort på papir i 10-tallssystemet.
 Vi skriver tallene under hverandre, og adderer bortover fra LSB til MSB. Hvis
-begge tallene er $1$ får vi $1$ i mente, og må ta den med vidre. Se
-Seksjon~\ref{sec:ripple_carry_fulladder} om ripple-carry-adder for eksempel på
-propagering av mente.
+begge tallene er $1$ får vi $1$ i mente, og må ta den med vidre. Eksempel med
+8-bits tall:
 
-Addisjonen har overflowet hvis to positive tall ble negative i sum, eller
-omvendt. Summen av et positivt og negativt tall kan aldri overflowe.
+\begin{center}
+  \begin{tabular}{rlr}
+     &11010100 & -44 \\
+    +&01110110 & 118 \\
+    \midrule
+    =&01001010 & 74
+  \end{tabular}
+\end{center}
+
+I dette tilfellet ble carry ut av MSB $1$. Dette betyr ikke at vi overflowet.
+Addisjonen har overflowet hvis to positive tall ble negative i sum, eller to
+negative ble positive i sum. Summen av et positivt og negativt tall kan aldri
+overflowe.  
 
 \subsection{Subtraksjon}
 Subtraksjon gjøres gjerne ved å ta toerkomplementet til tallet som skal
-subtraheres, og gjøre addisjon. Se Seksjon~\ref{sec:adder-subtractor} om den
-logiske kretsen til en adder-subtractor.
+subtraheres, og gjøre addisjon.
 
 \subsection{Multiplikasjon}
 Multiplikasjon kan gjøres ved å først ta absoluttverdien av faktorene,
@@ -752,7 +775,7 @@ multiplisere, og til slutt sette riktig fortegn på resultatet. I dette faget
 lærer vi en metode som fungerer generelt både på positive og negative tall på
 toerkomplementsform. Vi bruker $-14 \times (-5)$ som eksempel, og bruker $5$-bits
 input.
-\newcommand{\mult}{\red{1}\green{1}\blue{0}\orange{1}\purple{1}}
+\newcommand{\mult}{\red{1}\green{1}\maroon{0}\orange{1}\purple{1}}
 %
 \[10010 \times \mult\]
 %
@@ -776,22 +799,22 @@ praksis ved å ta toerkomplementet til multiplikanden i siste rad.
 
 \begin{center}
   \begin{tabular}{ll}
-    $1111110010 \times \mult$ & $(-14)\times(-5)$ \\
+    $\blue{1111110010} \times \mult$ & $(-14)\times(-5)$ \\
     \midrule
     0000000000 & partielt produkt \\
-    1111110010 & multiplikand $\times\ 2^0 \times \purple{1}$ \\
+    \blue{1111110010} & multiplikand $\times\ 2^0 \times \purple{1}$ \\
     \midrule
     1111110010 & partielt produkt \\
-    1111100100 & multiplikand $\times\ 2^1 \times \orange{1}$ \\
+    \blue{111110010}0 & multiplikand $\times\ 2^1 \times \orange{1}$ \\
     \midrule
     1111010110 & partielt produkt \\
-    0000000000 & multiplikand $\times\ 2^2 \times \blue{0}$ \\
+    \blue{00000000}00 & multiplikand $\times\ 2^2 \times \maroon{0}$ \\
     \midrule
     1111010110 & partielt produkt \\
-    1110010000 & multiplikand $\times\ 2^3 \times \green{1}$ \\
+    \blue{1110010}000 & multiplikand $\times\ 2^3 \times \green{1}$ \\
     \midrule
     1101100110 & partielt produkt \\
-    0011100000 & multiplikand $\times\ {-2^4} \times \red{1}$ \\
+    \blue{001110}0000 & multiplikand $\times\ {-2^4} \times \red{1}$ \\
     \midrule
     0001000110 & $70_{10}$ \\
     \bottomrule
@@ -815,7 +838,7 @@ Et boolsk uttrykk på kanonisk form består enten av OR av ANDer, eller som AND 
 Alle variabler må forekomme i hvert ``ledd'', enten som ikke-komplementær eller
 komplementær. Vi kan bruke boolsk algebra for å omdanne et vilkårlig uttrykk til
 kanonisk form:
-\[\kom{x}\kom{y} + \var{x}\var{y}\var{z} = \kom{x}\kom{y}(\var{z}\kom{z}) +
+\[\kom{x}\kom{y} + \var{x}\var{y}\var{z} = \kom{x}\kom{y}(\var{z} + \kom{z}) +
   \var{x}\var{y}\var{z} =  \kom{x}\kom{y}\var{z} + \kom{x}\kom{y}\kom{z} + \var{x}\var{y}\var{z}\]
 Vi har da gjort uttrykket om til OR av ledd der hvert ledd er ANDet og
 inneholder alle variabler. Vi kaller dette oppsettet SOP, \textit{Sum of
@@ -1154,9 +1177,20 @@ Dette gir oss følgende krets:
     (and1.in 1) -- (and1.in 1 -| s) --(s)
     (and0.in 1) -- (and0.in 1 -| 0,0) node[left]{$I_0$}
     (and1.in 2) -- (and1.in 2 -| 0,0) node[left]{$I_1$}
-    (6,0) node[american nand port](or){}
-    (and0.out) -- (and0.out -| or.in 1) -- (or.in 1)
-    (and1.out) -- (and1.out -| or.in 2) -- (or.in 2)
+
+    (and0.out) ++ (1,0) node[american not port](not00){} ++ (1,0) node[american not port](not01){}
+    (and1.out) ++ (1,0) node[american not port](not10){} ++ (1,0) node[american not port](not11){}
+
+    (and0.out) -- (not00.in)
+    (and1.out) -- (not01.in)
+    
+    (not00.out) -- (not01.in)
+    (not10.out) -- (not11.in)
+    
+    (9,0) node[american nand port](or){}
+    
+    (not01.out) -- (and0.out -| or.in 1) -- (or.in 1)
+    (not11.out) -- (and1.out -| or.in 2) -- (or.in 2)
     (or.out) -- ++(1,0) node[right]{$O$}
     ;
   \end{circuitikz}

@@ -1,0 +1,3 @@
+[build]
+    command = "sudo apt-get install texlive-full && python build.py"
+    publish = "publish/"
