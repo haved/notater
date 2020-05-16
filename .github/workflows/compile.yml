@@ -23,8 +23,8 @@ jobs:
         apt-get update
         apt-get install -y python3 zip tzdata 
         #texlive texlive-latex-recommended texlive-latex-extra texlive-science texlive-pictures
-        sudo ln -fs /usr/share/zoneinfo/Europe/Oslo /etc/localtime
-        sudo dpkg-reconfigure --frontend noninteractive tzdata
+        ln -fs /usr/share/zoneinfo/Europe/Oslo /etc/localtime
+        dpkg-reconfigure --frontend noninteractive tzdata
 
     - name: Compile latex
       run: python3 build.py
