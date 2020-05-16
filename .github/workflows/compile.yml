@@ -1,0 +1,39 @@
+name: Compile Latex
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Install latex things
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        sudo apt-get update
+        sudo apt-get install -y python3 zip tzdata texlive texlive-latex-recommended texlive-latex-extra texlive-science texlive-pictures
+        sudo ln -fs /usr/share/zoneinfo/Europe/Oslo /etc/localtime
+        sudo dpkg-reconfigure --frontend noninteractive tzdata
+
+    - name: Compile latex
+      working-directory: $GITHUB_WORKSPACE
+      run: python3 build.py
+
+    - name: Zip publish folder
+      working-directory: $GITHUB_WORKSPACE
+      run: zip -r publish.zip publish/*
+      
+    #- name: Deploy to netlify
+    #  run: >-
+    #    curl
+    #    -H "Content-Type: application/zip"
+    #    -H "Authorization: Bearer my-api-access-token"
+    #    --data-binary "@website.zip" https://api.netlify.com/api/v1/sites/haved.netlify.app/deploys
+        
