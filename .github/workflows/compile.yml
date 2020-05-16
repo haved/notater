@@ -13,6 +13,8 @@ jobs:
     container: thomasweise/docker-texlive-full
     env:
       DEBIAN_FRONTEND: noninteractive
+      NETLIFY_TOK: ${{ secrets.NetlifyAccessToken }}
+      NETLIFY_NAME: haved
         
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -32,10 +34,17 @@ jobs:
     - name: Zip publish folder
       run: zip -r publish.zip publish/*
       
-    #- name: Deploy to netlify
-    #  run: >-
-    #    curl
-    #    -H "Content-Type: application/zip"
-    #    -H "Authorization: Bearer my-api-access-token"
-    #    --data-binary "@website.zip" https://api.netlify.com/api/v1/sites/haved.netlify.app/deploys
+    - name: Make netlify site
+    - run: >-
+        curl -X POST
+        -H "Content-Type: application/json"
+        -H "Authorization: Bearer $NETLIFY_TOK"
+        -d '{"name":"$NETLIFY_NAME"}' https://api.netlify.com/api/v1/sites
+
+    - name: Deploy to netlify
+      run: >-
+        curl -X POST
+        -H "Content-Type: application/zip"
+        -H "Authorization: Bearer $NETLIFY_TOK"
+        --data-binary "@publish.zip" https://api.netlify.com/api/v1/sites/$NETLIFY_NAME.netlify.app/deploys
         
