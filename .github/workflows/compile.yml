@@ -21,6 +21,10 @@ jobs:
         sudo apt-get install -y python3 zip tzdata texlive texlive-latex-recommended texlive-latex-extra texlive-science texlive-pictures
         sudo ln -fs /usr/share/zoneinfo/Europe/Oslo /etc/localtime
         sudo dpkg-reconfigure --frontend noninteractive tzdata
+    
+    - name: ls
+      working-directory: $GITHUB_WORKSPACE
+      run: ls -a
 
     - name: Compile latex
       working-directory: $GITHUB_WORKSPACE
