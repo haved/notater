@@ -4,6 +4,7 @@ from subprocess import Popen
 from os.path import join, isdir
 from os import rename, mkdir
 
+PAGE_DIR = "page/"
 PUBLISH_DIR = "publish/"
 
 def publish_dir():
@@ -11,12 +12,12 @@ def publish_dir():
         mkdir(PUBLISH_DIR)
 
 def copy_page():
-    pass
+    call(["cp", "-r", join(PAGE_DIR,"*"), PUBLISH_DIR)
 
-def compile_all():
+def call_latexes(cmd):
     publish = lambda x: join(PUBLISH_DIR,x)
-    compile("TFE4101_Krets/", "Krets", publish("krets.pdf"))
-    compile("TMA4115_Matte3/", "Matte3", publish("matte3.pdf"))
+    cmd("TFE4101_Krets/", "Krets", publish("krets.pdf"))
+    cmd("TMA4115_Matte3/", "Matte3", publish("matte3.pdf"))
 
 def call(command, **kwargs):
     p = Popen(command, **kwargs)
@@ -33,5 +34,5 @@ def compile(folder, file, target):
 if __name__ == "__main__":
     publish_dir()
     copy_page()
-    compile_all()
+    call_latexes(compile)
 
