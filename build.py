@@ -12,7 +12,7 @@ def publish_dir():
         mkdir(PUBLISH_DIR)
 
 def copy_page():
-    call(["cp", "-r", join(PAGE_DIR,"*"), PUBLISH_DIR])
+    call(["cp", "-r", join(PAGE_DIR,"*"), PUBLISH_DIR], shell=True)
 
 def call_latexes(cmd):
     publish = lambda x: join(PUBLISH_DIR,x)
