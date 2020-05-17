@@ -1,4 +1,4 @@
-name: Compile Latex
+name: Compile Latex and deploy
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -13,8 +13,6 @@ jobs:
     container: thomasweise/docker-texlive-full
     env:
       DEBIAN_FRONTEND: noninteractive
-      NETLIFY_TOK: ${{ secrets.NetlifyAccessToken }}
-      NETLIFY_NAME: haved
         
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -31,20 +29,12 @@ jobs:
     - name: Compile latex
       run: python3 build.py
 
-    - name: Zip publish folder
-      run: zip -r publish.zip publish/*
+    - name: ls publish folder
+      run: ls -a publish/
       
-    - name: Make netlify site
-      run: >-
-        curl -X POST
-        -H "Content-Type: application/json"
-        -H "Authorization: Bearer $NETLIFY_TOK"
-        -d '{"name":"$NETLIFY_NAME"}' https://api.netlify.com/api/v1/sites
-
-    - name: Deploy to netlify
-      run: >-
-        curl -X POST
-        -H "Content-Type: application/zip"
-        -H "Authorization: Bearer $NETLIFY_TOK"
-        --data-binary "@publish.zip" https://api.netlify.com/api/v1/sites/$NETLIFY_NAME.netlify.app/deploys
-        
+    - uses: jsmrcaga/action-netlify-deploy@v1
+      with:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        NETLIFY_DEPLOY_TO_PROD: true
+        build_directory: publish
