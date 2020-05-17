@@ -21,8 +21,7 @@ def call(command, **kwargs):
        exit(-1)     
 
 def compile(folder, file, target):
-    for _ in range(2): # Compile twice
-        call(["pdflatex", "-halt-on-error", file+".tex"], cwd=folder)
+    call(["latexmk", "-pdf", file+".tex"], cwd=folder)
     rename(join(folder,file+".pdf"), target)
     print(f" ==== Done! Moved {file}.pdf to {target} ==== ")
 
