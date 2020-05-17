@@ -6,9 +6,14 @@ from os import rename, mkdir
 
 PUBLISH_DIR = "publish/"
 
-def compile_all():
+def publish_dir():
     if not isdir(PUBLISH_DIR):
         mkdir(PUBLISH_DIR)
+
+def copy_page():
+    pass
+
+def compile_all():
     publish = lambda x: join(PUBLISH_DIR,x)
     compile("TFE4101_Krets/", "Krets", publish("krets.pdf"))
     compile("TMA4115_Matte3/", "Matte3", publish("matte3.pdf"))
@@ -26,5 +31,7 @@ def compile(folder, file, target):
     print(f" ==== Done! Moved {file}.pdf to {target} ==== ")
 
 if __name__ == "__main__":
+    publish_dir()
+    copy_page()
     compile_all()
 
