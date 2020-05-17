@@ -13,7 +13,7 @@ def publish_dir():
         mkdir(PUBLISH_DIR)
 
 def copy_page():
-    copytree(PAGE_DIR, PUBLISH_DIR)
+    copytree(PAGE_DIR, PUBLISH_DIR, dirs_exist_ok=True)
 
 def call_latexes(cmd):
     publish = lambda x: join(PUBLISH_DIR,x)
