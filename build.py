@@ -3,6 +3,7 @@
 from subprocess import Popen
 from os.path import join, isdir
 from os import rename, mkdir
+from shutil import copytree
 
 PAGE_DIR = "page/"
 PUBLISH_DIR = "publish/"
@@ -12,7 +13,7 @@ def publish_dir():
         mkdir(PUBLISH_DIR)
 
 def copy_page():
-    call(["cp", "-r", join(PAGE_DIR,"*"), PUBLISH_DIR], shell=True)
+    copytree(PAGE_DIR, PUBLISH_DIR)
 
 def call_latexes(cmd):
     publish = lambda x: join(PUBLISH_DIR,x)
