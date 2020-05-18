@@ -26,8 +26,7 @@ def call(command, **kwargs):
     p = Popen(command, **kwargs)
     p.wait()
     if p.returncode != 0:
-       print(f"Error: command {' '.join(command)} failed with return code {p.returncode}")
-       exit(-1)
+       error(f"command {' '.join(command)} failed with return code {p.returncode}")
 
 def compile(folder, name, target):
     call(["latexmk", "-pdf", name+".tex"], cwd=folder)
@@ -36,8 +35,12 @@ def compile(folder, name, target):
 
 def clean_latex(folder, name, target):
     base = join(folder,name)
-    extensions = ["aux", "fdb_latexmk", "fls", "log", "toc"]
+    extensions = ["aux", "fdb_latexmk", "fls", "log", "toc", "out"]
     call(["rm", "-f"] + [f"{base}.{ex}" for ex in extensions])
+
+def error(msg, **kwargs):
+    print(f"error: {msg}", **kwargs)
+    exit(-1)
 
 def print_help_text():
     print("Build script for compiling pdfs to a static site")
@@ -70,7 +73,7 @@ if __name__ == "__main__":
     elif args == ["ls"]:
         call_latexes(lambda folder,name,target: print(f"{target:<28} built from {join(folder,name)}.tex"))
     elif args == ["clean"]:
-        rmtree(PUBLISH_DIR)
+        call(["rm", "-rf", PUBLISH_DIR])
         call_latexes(clean_latex)
     else:
         error(f"Unrecognized command: '{' '.join(args)}'. See --help for usage")
