@@ -5,7 +5,6 @@ from subprocess import Popen
 from os.path import join, isdir
 from os import rename, mkdir
 from shutil import copytree, rmtree
-from re import search
 
 PAGE_DIR = "page/"
 PUBLISH_DIR = "publish/"
@@ -48,7 +47,7 @@ def print_help_text():
     print()
     print("Commands:")
     print(f"all (default)    Build all latex and copy {PAGE_DIR} into {PUBLISH_DIR}")
-    print(f"latex [filter]   Build all pdfs (optionally with name matching a regex)")
+    print(f"latex [filter]   Build all pdfs (optionally with name containing a filter)")
     print(f"ls               List all pdfs I can build")
     print(f"clean            Remove all build steps and output")
     exit()
@@ -67,7 +66,7 @@ if __name__ == "__main__":
         pattern = (args[1:2]+[""])[0]
         make_publish_dir()
         def compile_if_match(folder, name, target):
-            if search(pattern, target):
+            if pattern in target:
                 compile(folder, name, target)
         call_latexes(compile_if_match)
     elif args == ["ls"]:

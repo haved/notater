@@ -7,13 +7,14 @@
 \usepackage{appendix}
 \usepackage{siunitx}
 \usepackage[skip=5mm]{parskip}
+\usepackage{randtext}
+\usepackage{hyperref} % for hyperlenker mellom ref og label
 
 \addto\captionsnorsk{%
   \renewcommand\appendixname{Appendiks}
   \renewcommand\appendixpagename{Appendikser}
   \renewcommand\appendixtocname{Appendikser}
 }
-
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
@@ -49,7 +50,9 @@
 \newcommand{\vq}{\textbf{q}}
 
 \title{TMA4115 --- Matte 3}
-\author{Håvard Krogstie}
+\newcommand{\lst}{krogstie}
+\newcommand{\fst}{havard}
+\author{Håvard Krogstie\\\randomize{\lst{}.\fst{}@gmail.com}}
 \date{\today}
 
 \begin{document}
@@ -57,13 +60,22 @@
 \maketitle
 
 \noindent
-Denne teksten er et forsøk på å samle det meste av definisjoner og resultater
-som er kjekke å ha skrevet ned i Matte 3. Når vi etterhvert kommer til mer spesifikke
-metoder i lineær algebra går vi kjapt gjennom metoden, med mindre fokus på
-bevis. Det mest spennende i denne teksten står kanskje i resultatdelene, siden
-det er der teoremer ofte dukker opp (De er resultater av bruk av definisjonene).
+Dette dokumentet er et forsøk på å samle det meste av definisjoner og resultater
+som er kjekke å ha skrevet ned i Matte 3. Metoder på pensum blir gjennomgått,
+med bevis der det later til å være pensum, altså forelesningsnotatene. Jeg har
+prøvd å være mer rigorøs enn kildematerialet når det gjelder komplekse tall.
+Det mest spennende i denne teksten står kanskje i resultatdelene, siden
+det er der teoremer ofte dukker opp.
 
+Dokumentet har gjevnt over ikke kildehenvisninger, og er ikke vurdert av noen
+med kunnskap i faget. Du finner heller ikke øvingskok her. Les på eget ansvar.
+Kildekode og nyeste utgave på
+\href{https://github.com/haved/notater/}{github.com/haved/notater}. Skrivefeil,
+faktafeil, mangler eller uklaheter? Opprett en issue eller skriv en e-post!
+
+\clearpage
 \tableofcontents
+\clearpage
 
 \section{Lineær uavhengighet}
 En mengde vektorer $v_{1}, v_{2}, \ldots, v_{n}$ er lineært uavhengige hvis og bare

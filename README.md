@@ -1,12 +1,18 @@
 ## Notater
-Min samling notater i fag ved NTNU. De er ikke korrekturlest av sakkyndige, så les på eget ansvar!
+Min samling notater i fag ved NTNU.
 For mer info og kompilerte pdf-er: [haved.netlify.com](haved.netlify.com)
 
 #### Kompilering
 Alle notatene er skrevet i latex, og bruker en god del pakker.
-Utover det er det vanlig latex.
+Utover det er det vanlig latex, kompilert med `latexmk`.
 De kompileres av GitHub workflow i et docker-bilde med texlive-full.
 
+For å kompilere selv kan du kjøre
+``` bash
+./build ls # Printer ut mulige pdf-er
+./build latex matte3.pdf
+```
+Output legges i mappen `publish/`
 
 
 

@@ -1,10 +1,43 @@
 content {
     display: block;
-    max-width: 80em;
+    max-width: 80rem;
     margin: auto;
     margin-top: 3rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
     line-height: 1.5rem;
     color: #333333;
     font-family: monospace;
-    font-size: 1.3em;
+    font-size: 1.1em;
+}
+
+h3 {
+    margin-bottom: 0.3rem;
+}
+
+article {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.tag_title {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.tags {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f4eeee;
+    border-radius: 1rem;
+    padding: 0.4rem;
+    font-size: 0.8rem;
+    line-height: 1rem;
+}
+
+.code {
+    background-color: #eeeeee;
+    border-radius: 0.3rem;
+    font-family: monospace;
 }
