@@ -58,6 +58,7 @@ Kildekode og nyeste utgave på
 \href{https://github.com/haved/notater/}{github.com/haved/notater}. Skrivefeil,
 faktafeil, mangler eller uklaheter? Opprett en issue eller skriv en e-post!
 
+\clearpage
 \tableofcontents
 \clearpage
 
@@ -213,7 +214,7 @@ målspenningen vil $i(t) = 0$. Dette kalles \textit{steady state}.
 
 \subsection{Regning på kondensatorer}
 I en krets vil platene i en kondensator alltid være motsatt ladet, altså $+Q$ og $-Q$.
-Selv om kondensatoren ikke lar strøm passere, så vil det derfor likevel virke
+Selv om kondensatoren ikke lar strøm passere, vil det derfor likevel virke
 slik når den lades opp eller ut. Kirchovs strømlov gjelder fortsatt, så man kan
 ikke tilføre strøm til én plate uten at det kommer like mye strøm ut fra den andre
 platen. Dette høres kanskje trivielt ut, men det er lett å tro at strømmen
@@ -1178,11 +1179,11 @@ Dette gir oss følgende krets:
     (and0.in 1) -- (and0.in 1 -| 0,0) node[left]{$I_0$}
     (and1.in 2) -- (and1.in 2 -| 0,0) node[left]{$I_1$}
 
-    (and0.out) ++ (1,0) node[american not port](not00){} ++ (1,0) node[american not port](not01){}
-    (and1.out) ++ (1,0) node[american not port](not10){} ++ (1,0) node[american not port](not11){}
+    (and0.out) ++ (1,0) node[american not port](not00){} ++ (1.4,0) node[american not port](not01){}
+    (and1.out) ++ (1,0) node[american not port](not10){} ++ (1.4,0) node[american not port](not11){}
 
     (and0.out) -- (not00.in)
-    (and1.out) -- (not01.in)
+    (and1.out) -- (not10.in)
     
     (not00.out) -- (not01.in)
     (not10.out) -- (not11.in)
@@ -1217,7 +1218,7 @@ Deretter fjerner vi doble invertere, siden $\overline{\kom{x}} = x$.
   \end{circuitikz}
 \end{center}
 
-Den endelige kretsen har $2+4+4+4=14$ transistorer, og
+Den endelige kretsen har $2+4+4+4=14$ transistorer, og kritisk sti med
 $1+1,4+1,4=\SI{3,8}{\nano\second}$ propageringstid.
 
 \subsubsection{Input-delay}
@@ -1226,11 +1227,43 @@ kan vi legge opp kretsen vår på en annen måte, for å minimere total kritisk 
 
 \subsection{Eksempel med kun NOR}
 Vi ønsker å lage en logisk krets for den boolske funksjonen
-\[T = BD + \bar{A}B\bar{C} + \bar{A}CD\]
+\[T = A\bar{C}\bar{D} + AB + B\bar{C}D\]
 TODO
 
 \section{PAL}\label{sec:PAL}
-TODO
+Gitt en boolsk funksjon på standardform, enten \textit{Sum of product} eller
+\textit{Product of sum}, kan vi med PAL lage en logisk krets for funksjonen.
+Som eksempel bruker vi funksjonene
+\begin{align*}
+  F_1 &= x\bar{y} + y\bar{z}w + xy\bar{w} \\
+  F_2 &= (x+y+\bar{w})(y+\bar{z}+\bar{w})(x+y+w)(x+\bar{z})
+\end{align*}
+Det første vi gjør er å forenkle $F_2$ med boolske regneregler.
+\begin{align*}
+  (x+y+\bar{w})(x+y+w) = (x+y)(\bar{w}+w) = (x+y)
+\end{align*}
+Vi har dermed spart oss for et ledd i standardformen.
+
+Det neste vi gjør er å gjøre begge om til \textit{SOP}, ved å heller bry oss om
+$\overline{F_2}$. Vi bruker DeMorgan for alt den er verdt.
+\begin{align*}
+  \overline{F_2} &= \overline{(x+y)(y+\bar{z}+\bar{w})(x+\bar{z})} \\
+                 &= \overline{(x+y)} + \overline{(y+\bar{z}+\bar{w})} + \overline{(x+\bar{z})} \\
+                 &= \bar{x}\bar{y} + \bar{y}zw + \bar{x}z
+\end{align*}
+
+Funksjonene kan nå implementeres på PAL. For hvert produkt lager vi en rad med
+variablene på komplementær eller ikke-komplementær form i AND-matrisen.
+Produktene for hver funksjon blir OR-et sammen i OR-matrisen. Til slutt bruker
+vi XOR-matrisen til å invertere $F_2$, siden \textit{SOP}-uttrykket vårt er for
+$\overline{F_2}$. Se Figur~\ref{fig:PAL}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{PAL}
+  \caption{PAL for $F_1$ og $F_2$\label{fig:PAL}}
+\end{figure}
+\clearpage
 
 \section{Sekvensielle kretser}
 Tidligere har vi forholdt oss til kombinatoriske kretser, der et sett med input
@@ -1595,8 +1628,28 @@ En JK-lås er en toggle
 TODO
 En T-lås er en toggle
 
-
 \subsection{Registere}
 TODO
+
+\section{Databuss}
+I digitale kretser der flere komponenter som skal kunne sende data til hverandre
+er det upraktisk å ha koblinger mellom alle par. Derfor har man en felles
+databuss, som alle komponentene kan bruke til å dele data. Tradisjonelt er
+bussen mange parallelle ledninger. Buss-bredden er hvor mange bits som sendes i
+parallell. Kun étt komponent kan sende data ut på bussen samtidig, så alle
+komponentene har en kontroll-input som styrer skriving til bus. Dataen er trolig
+også kun ment for ett annen komponent, så komponentene har også et
+lesestyresignal. Alle komponentene er koblet på samme klokke, og på motsatte
+flanker skrives og leses data fra bussen.
+
+I en datamaskin med en CPU er det vanlig med tre busser, og CPUen er ``sjef''
+for alle. Adresse-bussen styrer hvilken addresse i minne CPUen sikter til.
+Data-bussen inneholder dataen som skal skrives til eller leses fra minne, og en
+kontroll-bus holder kontroll på hvilke komponenter som skal lese og skrive.
+
+Det finnes også serielle buser, der bits sendes i serie, f.eks. USB, som står
+for Universal Serial Bus. Dette tillater faktisk raskere datastrømmer, siden
+parallelle buser kan få problemer med ulik forplantningstid i ledningene, pluss
+høyere induktans og kapasitans mellom ledningene.
 
 \end{document}
