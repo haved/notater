@@ -67,7 +67,7 @@ prøvd å være mer rigorøs enn kildematerialet når det gjelder komplekse tall
 Det mest spennende i denne teksten står kanskje i resultatdelene, siden
 det er der teoremer ofte dukker opp.
 
-Dokumentet har gjevnt over ikke kildehenvisninger, og er ikke vurdert av noen
+Dokumentet har jevnt over ikke kildehenvisninger, og er ikke vurdert av noen
 med kunnskap i faget. Du finner heller ikke øvingskok her. Les på eget ansvar.
 Kildekode og nyeste utgave på
 \href{https://github.com/haved/notater/}{github.com/haved/notater}. Skrivefeil,
@@ -251,7 +251,7 @@ La $A$, $B$ og $C$ være matriser. La $I$ være identitetsmatrisen, og $O$ være
 nullmatrisen. La $a$ og $b$ være skalarer. La størrelsene på matrisene være slik
 at operasjonene er definerte. Da holder følgende formler.
 \begin{align*}
-  A + B &= B + A & \text{+ er komuttativ} \\
+  A + B &= B + A & \text{+ er kommutativ} \\
   A + (B + C) &= (A + B) + C & \text{+ er assosiativ} \\
   A + O &= O + A = A & \text{$O$ er + sitt identitetselement} \\
   A + -A &= 0 & \text{+ har inverser} \\
@@ -1038,7 +1038,41 @@ $M'$ blir samme vektor. Den ser slik ut, der $q$ er likevektsvektoren (kolonne):
 \]
 
 \section{Differensialligningssett}
-TODO
+Følgende kalles et \textit{Førsteordens lineært og homogent system av
+  differensialligninger med konstante koeffisienter}.
+\[
+\begin{array}{ccccccccc}
+  y'_1(t) &=& a_{11}y_1(t) &+& a_{12}y_2(t) &+& \ldots &+& a_{1n}y_n(t) \\
+  y'_2(t) &=& a_{21}y_1(t) &+& a_{22}y_2(t) &+& \ldots &+& a_{2n}y_n(t) \\
+  \vdots && \vdots && \vdots && \ddots &&  \vdots \\
+  y'_n(t) &=& a_{n1}y_1(t) &+& a_{n2}y_2(t) &+& \ldots &+& a_{nn}y_n(t) \\
+\end{array}
+\]
+
+Det kan også skrives på formen $\vy' = A\vy$ der $\vy$ er en $n$-dimensjonal vektor av
+deriverbare funksjoner og $A$ er en $n \times n$-matrise med alle koefisientene.
+
+\begin{align*}
+  y(t) = \mat{c}{y_1(t) \\ y_2(t) \\ \vdots \\ y_n(t)} &
+\hfill &                                                    
+A = \mat{cccc}{
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+}
+\end{align*}
+
+I dette faget forholder vi oss kun til reelle koeffisienter.
+
+La $\vv$ være en egenvektor til $A$ med egenverdi $\lambda$. Da vil følgende holde:
+\[(\vv e^{\lambda t})' = \vv\lambda e^{\lambda t} = A\vv e^{\lambda t}\]
+$\vv e^{\lambda t}$ er altså en løsning til systemet.
+
+\subsection{Superposisjonsprinsippet}
+Gitt to løsninger $\vy'_1 = A\vy_1$ og $\vy'_2 = A\vy_2$
+
+Løsningene på systemet er en $n$-dimensjonalt vektorrom.
 
 \clearpage
 \appendixpage{}
