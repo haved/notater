@@ -182,17 +182,34 @@ Da brukes \vi, \vj og \vk som enhetsvektorene i $\R^3$, altså standardbasisen.
 \end{itemize}
 
 \subsection{Skifte av basis}
-Si at vi for et vektorrom $V$ har to basiser $\B$ og $\B'$. Av ulike grunner kan det være lettere å arbeide med et av de to koordinatsystemene gitt av basisene. Det vil derfor være ønskelig å finne ut hvordan koordinatvektorene $[\vv]_\B$ og $[\vv]_{\B'}$ for en vilkårlig vektor $\vv \in V$ er relatert.
-Med andre ord, hvis du har en vektor $\vv$ utrykt i en gammel basis $\B$, hvordan vil man utrykke den samme vektoren i en ny basis $\B'$?
-For å løse dette problemet finner vi først hvordan vi kan utrykke hver nye basisvektor som en lineærkombinasjon av den gamle basisen. Dette tilsvarer å finne, for hver vektor $\vu'_i$ i $\B'$, koordinatvektoren $[\vu_i']_\B$ relativt til $\B$. Vi kan så danne \textit{transisjonsmatrisen} (også kalt for skifte-av-basis-matrisen)  $P_{\B\rightarrow\B'}$ fra $\B$ til $\B'$ slik:
+Si at vi for et vektorrom $V$ har to basiser $\B$ og $\B'$. Av ulike grunner kan
+det være lettere å arbeide med et av de to koordinatsystemene gitt av basisene.
+Det vil derfor være ønskelig å finne ut hvordan koordinatvektorene $[\vv]_\B$ og
+$[\vv]_{\B'}$ for en vilkårlig vektor $\vv \in V$ er relatert. 
+Med andre ord, hvis du har en vektor $\vv$ utrykt i en gammel basis $\B$,
+hvordan vil man utrykke den samme vektoren i en ny basis $\B'$? 
+For å løse dette problemet finner vi først hvordan vi kan utrykke hver nye
+basisvektor som en lineærkombinasjon av den gamle basisen. Dette tilsvarer å
+finne, for hver vektor $\vu'_i$ i $\B'$, koordinatvektoren $[\vu_i']_\B$
+relativt til $\B$. Vi kan så danne \textit{transisjonsmatrisen} (også kalt for
+skifte-av-basis-matrisen)  $P_{\B\rightarrow\B'}$ fra $\B$ til $\B'$ slik: 
 \[P_{\B\rightarrow\B'} = \mat{cccc}{[\vu_1']_\B & [\vu_2']_\B & \cdots & [\vu_n']_\B}\]
-Altså vi lager en matrise hvor hver kolonne er koordinatvektoren til en ny basisvektor utrykt gjennom den gamle basisen. Denne matrisen vil ha egenskapen
+Altså vi lager en matrise hvor hver kolonne er koordinatvektoren til en ny
+basisvektor utrykt gjennom den gamle basisen. Denne matrisen vil ha egenskapen 
 \[P_{\B\rightarrow\B'}[\vv]_\B = [\vv]_{\B'}\]
 
-Et viktig teorem for transisjonsmatriser, som vi ikke skal bevise, er at transisjonsmatrisen fra $\B'$ til $\B$ vil være inversen til transisjonsmatrisen fra $\B$ til $\B'$ (og dermed at alle transisjonsmatriser er inverterbare).
+Et viktig teorem for transisjonsmatriser, som vi ikke skal bevise, er at
+transisjonsmatrisen fra $\B'$ til $\B$ vil være inversen til transisjonsmatrisen
+fra $\B$ til $\B'$ (og dermed at alle transisjonsmatriser er inverterbare). 
 \[P_{\B'\rightarrow\B} = P_{\B\rightarrow\B'}^{-1}\]
 
-Tilsvarende til at vi kan utrykke vektorer i flere basiser kan vi også utrykke lineære transformasjoner i forskjellige basiser. Si at vi for den lineære transformasjonen $T$ kan representere den som matrisen $[T]_\B$ relativt til basisen $\B$. Vi ønsker så utrykke $T$ som matrisen $[T]_\B'$ relativt til $\B'$. Intuitivt vil metoden for dette være å skifte basis fra $\B'$ til $\B$, så utføre den lineære transformasjonen som vi kan utrykke som matrisen $[T]_\B$ og så skifte basis tilbake fra $\B$ til $\B'$. Fra dette får vi formelen
+Tilsvarende til at vi kan utrykke vektorer i flere basiser kan vi også utrykke
+lineære transformasjoner i forskjellige basiser. Si at vi for den lineære
+transformasjonen $T$ kan representere den som matrisen $[T]_\B$ relativt til
+basisen $\B$. Vi ønsker så utrykke $T$ som matrisen $[T]_{\B'}$ relativt til
+$\B'$. Intuitivt vil metoden for dette være å skifte basis fra $\B'$ til $\B$,
+så utføre den lineære transformasjonen som vi kan utrykke som matrisen $[T]_\B$
+og så skifte basis tilbake fra $\B$ til $\B'$. Fra dette får vi formelen 
 \[[T]_{\B'}=P^{-1}[T]_\B P\]
 hvor $P=P_{\B'\rightarrow\B}$.
 
