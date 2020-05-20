@@ -178,7 +178,7 @@ Da brukes \vi, \vj og \vk som enhetsvektorene i $\R^3$, altså standardbasisen.
   \item Det er alltid mulig å lage en basis (Ta et spenn og fjærn lineært
     avhengige vektorer til det ikke er noen).
   \item $[\vv]_\B \in \R^{|\B|}$
-  \item koordinatavbilding er en bijektiv lineærtransformasjon $T:V\Rightarrow \R^{\dim V}$.
+  \item koordinatavbilding er en bijektiv lineærtransformasjon $T:V\rightarrow \R^{\dim V}$.
 \end{itemize}
 
 \subsection{Skifte av basis}
@@ -265,7 +265,7 @@ vektor $u \in V$. Finn først koeffisientene $c_{1}, c_{2}, \ldots, c_{n}$ til $
   T(c_{1}v_{1} + c_{2}v_{2} + \cdots + c_{n}v_{n}) &= c_{1}T(v_{1}) + c_{2}T(v_{2})+ \cdots + c_{n}T(v_{n}) \\
   T(\mat{cccc}{v_{1} & v_{2} & \cdots & v_{n}}\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}) &= \mat{cccc}{T(v_{1}) & T(v_{2}) & \cdots & T(v_{n})}\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}
 \end{align*}
-Dersom basisen er standardbasisen for $\R_{n}$, altså at
+Dersom basisen er standardbasisen for $\R^{n}$, altså at
 $v_{1} = \imat{1 \\ 0 \\ \vdots}, v_{2} = \imat{0 \\ 1 \\ \vdots}$ etc.\ får vi at
 \begin{align*}
   T(\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}) &= \mat{cccc}{T(\mat{c}{1 \\ 0 \\ \vdots \\ 0}) & T(\mat{c}{0 \\ 1 \\ \vdots \\ 0}) & \cdots & T(\mat{c}{0 \\ 0 \\ \vdots \\ 1})}\mat{c}{c_{1} \\ c_{2} \\ \vdots \\ c_{n}}
@@ -574,7 +574,7 @@ Hvis en reell matrise $A = A^{\top}$ kalles den symmetrisk. Hvis en matrise
 $A = A^{*}$ kalles den hermitsk. Se seksjon~\ref{sec:symmetriske_matriser}.
 \subsubsection{Resultater}
 \begin{itemize}
-  \item La $A$ være en $m \times n$-matrise, og $\vx \in \C_{n}$, $\vy \in \C_{m}$ være vektorer.
+  \item La $A$ være en $m \times n$-matrise, og $\vx \in \C^{n}$, $\vy \in \C^{m}$ være vektorer.
     Da gjelder følgende:
     \[\inner{A\vx,\vy} = \inner{\vx,A^{*}\vy}\]
   \item ${(A+B)}^{\top} = A^{\top} + B^{\top}$
@@ -727,7 +727,7 @@ Dette betyr at enhver rad i $A$ står ortogonalt på $\vx$, altså enhver vektor
 nullrommet. Dette medfører også at envher lineærkombinasjon av radvektorer vil
 stå ortogonalt på nullrommet. Vi vet altså nullrommet og radrommet er
 ortogonale, men for at $\Null A$ og $\Row A$ skal være hverandres
-ortogonale komplement må de til sammen spenne ut hele $\R_{n}$. Dette viser vi
+ortogonale komplement må de til sammen spenne ut hele $\R^{n}$. Dette viser vi
 med \textit{rank-nullity}. Se seksjon~\ref{sec:rank-nullity}.
 \begin{align*}
   \dim \Sp\{\Row A, \Null A\} &= \dim Row A + \dim \Null A \\
@@ -943,9 +943,9 @@ ganger med $P^{-1}$ på begge sider og får
 
 \subsection{Komplekse matriser}
 En reell $n \times n$-matrise er realt diagonaliserbar hvis og bare hvis det finnes
-en basis for $\R_{n}$ utgjort av egenvektorer til matrisen. \\
+en basis for $\R^{n}$ utgjort av egenvektorer til matrisen. \\
 En kompleks $n \times n$-matrise er diagonaliserbar hvis og bare hvis det finnes en
-basis for $\C_{n}$ utgjort av egenvektorer til matrisen. Husk at den geometriske
+basis for $\C^{n}$ utgjort av egenvektorer til matrisen. Husk at den geometriske
 multiplisiteten til et egenrom ikke alltid er like stor som den algebraiske,
 uavhengig om du tillater komplekse tall.
 
@@ -998,7 +998,7 @@ er en kolonnevektor av lengde $m$. Løsningen $x$ skal være en kolonnevektor av
 lengde $n$. Problemer oppstår når $b$ ikke ligger i kolonnerommet til $A$. Da
 finnes det ikke noen $x$ som transformert med $A$ havner i $b$. Dette kan skje når
 $A$ har færre enn $m$ uavhengige kolonnevektorer. Da vil kolonnerommet være et strengt
-underrom av $\R_{m}$, og $b$ kan dermed ligge utenfor.
+underrom av $\R^{m}$, og $b$ kan dermed ligge utenfor.
 
 \textbf{Merk:} Når vi skal bruke minste kvadraters metode kan vi ikke begyne med
 radoperasjoner, siden radoperasjoner endrer kolonnerommet.
