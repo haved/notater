@@ -188,14 +188,14 @@ Det vil derfor være ønskelig å finne ut hvordan koordinatvektorene $[\vv]_\B$
 $[\vv]_{\B'}$ for en vilkårlig vektor $\vv \in V$ er relatert. 
 Med andre ord, hvis du har en vektor $\vv$ utrykt i en gammel basis $\B$,
 hvordan vil man utrykke den samme vektoren i en ny basis $\B'$? 
-For å løse dette problemet finner vi først hvordan vi kan utrykke hver nye
-basisvektor som en lineærkombinasjon av den gamle basisen. Dette tilsvarer å
-finne, for hver vektor $\vu'_i$ i $\B'$, koordinatvektoren $[\vu_i']_\B$
-relativt til $\B$. Vi kan så danne \textit{transisjonsmatrisen} (også kalt for
+For å løse dette problemet finner vi først hvordan vi kan utrykke hver gamle
+basisvektor som en lineærkombinasjon av den nye basisen. Dette tilsvarer å
+finne, for hver vektor $\vu_i$ i $\B$, koordinatvektoren $[\vu_i]_\B$
+relativt til $\B'$. Vi kan så danne \textit{transisjonsmatrisen} (også kalt for
 skifte-av-basis-matrisen)  $P_{\B\rightarrow\B'}$ fra $\B$ til $\B'$ slik: 
-\[P_{\B\rightarrow\B'} = \mat{cccc}{[\vu_1']_\B & [\vu_2']_\B & \cdots & [\vu_n']_\B}\]
-Altså vi lager en matrise hvor hver kolonne er koordinatvektoren til en ny
-basisvektor utrykt gjennom den gamle basisen. Denne matrisen vil ha egenskapen 
+\[P_{\B\rightarrow\B'} = \mat{cccc}{[\vu_1]_{\B'} & [\vu_2]_{\B'} & \cdots & [\vu_n]_{\B'}}\]
+Altså vi lager en matrise hvor hver kolonne er koordinatvektoren til en gammel
+basisvektor utrykt på hensyn til den gamle basisen. Denne matrisen vil ha egenskapen 
 \[P_{\B\rightarrow\B'}[\vv]_\B = [\vv]_{\B'}\]
 
 Et viktig teorem for transisjonsmatriser, som vi ikke skal bevise, er at
