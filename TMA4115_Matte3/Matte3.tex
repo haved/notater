@@ -48,6 +48,9 @@
 \newcommand{\vx}{\textbf{x}}
 \newcommand{\vy}{\textbf{y}}
 \newcommand{\vq}{\textbf{q}}
+\newcommand{\vi}{\textbf{i}}
+\newcommand{\vj}{\textbf{j}}
+\newcommand{\vk}{\textbf{k}}
 
 \title{TMA4115 --- Matte 3}
 \newcommand{\lst}{krogstie}
@@ -137,28 +140,48 @@ $\R^{3}$, $\C^{2}$, $P_{2}$
 En Basis $\B$ er en liste med \textbf{lineært uavhengige} vektorer som spenner ut et
 vektorrom $V$. Alle basiser for rommet $V$ har samme antall vektorer, så vi
 definerer dimensjonen på vektorrommet $\dim{V} = |\B|$.
+Basiser lar oss bruke koordinatsystemer for alle vektorrom.
 
-\subsection{Standardbasis}
-For rommet $\R_{n}$ definerer vi standardbasisen til å være de $n$ vektorene
+\subsection{Basiser og koordinatsystem}
+For enhver basis $\B=(\vv_1, \vv_2, \cdots, \vv_n)$ til et n-dimensjonalt vektorrom $V$
+og en vektor $\vv \in V$ vet vi at $\vv$ kan skrives som lineærkombinasjonen
+\[\vv=c_1\vv_1 + c_2\vv_2 + \cdots + c_n\vv_n\]
+Vi definerer \textit{koordinatvektoren} til $\vv$ i $\B$ som
+\[[\vv]_\B=\mat{c}{c_1\\c_2\\ \vdots \\ c_n}\]
+I tillegg kaller vi avbildningen 
+\[\vv \mapsto [\vv]_\B\]
+for \textit{koordinatsavbildningen} av $\vv$ relativ til $\B$.
+Koordinatavbildingen er en funksjon $V \rightarrow \R^n$.
+Avbildningen er en bijektiv lineærtransformasjon.
+
+Den motsatte funksjonen er lineærkombinasjonen av basisvektorene
+med koordinatvektoren som koeffisienter.
+\[\mat{cccc}{\vv_1 & \vv_2 & cdots & \vv_n}[\vv]_{\B} = \vv\]
+For å finne koordinatvektoren løser man ligningen over for $[\vv]_{\B}$.
+
+\subsection{Eksempler}
+\subsubsection{Standardbasis}
+For rommet $\R^{n}$ definerer vi standardbasisen til å være de $n$ vektorene
 \[\mat{c}{1\\0\\0\\ \vdots \\ 0}, \mat{c}{0\\1\\0\\ \vdots \\ 0}, \mat{c}{0\\0\\1\\ \vdots \\ 0}, \cdots, \mat{c}{0\\0\\0\\ \vdots \\ 1}\]
+Du kjenner dem kanskje igjen fra identitetsmatrisen.
+Standardbasisen gir oss et koordinatsystem for $\R^n$ som er helt likt $\R^n$ selv.
+Fysikkbøker skriver ofte vektorer i $\R^3$ som
+\[5\vi + 8\vj -3\vk]
+Da brukes \vi, \vj og \vk som enhetsvektorene i $\R^3$, altså standardbasisen.
+\[5\mat{c}{1 \\ 0 \\ 0} + 8\mat{c}{0 \\ 1 \\ 0} -3\mat{c}{0 \\ 0 \\ 1} = \mat{c}{5 \\ 8 \\ -3}]\
 
 \subsection{Resultater}
 \begin{itemize}
-  \item Det er ikke mulig å ha $5$ lineært uavhengige vektorer i $\R_{4}$.
+  \item Det er ikke mulig å ha $5$ lineært uavhengige vektorer i $\R^{4}$.
   \item Det er alltid mulig å lage en basis (Ta et spenn og fjærn lineært
     avhengige vektorer til det ikke er noen).
+  \item $[\vv]_\B \in \R^{|\B|}$
+  \item koordinatavbilding er en bijektiv lineærtransformasjon $T:V\Rightarrow \R^{\dim V}$.
 \end{itemize}
 
-\subsection{Basiser og koordinatsystem}
-For enhver basis $\B=(\vv_1, \vv_2, \cdots, \vv_n)$ for et n-dimensjonalt vektorrom $V$ og en vektor \[\vv=c_1\vv_1 + c_2\vv_2 + \cdots + c_n\vv_n\] i $V$ definerer vi vektoren 
-\[[\vv]_\B=\mat{c}{c_1\\c_2\\ \vdots \\ c_n}\]
-til å være \textit{koordinatvektoren} til $\vv$ relativt til $\B$. I tillegg kaller vi avbildningen 
-\[\vv \mapsto [\vv]_\B\]
-for \textit{koordinatsavbildningen} relativt til $\B$. Som man kan se er den en bijekson fra $V$ til $\R^n$.
-
 \subsection{Skifte av basis}
-Si at vi for et vektorrom $V$ har to sett med basiser $\B$ og $\B'$. Av ulike grunner kan det være lettere å arbeide med et av de to koordinatsystemene gitt av basisene. Det vil derfor være ønskelig å finne ut hvordan koordinatvektorene $[\vv]_\B$ og $[\vv]_\B'$ for en vilkårlig vektor $\vv$ i $V$ er relatert. Med andre ord, hvis du har en vektor $\vv$ utrykt i en gammel basis $\B$, hvordan vil man utrykke den samme vektoren i en ny basis $\B'$?
-
+Si at vi for et vektorrom $V$ har to basiser $\B$ og $\B'$. Av ulike grunner kan det være lettere å arbeide med et av de to koordinatsystemene gitt av basisene. Det vil derfor være ønskelig å finne ut hvordan koordinatvektorene $[\vv]_\B$ og $[\vv]_{\B'}$ for en vilkårlig vektor $\vv \in V$ er relatert.
+Med andre ord, hvis du har en vektor $\vv$ utrykt i en gammel basis $\B$, hvordan vil man utrykke den samme vektoren i en ny basis $\B'$?
 For å løse dette problemet finner vi først hvordan vi kan utrykke hver nye basisvektor som en lineærkombinasjon av den gamle basisen. Dette tilsvarer å finne, for hver vektor $\vu'_i$ i $\B'$, koordinatvektoren $[\vu_i']_\B$ relativt til $\B$. Vi kan så danne \textit{transisjonsmatrisen} (også kalt for skifte-av-basis-matrisen)  $P_{\B\rightarrow\B'}$ fra $B$ til $B'$ slik:
 \[P_{\B\rightarrow\B'} = \mat{cccc}{[\vu_1']_\B & [\vu_2']_\B & \cdots & [\vu_n']_\B  }\]
 Altså vi lager en matrise hvor hver kolonne er koordinatvektoren til en ny basisvektor utrykt gjennom den gamle basisen. Denne matrisen vil ha egenskapen
