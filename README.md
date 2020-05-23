@@ -1,6 +1,6 @@
 ## Notater
 Min samling notater i fag ved NTNU.
-For mer info og kompilerte pdf-er: [haved.netlify.com](haved.netlify.com)
+For mer info og kompilerte pdf-er: [haved.no/notater](haved.no/notater)
 
 #### Kompilering
 Alle notatene er skrevet i latex, og bruker en god del pakker.
