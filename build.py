@@ -8,18 +8,18 @@ from shutil import copytree, rmtree
 
 PAGE_DIR = "page/"
 PUBLISH_DIR = "publish/"
+NOTAT_DIR = join(PUBLISH_DIR, "notater/")
 
 def make_publish_dir():
-    if not isdir(PUBLISH_DIR):
-        mkdir(PUBLISH_DIR)
+    call(["mkdir", "-p", NOTAT_DIR])
 
 def copy_page():
     copytree(PAGE_DIR, PUBLISH_DIR, dirs_exist_ok=True)
 
 def call_latexes(cmd):
-    publish = lambda x: join(PUBLISH_DIR,x)
-    cmd("TFE4101_Krets/", "Krets", publish("krets.pdf"))
-    cmd("TMA4115_Matte3/", "Matte3", publish("matte3.pdf"))
+    notat = lambda x: join(NOTAT_DIR,x)
+    cmd("TFE4101_Krets/", "Krets", notat("krets.pdf"))
+    cmd("TMA4115_Matte3/", "Matte3", notat("matte3.pdf"))
 
 def call(command, **kwargs):
     p = Popen(command, **kwargs)
