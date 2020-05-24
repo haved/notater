@@ -12,7 +12,7 @@ For å kompilere selv kan du kjøre
 ./build ls # Printer ut mulige pdf-er
 ./build latex matte3.pdf
 ```
-Output legges i mappen `publish/`
+Output legges i mappen `publish/`. Kompilerte pdf-er legges i `publish/notater`.
 
 
 
