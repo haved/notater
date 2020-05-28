@@ -20,6 +20,7 @@
 \usepackage{caption} % For å putte caption på figurer i minipage
 \usepackage{tikz-timing} % For rising og falling edge
 \usepackage{randtext} % Enkel e-post-obfuskering
+\usepackage{filemod} % last modified day
 
 \newcommand{\resi}[1]{\frac{1}{#1}}
 \newcommand{\red}[1]{{\color{Red}#1}}
@@ -36,7 +37,7 @@
 \newcommand{\lst}{krogstie}
 \newcommand{\fst}{havard}
 \author{Håvard Krogstie\\\randomize{\lst{}.\fst{}@gmail.com}}
-\date{\today}
+\date{\date{\Filemodtoday{\jobname}}}
 
 \begin{document}
 

@@ -9,6 +9,7 @@
 \usepackage[skip=5mm]{parskip}
 \usepackage{randtext}
 \usepackage{hyperref} % for hyperlenker mellom ref og label
+\usepackage{filemod} % last modified day
 
 \addto\captionsnorsk{%
   \renewcommand\appendixname{Appendiks}
@@ -56,7 +57,7 @@
 \newcommand{\lst}{krogstie}
 \newcommand{\fst}{havard}
 \author{Håvard Krogstie - \randomize{\lst{}.\fst{}@gmail.com} \\ Eivind Xu Djurhuus}
-\date{\today}
+\date{\Filemodtoday{\jobname}}
 
 \begin{document}
 
