@@ -119,7 +119,7 @@ skje samtidig, f.eks.\ om noe energi lagres i en kondensator).
 Resultatet for dette er at vi anser \textit{spenningsfallet} over en last som
 positivt, og over en spenningskilde som negativt.
 
-NB!\@ Det er mulig for en spenningskilde å ha positivt spenningsfall, dersom
+\textbf{Merk.} Det er mulig for en spenningskilde å ha positivt spenningsfall, dersom
 strømretningen går fra $+$ til $-$. En motstand har \textbf{alltid} positivt
 spenningsfall.
 
@@ -143,6 +143,12 @@ Det finnes også AC-kilder som leverer vekselstrøm med oppgitte frekvenser og b
 Man kan ønske å nulle ut en kilde slik at den ikke bidrar (f.eks.\ i
 superposisjon). En spenningskilde blir en kortslutning for å garantere $V=0$,
 mens en strømkilde blir en åpen krets for å garantere $i=0$.
+
+\subsection{Effekt}
+For å regne effekt levert av en kilde bruker man $P = I \cdot U$. Det er viktig at
+spenningsfallet over kilden er målt i samme retning som strømmen. Ofte vil dette gi et
+negativt spenningsfall, som gir en negativ $P$. Det betyr at kilden leverer
+effekt. Hvis $P$ er positiv bruker den effekt (er en last).
 
 \section{Motstand}
 Motstand er en egenskap ved komponenter som begrenser flyten av strøm. Forholdet
@@ -309,7 +315,22 @@ TODO\@: Skriv
 TODO\@: Skriv
 
 \section{RC-krets}
-$\tau = RC$ TODO
+En RC-krets er en enkel krets med en spenningskilde, en motstand og en
+kondensator i serie. Andre kretser kan omdannes til RC-kretser for å enklere
+kunne regne på spenning over kondensatoren over tid. Ofte vil vi
+kjenne til spenningen over kondensatoren ved en tid $t = 0$. I det øyeblikket
+vil en bryter flippes, og kretsen endres. Det enkleste eksempelet er en krets
+der vi begynner med en spenning $V_S$, som nulles ut ved $t=0$. Da får vi
+følgende formel for spenningen over kondensatoren:
+\[v_c(t) = V_s e^{-\frac{t}{\tau}}\]
+Der $\tau = RC$. Detter kaller vi tidskonstanten. Når $t = \tau$ vil
+$v_c(t)=V_s\frac{1}{e}$. Etter uendelig lang tid vil $v_c(t)$ gå mot 0.
+
+Mer generelt dersom RC-kretsens spenningskilde går fra $V_0$ til $V_s$ blir
+formelen
+\[v_c(t) = V_s + (V_0-V_s)e^{-\frac{t}{\tau}}\]
+Dette forutsetter at kondensatoren har nådd steady state og holder spenningen
+$V_0$ før spenningen skifter ved $t=0$.
 
 \section{RL-krets}
 $\tau = \frac{L}{R}$ TODO
@@ -1623,11 +1644,11 @@ $X$ stiller seg bakerst i køa.
 
 \subsection{JK-vippe}
 TODO
-En JK-lås er en toggle
+En JK-lås er en toggle når både J og K er høy.
 
 \subsection{T-vippe}
 TODO
-En T-lås er en toggle
+En T-lås er en toggle med én input. Toggle skjer hver flanke hvis den er høy.
 
 \subsection{Registere}
 TODO
