@@ -597,6 +597,18 @@ som temperatur og kapasitans i komponenter koblet til output. Når vi ser på
 portkretser i dette faget har vi forenklet regningen, og forholder oss kun til
 ett tall for forplantningstid.
 
+\subsection{Maksimal frekvens}
+Gitt en krets med en kritisk sti på \SI{24}{\nano\second} kan man regne ut
+maksimal frekvens ved å se hvor mange signaler som kan ferdigpropageres gjennom
+kretsen per sekund.
+\[\frac{\SI{1}{\second}}{\SI{24}{\nano\second}} = \SI{41,67}{\mega\hertz}\]
+
+I klokkestyrte kretser vil resulatet av den kombinatoriske kretsen ofte mates
+inn i et komponent med en setuptid. Den må da plusses sammen med kritisk sti
+slik at den kombinatoriske kretsen er stabil i en periode før neste
+klokkeflanke. I tillegg kan man måtte legge til den største av stigetider eller
+falltid.
+
 \section{Binærtall}
 TODO\@: Bruke 2-tallssystemet.
 
