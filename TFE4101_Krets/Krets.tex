@@ -112,16 +112,41 @@ starter, og KVL sikrer at potensialet til startnoden og stoppnoden er det
 samme, hvilket det burde være siden de er samme node.
 
 \subsection{Passiv fortegnskonvensjon}
-Når man skal sette hvilken vei spenningen går over et komponent, setter man den
-slik at $P = V \cdot I$ er positiv for laster, og negativ der det tilføres
-energi til kretsen. Effekt inn må være lik effekt ut (Det må ikke nødvendigvis
-skje samtidig, f.eks.\ om noe energi lagres i en kondensator).
-Resultatet for dette er at vi anser \textit{spenningsfallet} over en last som
-positivt, og over en spenningskilde som negativt.
+Når man summerer spenningsfall rundt en løkke brukers positive ledd for
+spenningsfall i referansestrømretningen ($I$). Dette betyr i praksis at alle
+motstander har et spenningsfall $R \cdot I$. Spenningskilder får ofte negativt
+spenningsfall (i strømretningen), siden de som regel bidrar med energi. Husk at
+spenning er energi per ladning, og hvis hver ladning har høyrere energi etter å
+ha passert gjennom komponentet betyr det at energi er blitt tilført.
 
-\textbf{Merk.} Det er mulig for en spenningskilde å ha positivt spenningsfall, dersom
-strømretningen går fra $+$ til $-$. En motstand har \textbf{alltid} positivt
-spenningsfall.
+\begin{figure}[hbt!]
+  \centering
+  \begin{circuitikz} \draw
+    (0,0) to[vsource,v=$V_S$] (0,3) to[short,i=$I$] (3,3) to[R=$R$] (3,0) --
+    (0,0)
+    (5,3) to[open,v=$RI$](5,0)
+    ;
+  \end{circuitikz}
+  \caption{Eksempel på regning med passiv fortegnskonvensjon\label{fig:passiv}}
+\end{figure}
+%
+Som eksempel bruker KVL på kretsen i Figur~\ref{fig:passiv} for å finne effekten
+levert av spenningskilden.
+\[-V_S + R \cdot I = 0\]
+Observer her at $V_S$ er satt inn negativt. Det er fordi $V_S$ er
+\textit{spenningsstigningen} langs strømretningen. Når vi skal summere sammen
+\textit{spenningsfall} blir det derfor negativt.
+
+Når vi skal regne effekten gjennom spenningskilden, må vi bruke $P = V \cdot
+I$ der $V$ er spenningsfallet langs $I$. Derfor setter vi inn $V = -V_S$
+\[P = VI = -V_SI = -RI^2\]
+Dette gir oss en negativ effekt på spenningskilden, som betyr at den leverer energi.
+
+\textbf{Merk.} Man kan ha valgt referansestrømretningen ``feil vei'' slik at $I$
+er negativ, men isåfall blir også spenningsfallet $R \cdot I$ over motstanden
+negativ i den retningen, som er riktig. Resultatet blir uansett at effekten i
+motstanden, $V \cdot I$, alltid er positiv. Effekten i en kilde som tilfører energi
+blir alltid negativ.
 
 \section{Kilder}
 Det kan være mange komponenter som tilfører strøm eller spenning. Vi ser på 4
@@ -145,7 +170,7 @@ superposisjon). En spenningskilde blir en kortslutning for å garantere $V=0$,
 mens en strømkilde blir en åpen krets for å garantere $i=0$.
 
 \subsection{Effekt}
-For å regne effekt levert av en kilde bruker man $P = I \cdot U$. Det er viktig at
+For å regne effekt levert av en kilde bruker man $P = V \cdot I$. Det er viktig at
 spenningsfallet over kilden er målt i samme retning som strømmen. Ofte vil dette gi et
 negativt spenningsfall, som gir en negativ $P$. Det betyr at kilden leverer
 effekt. Hvis $P$ er positiv bruker den effekt (er en last).
@@ -610,10 +635,17 @@ klokkeflanke. I tillegg kan man måtte legge til den største av stigetider elle
 falltid.
 
 \section{Binærtall}
-TODO\@: Bruke 2-tallssystemet.
+Binærtall er tall i 2-tallsystemet, der hvert siffer enten er 0 eller 1, og
+plassene har verdier $2^n$ istedenfor $10^n$ slik vi er vant til. Hvert siffer
+kalles en bit, og sifferet lengst til venstre kalles mest signifikante bit.
+Sifferet lengst til høyre kalles minst signifikante bit, og svarer til $2^0=1$.
 
 \subsection{Konvertere fra binærtall}
-TODO
+For å gå fra totallsystemet til 10-tallssystemet er det letteste å plusse sammen
+polynomet. TODO
+\begin{align*}
+  1100101_2 &= 1\cdot2^6
+\end{align*}
 
 \subsection{Konvertere til binærtall}
 TODO
