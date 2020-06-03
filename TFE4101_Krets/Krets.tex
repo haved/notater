@@ -213,7 +213,10 @@ nodespenning inn i \textit{KCL} for hver node for å få et ligsningssett med
 nodespenninger.
 
 \section{Superposisjon}
-TODO\@: Skriv
+I en krets med kun lineære komponenter (motstander, kilder, kondensatorer og
+spoler) kan man regne utslagene til hver kilde for seg, ved å nulle ut alle
+andre kilder og regne strømmer og spenningsfall. Etter å ha regnet for hver
+kilde kan man addere sammen for å finne totale strømmer og spenningsfall.
 
 \section{Thévenin-ekvivalenten}
 Enhver lineær krets med kun kilder og motstander vil sett fra to terminaler
@@ -224,6 +227,12 @@ terminalene i den opprinnelige kretsen.
 Vi kan finne $R_{Th}$ ved å nulle ut alle kilder og måle $R_{eq}$ over
 terminalene. Vi kan også regne ut $R_{Th}$ ved å se på strømmen over terminalene
 ved kortslutning: $R_{Th} = \frac{V_{Th}}{I_{SC}}$
+
+\section{Kildetransformering}
+En spenningskilde $V_S$ i serie med en motstand $R$ oppfører seg akkurat likt
+som en strømkilde $I_S$ i parallell med like stor motstand $R$, der forholdet
+mellom $V_S$ og $I_S$ er gitt ved
+\[V_S = R \cdot I_S\]
 
 \section{Kondensatorer}
 Kondensatorer består av to ledende plater (elektroder) separert av en isolator,
@@ -1696,7 +1705,8 @@ der både $J$ og $K$ er høy.
 En T-vippe har bare én input $T$, som når den er høy vil få output-tilstanden
 $Q$ til å flippe på hver triggerflanke. Det er altså det samme som en JK-vippe,
 men der $T$ går inn i både $J$ og $K$. Siden tilstanden er ukjent når kretsen
-starter, har T-vippen en reset-input $RST$ som setter output til $0$.
+starter, har T-vippen en reset-input $RST$ som setter output lav. Merk at $RST$
+kan være aktiv lav, altså at output tvinges lav når $RST$ er lav.
 
 \subsection{Registere}
 Et register er flere d-vipper i parallell, med parallell input og output.
