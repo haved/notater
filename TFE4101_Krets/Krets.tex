@@ -245,8 +245,8 @@ spenningsforskjell $v$. Da får platene en ladning på $+Q$ og $-Q$, gitt ved
 \[Q = C \cdot v\]
 Dette gir oss at \SI{1}{\farad} = \SI{1}{\coulomb\per\volt}. Dette er svært mye,
 så kondensatorer opererer gjerne med \si{\micro\farad}.
-Den deriverte av ladning med hensyn på tid $\frac{dQ}{dt} = i(t)$, så vi får
-formelen
+Den deriverte av ladning med hensyn på tid $\frac{dQ}{dt} = i(t)$, så vi
+kondensatorligningen på differensialform:
 \[i(t) = C \cdot \frac{dv}{dt}\]
 Dette betyr at strømmen er proposjonal med forandring i spenning. I en krets
 vil ikke spenningen over en kondensator kunne endres momentant, siden det ville
@@ -352,19 +352,30 @@ TODO\@: Skriv
 En RC-krets er en enkel krets med en spenningskilde, en motstand og en
 kondensator i serie. Andre kretser kan omdannes til RC-kretser for å enklere
 kunne regne på spenning over kondensatoren over tid. Ofte vil vi
-kjenne til spenningen over kondensatoren ved en tid $t = 0$. I det øyeblikket
-vil en bryter flippes, og kretsen endres. Det enkleste eksempelet er en krets
-der vi begynner med en spenning $V_S$, som nulles ut ved $t=0$. Da får vi
-følgende formel for spenningen over kondensatoren:
-\[v_c(t) = V_s e^{-\frac{t}{\tau}}\]
-Der $\tau = RC$. Detter kaller vi tidskonstanten. Når $t = \tau$ vil
-$v_c(t)=V_s\frac{1}{e}$. Etter uendelig lang tid vil $v_c(t)$ gå mot 0.
+kjenne til spenningen over kondensatoren $v_C(t)$ ved en tid $t = 0$. I det
+øyeblikket vil en bryter flippes, og kretsen endres. Det enkleste eksempelet er
+en krets der vi begynner med en spenning $v_C(0) = 0$, og en spenningskilde
+$V_S$ kobles på ved $t=0$. Se Figur~\ref{fig:RC}.
 
-Mer generelt dersom RC-kretsens spenningskilde går fra $V_0$ til $V_s$ blir
-formelen
+\begin{figure}[H]
+  \centering
+  \begin{circuitikz} \draw
+    (0,0) to[V=$V_S$]
+    (0,3) to[R=$R$] (3,3)
+    to[C=$C$,v=$v_C(t)$] (3,0)
+    to[switch] (0,0);
+  \end{circuitikz}
+  \caption{En enkel RC-krets \label{fig:RC}}
+\end{figure}
+
+Ved bruk av Kirchovs lover kan vi finne en differensiallgining for $v_C$.
+Den spesifikke løsningen blir.
+\[v_C(t) = V_s(1 - e^{-\frac{t}{\tau}})\]
+Der $\tau = RC$. Detter kaller vi tidskonstanten. Når $t = \tau$ vil
+$v_C(\tau) = V_s(1-\frac{1}{e})$. Etter uendelig lang tid vil $v_c(t)$ gå mot $V_S$.
+
+Mer generelt dersom $v_c(0)=V_0$ og spenningskilden byttes til $V_s$ på ved $t=0$.
 \[v_c(t) = V_s + (V_0-V_s)e^{-\frac{t}{\tau}}\]
-Dette forutsetter at kondensatoren har nådd steady state og holder spenningen
-$V_0$ før spenningen skifter ved $t=0$.
 
 \section{RL-krets}
 $\tau = \frac{L}{R}$ TODO
