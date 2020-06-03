@@ -206,11 +206,35 @@ oppføre seg identisk med én motstand $R_{eq}$ der
 Strømmen får flere veier å gå, så $R_{eq}$ er mindre enn både $R_{1}$ og $R_{2}$.
 
 \section{Nodespenningsmetoden}
-Se på potensialet i vesentlige noder i forhold til en nullspenning (jord). Bruk Ohms
-lov og spenningsdifferansen mellom noder $v_{\_}-v_{\_}$ for å regne
-$i_{\_} = \frac{v_{\_}-v_{\_}}{R_{\_}}$. Sett deretter uttrykkene for strøm gitt
-nodespenning inn i \textit{KCL} for hver node for å få et ligsningssett med
-nodespenninger.
+Begynn med å definere en node som jord. Dette gir oss et potensiale i alle andre
+noder relativt til nullspenningen. Bruk Ohms lov og spenningsfallet mellom noder
+for å regne strømmen som går mellom nodene. For hver node setter du at summen av
+strømmene inn i noden må være 0 (KCL). Se Figur~\ref{fig:nodespenning}.
+
+\begin{figure}[H]
+  \centering
+  \begin{circuitikz} \draw
+    (0,3) node[left]{$v_a$} to[R=$R_1$,i=$i_1$, *-*] (3,3) node[right]{$v_c$}
+    (3,6) node[above]{$v_b$} to[R=$R_2$,i=$i_2$, *-*] (3,3)
+    to[R=$R_3$, i>_=$i_3$, *-*] (3,0) node[ground]{};
+  \end{circuitikz}
+  \caption{Nodespenningsmetoden \label{fig:nodespenning}}
+\end{figure}
+%
+Dette utsnittet av en krets gir oss følgende formler:
+\[
+\begin{array}{ccc}
+  i_1 = \frac{v_a-v_c}{R_1} &
+  i_2 = \frac{v_b-v_c}{R_2} &
+  i_3 = \frac{v_c-\SI{0}{\volt}}{R_3}
+\end{array}
+\]
+%
+Satt sammen med KCL for noden $v_c$:
+\begin{align*}
+  i_1 + i_2 - i_3 &= 0 \\
+  \frac{v_a-v_c}{R_1} + \frac{v_b-v_c}{R_2} - \frac{v_c-\SI{0}{\volt}}{R_3} &= 0
+\end{align*}
 
 \section{Superposisjon}
 I en krets med kun lineære komponenter (motstander, kilder, kondensatorer og
@@ -233,6 +257,16 @@ En spenningskilde $V_S$ i serie med en motstand $R$ oppfører seg akkurat likt
 som en strømkilde $I_S$ i parallell med like stor motstand $R$, der forholdet
 mellom $V_S$ og $I_S$ er gitt ved
 \[V_S = R \cdot I_S\]
+Merk at retningen bevares, se Figur~\ref{fig:kildetransformering}.
+\begin{figure}[H]
+  \centering
+  \begin{circuitikz} \draw
+    (3,0) -- (0,0) to[vsource=$V_s$] (0,3) to[R=$R$] (3,3)
+    (8,0) -- (5,0) to[isource=$I_s$] (5,3) -- (8,3)
+    (7,0) to[R=$R$, *-*] (7,3);
+  \end{circuitikz}
+  \caption{Kildetransformering \label{fig:kildetransformering}}
+\end{figure}
 
 \section{Kondensatorer}
 Kondensatorer består av to ledende plater (elektroder) separert av en isolator,
