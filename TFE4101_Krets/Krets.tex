@@ -1748,10 +1748,13 @@ der både $J$ og $K$ er høy.
 
 \subsection{T-vippe}
 En T-vippe har bare én input $T$, som når den er høy vil få output-tilstanden
-$Q$ til å flippe på hver triggerflanke. Det er altså det samme som en JK-vippe,
-men der $T$ går inn i både $J$ og $K$. Siden tilstanden er ukjent når kretsen
-starter, har T-vippen en reset-input $RST$ som setter output lav. Merk at $RST$
-kan være aktiv lav, altså at output tvinges lav når $RST$ er lav.
+$Q$ til å flippe på hver triggerflanke. Når $T$ er lav vil vippen holde på
+output. Det er altså det samme som en JK-vippe, men der $T$ går inn i både $J$
+og $K$. Siden tilstanden er ukjent når kretsen starter, har T-vippen en
+reset-input $RSTN$ som setter output lav. Merk at $RSTN$ kan være \textit{aktiv
+ lav}, altså at output tvinges lav når $RSTN$ er lav. Merk også at reset kan
+være \textit{asynkron}, altså at T-vippen kan resettes også utenom
+triggerflanker.
 
 \subsection{Registere}
 Et register er flere d-vipper i parallell, med parallell input og output.
