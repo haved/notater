@@ -1687,15 +1687,20 @@ $X$ stiller seg bakerst i køa.
 \]
 
 \subsection{JK-vippe}
-TODO
-En JK-lås er en toggle når både J og K er høy.
+JK-vippen fikser problemet med SR-vippen. Den har to inputs $J$ og $K$, men i
+motsetning til SR-vippen vil ikke tilstanden bli ubsestemt hvis begge inputene
+er høye samtidig. I stedet vil output-tilstanden $Q$ flippe på hver triggerflanke
+der både $J$ og $K$ er høy.
 
 \subsection{T-vippe}
-TODO
-En T-lås er en toggle med én input. Toggle skjer hver flanke hvis den er høy.
+En T-vippe har bare én input $T$, som når den er høy vil få output-tilstanden
+$Q$ til å flippe på hver triggerflanke. Det er altså det samme som en JK-vippe,
+men der $T$ går inn i både $J$ og $K$. Siden tilstanden er ukjent når kretsen
+starter, har T-vippen en reset-input $RST$ som setter output til $0$.
 
 \subsection{Registere}
-TODO
+Et register er flere d-vipper i parallell, med parallell input og output.
+Registeret brukes for å lagre hele tall, for eksempel i mellomregninger.
 
 \section{Databuss}
 I digitale kretser der flere komponenter som skal kunne sende data til hverandre
