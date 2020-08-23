@@ -22,6 +22,10 @@
 \usepackage{randtext} % Enkel e-post-obfuskering
 \usepackage{filemod} % last modified day
 
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
 \newcommand{\resi}[1]{\frac{1}{#1}}
 \newcommand{\red}[1]{{\color{Red}#1}}
 \newcommand{\green}[1]{{\color{ForestGreen}#1}}
@@ -37,7 +41,7 @@
 \newcommand{\lst}{krogstie}
 \newcommand{\fst}{havard}
 \author{Håvard Krogstie\\\randomize{\lst{}.\fst{}@gmail.com}}
-\date{\date{\Filemodtoday{\jobname}}}
+\date{\Filemodtoday{\jobname}}
 
 \begin{document}
 
@@ -696,13 +700,27 @@ Sifferet lengst til høyre kalles minst signifikante bit, og svarer til $2^0=1$.
 
 \subsection{Konvertere fra binærtall}
 For å gå fra totallsystemet til 10-tallssystemet er det letteste å plusse sammen
-polynomet. TODO
+polynomet. Eksempel:
 \begin{align*}
-  1100101_2 &= 1\cdot2^6
+  1100101_2 &= 1\cdot2^6 + 1\cdot2^5 + 0\cdot2^4 + 0\cdot2^3 + 1\cdot2^2 + 0\cdot2^1 + 1\cdot2^0 \\
+            &= 64 + 32 + 4 + 1 \\
+            &= 101_{10}
 \end{align*}
 
 \subsection{Konvertere til binærtall}
-TODO
+For å konvertere fra 10-tallsystemet til binærtall kan man enten begynne
+fra MSB eller LSB. Vi ser på sistnevnte. LSB er 1 hvis of bare hvis tallet er et
+oddetall. Etter å ha funnet LSB heltallsdividerer vi på 2 og fortsetter på samme
+måte for å finne neste bit. Eksempel med $73_{10}$:
+\begin{align*}
+  & 73 \text{\ er et oddetall} & \rightarrow 1 & \textit{(LSB)}\\
+  \floor*{\frac{73}{2}} =\ & 36 \text{\ er et partall} & \rightarrow 0 & \\
+  \floor*{\frac{36}{2}} =\ & 18 \text{\ er et partall} & \rightarrow 0 & \\
+  \floor*{\frac{18}{2}} =\ & 9 \text{\ er et oddetall} & \rightarrow 1 & \\
+  \floor*{\frac{9}{2}} =\ & 4 \text{\ er et partall} & \rightarrow 0 & \\
+  \floor*{\frac{4}{2}} =\ & 2 \text{\ er et partall} & \rightarrow 0 & \\
+  \floor*{\frac{2}{2}} =\ & 1 \text{\ er et oddetall} & \rightarrow 1 & \textit{(MSB)}
+\end{align*}
 
 \subsection{Desimaltall og andre tallsystemer}
 TODO
